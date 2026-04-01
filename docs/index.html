@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCPS - Deep Learning Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            scroll-behavior: smooth; /* Thêm cuộn mượt cho menu */
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-blue-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
+            
+            <div class="mb-4 sm:mb-0">
+                <h1 class="text-xl font-bold tracking-tight">CO3133: Deep Learning</h1>
+                <p class="text-xs text-blue-200 mt-1">Instructor: Le Thanh Sach | 2025-2026</p>
+            </div>
+
+            <nav>
+                <ul class="flex space-x-6 text-sm font-medium">
+                    <li><a href="#home" class="hover:text-blue-300 transition">Nhóm TCPS</a></li>
+                    <li><a href="#assignments" class="hover:text-blue-300 transition">Danh sách bài tập</a></li>
+                    <li><a href="#assignment1-details" class="hover:text-blue-300 transition text-blue-300 border-b-2 border-blue-300 pb-1">Assignment 1</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-10 w-full space-y-12">
+        
+        <section id="home" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 scroll-mt-24">
+            <div class="border-b border-gray-200 pb-4 mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900">Group: TCPS</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="flex flex-col p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+                    <span class="text-blue-600 font-bold text-lg mb-1">2252711</span>
+                    <span class="font-medium text-gray-700">ĐOÀN TẤN SANG</span>
+                </div>
+                <div class="flex flex-col p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+                    <span class="text-blue-600 font-bold text-lg mb-1">2252097</span>
+                    <span class="font-medium text-gray-700">LƯU CHÍ CƯỜNG</span>
+                </div>
+                <div class="flex flex-col p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+                    <span class="text-blue-600 font-bold text-lg mb-1">2213774</span>
+                    <span class="font-medium text-gray-700">NGÔ NHẬT TUẤN</span>
+                </div>
+                <div class="flex flex-col p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
+                    <span class="text-blue-600 font-bold text-lg mb-1">2252650</span>
+                    <span class="font-medium text-gray-700">VÕ HOÀNG PHÚC</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="assignments" class="space-y-6 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-gray-900 px-2">Course Assignments</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full transition hover:shadow-md">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Assignment 1</h3>
+                    <p class="text-gray-600 mb-6 flex-grow text-sm leading-relaxed">Classification on Image, Text, and Multimodal datasets using CNN, ViT, RNN, and Transformers.</p>
+                    <div class="flex gap-4 mt-auto items-center">
+                        <a href="https://github.com/TCPS/deep-learning/tree/main/assignments/assignment-1" target="_blank" class="px-4 py-2 bg-gray-100 text-sm font-semibold text-gray-700 rounded-lg hover:bg-gray-200 transition">Mã nguồn (GitHub)</a>
+                        <a href="#assignment1-details" class="px-4 py-2 bg-blue-600 text-sm font-semibold text-white rounded-lg hover:bg-blue-700 transition">Xem chi tiết &darr;</a>
+                    </div>
+                </article>
+
+                <article class="bg-gray-50 rounded-xl border border-gray-200 p-6 flex flex-col h-full opacity-60">
+                    <h3 class="text-xl font-bold text-gray-700 mb-2">Assignment 2</h3>
+                    <p class="text-gray-500 mb-4 flex-grow text-sm">[Sắp tới] Nội dung sẽ được cập nhật sau.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="assignment1-details" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-4">Assignment 1 Details</h2>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        Videos
+                    </h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" class="block p-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-sm transition">
+                                <span class="block font-semibold text-blue-600">Demo Video</span>
+                                <span class="block text-xs text-gray-500 mt-1">Video demo kết quả chạy mô hình</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block p-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-sm transition">
+                                <span class="block font-semibold text-blue-600">Presentation Video</span>
+                                <span class="block text-xs text-gray-500 mt-1">Video thuyết trình nhóm (Youtube)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Technical Reports
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex items-start">
+                            <span class="font-bold text-blue-900 mr-2 w-5">1.</span> 
+                            <a href="#" class="hover:text-blue-600 transition">Report on problem and dataset exploration (EDA)</a>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-blue-900 mr-2 w-5">2.</span> 
+                            <a href="#" class="hover:text-blue-600 transition">Dataset, DataLoader, and Augmentation setup</a>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-blue-900 mr-2 w-5">3.</span> 
+                            <a href="#" class="hover:text-blue-600 transition">Model building, training, evaluation, and comparison</a>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-blue-900 mr-2 w-5">4.</span> 
+                            <a href="#" class="hover:text-blue-600 transition">Experimental results report (Tables, Figures, Analysis)</a>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-blue-900 mr-2 w-5">5.</span> 
+                            <a href="#" class="hover:text-blue-600 transition">Other extension reports (Optional)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center mt-auto">
+        <div class="max-w-5xl mx-auto px-6">
+            <p>&copy; 2026 Group TCPS - Ho Chi Minh City University of Technology (HCMUT)</p>
+            <p class="text-xs mt-2 text-gray-500">Deep Learning and Its Applications (CO3133) - Assignment Landing Page</p>
+        </div>
+    </footer>
+
+</body>
+</html>
