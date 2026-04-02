@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 1 - Group TCPS</title>
+    <style>
+        :root {
+            --primary: #032b5f; 
+            --secondary: #007bff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --purple: #6f42c1;
+            --bg: #f4f7f6;
+            --text: #333;
+            --card-bg: #ffffff;
+            --tab-bg: #e9ecef;
+        }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover { background: white; color: var(--primary); }
+        
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .info-tag {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        /* Deliverables Buttons */
+        .btn-group { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-demo { background-color: var(--success); }
+        .btn-youtube { background-color: var(--danger); }
+        .btn-github { background-color: #333; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); opacity: 0.9; }
+
+        /* Tabs Interface */
+        .tab {
+            overflow: hidden;
+            background-color: var(--tab-bg);
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 18px;
+            transition: 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            flex: 1;
+            border-right: 1px solid #ddd;
+        }
+        .tab button:last-child { border-right: none; }
+        .tab button:hover { background-color: #ddd; }
+        .tab button.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 35px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            background: white;
+            animation: fadeEffect 0.5s;
+        }
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        /* Dashboard Grid inside Tabs */
+        h3.section-title {
+            color: var(--primary);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .dash-box {
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .metric-value { font-size: 2.2em; font-weight: bold; color: var(--secondary); line-height: 1.2; }
+        .metric-label { font-size: 0.85em; font-weight: bold; color: #777; text-transform: uppercase; }
+        
+        .progress-container { margin-top: 10px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; }
+        .progress-bar { height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; }
+
+        .eda-insight { background: white; border-left: 4px solid var(--warning); padding: 10px 15px; font-size: 0.9em; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        
+        /* Image styles for architecture diagrams */
+        .arch-img-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px; 
+        }
+        .arch-img {
+            width: 100%;
+            max-height: 400px; 
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        /* Report Links */
+        .report-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
+        .report-links a {
+            display: inline-block;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            border: 1px solid #cce3f0;
+            transition: all 0.2s;
+        }
+        .report-links a:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .result-box { text-align: center; background: #eef7ee; padding: 20px; border-radius: 10px; border: 1px solid #c3e6cb; display: flex; flex-direction: column; justify-content: center;}
+        .result-val { font-size: 2.5em; font-weight: bold; color: #28a745; margin: 10px 0; }
+
+        .preprocessing-list {
+            margin-top: 10px;
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #444;
+        }
+        .preprocessing-list li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="margin: 0; font-size: 1.6em;">Group TCPS - Assignment 1</h1>
+        <a href="index.html" class="back-btn">⬅ Home</a>
+    </header>
+
+    <div class="container">
+        
+        <div class="card" style="border-top: 6px solid var(--primary);">
+            <h2 style="margin-top: 0; color: var(--primary);">Deep Learning Project: Classification</h2>
+            <div style="margin: 15px 0;">
+                <span class="info-tag">👨‍🏫 Instructor: Dr. Lê Thành Sách</span>
+                <span class="info-tag">🏫 University: HCMUT - VNU-HCM</span>
+                <div style="margin-top: 10px; padding: 15px; background: #f1f4f8; border-radius: 8px;">
+                    <strong>👥 Group TCPS Members:</strong>
+                    <ul style="margin: 10px 0 0 20px; padding: 0; font-size: 0.95em;">
+                        <li>Đoàn Tấn Sang - 2252711</li>
+                        <li>Lưu Chí Cường - 2252097</li>
+                        <li>Ngô Nhật Tuấn - 2213774</li>
+                        <li>Võ Hoàng Phúc - 2252650</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="#" class="btn btn-demo">🖥️ Demo Video</a>
+                <a href="#" class="btn btn-youtube">🎥 YouTube Presentation</a>
+                <a href="#" class="btn btn-github">💻 Source Code</a>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+            <div class="tab">
+                <button class="tablinks active" onclick="openDataset(event, 'Image')">🖼️ Image Dataset</button>
+                <button class="tablinks" onclick="openDataset(event, 'Text')">📝 Text Dataset</button>
+                <button class="tablinks" onclick="openDataset(event, 'Multimodal')">🧩 Multimodal Dataset</button>
+            </div>
+
+            <div id="Image" class="tabcontent" style="display: block;">
+                <h3 class="section-title">01. Dataset, EDA & Preprocessing</h3>
+                <div class="grid-2">
+                    <div class="dash-box" style="border-left: 5px solid #28a745;">
+                        <h4 style="margin-top: 0; color: #28a745;">Fashion-MNIST</h4>
+                        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div class="metric-value">70,000</div>
+                                <div class="metric-label">Total Images</div>
+                            </div>
+                            <div style="font-size: 1.5em;">👕 👟 🎒 👗</div>
+                        </div>
+                        <p style="font-size: 0.9em; color: #555;">Created by Zalando to provide more realistic, challenging image data while maintaining the same convenient format.</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label"><span>Training (60k)</span><span>85%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 85%; background: #28a745;"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>Testing (10k)</span><span>15%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 15%; background: #17a2b8;"></div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-box">
+                        <h4 style="margin-top: 0; color: #555;">Exploratory Data Analysis</h4>
+                        <div class="eda-insight" style="border-left-color: #28a745;">
+                            <strong>Perfectly Balanced:</strong> Equal distribution across all 10 classes. There are exactly 6000 samples per class in the training set.
+                        </div>
+                        <ul style="font-size: 0.9em; padding-left: 20px; color: #444;">
+                            <li><strong>Categories:</strong> T-shirt, trouser, pullover, dress, coat, sandal, sneaker, bag, shirt and ankle boot.</li>
+                            <li><strong>Original Format:</strong> Grayscale images sized 28x28 pixels.</li>
+                        </ul>
+
+                        <h4 style="margin: 20px 0 5px 0; color: #555; border-top: 1px solid #ddd; padding-top: 15px;">Data Preprocessing Pipeline</h4>
+                        <ul class="preprocessing-list">
+                            <li><strong>Resize:</strong> Resize images from 28x28 to 224x224 to increase input resolution for CNN.</li>
+                            <li><strong>Channel Conversion:</strong> Convert grayscale to 3 channels to match model input format.</li>
+                            <li><strong>Normalization:</strong> Normalize pixel values to improve training stability.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="section-title">02. Model Building Pipeline</h3>
+                <div class="dash-box" style="margin-bottom: 30px;">
+                    <strong style="display: block; margin-bottom: 20px; font-size: 1.1em; color: var(--primary);">🎯 Comparison: CNN vs. ViT</strong>
+                    
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="arch-img-container">
+                            <h4 style="margin-top: 0; color: #28a745; border-bottom: 1px solid #eee; padding-bottom: 10px;">CNN: DenseNet</h4>
+                            <img src="images/densenet.png" alt="DenseNet Architecture" class="arch-img" onerror="this.src='https://via.placeholder.com/800x300?text=Please+add+densenet.png'">
+                            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Extracts features hierarchically with dense connections. Inputs resized to 224x224 and converted to 3-channels.</p>
+                        </div>
+                        <div class="arch-img-container" style="margin-bottom: 0;">
+                            <h4 style="margin-top: 0; color: #007bff; border-bottom: 1px solid #eee; padding-bottom: 10px;">Vision Transformer (ViT)</h4>
+                            <img src="images/vit.png" alt="ViT Architecture" class="arch-img" onerror="this.src='https://via.placeholder.com/800x300?text=Please+add+vit.png'">
+                            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Splits image into patches + position embeddings, feeding into a Transformer Encoder with self-attention.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">03. Evaluation & Results</h3>
+                <div class="grid-2">
+                    <div class="result-box">
+                        <div>DenseNet Overall Accuracy</div>
+                        <div class="result-val">0.94</div>
+                        <div style="font-size: 0.85em; color: #666;">View detailed Confusion Matrix in report</div>
+                    </div>
+                    <div class="dash-box">
+                        <strong>📄 Detailed Reports:</strong>
+                        <div class="report-links">
+                            <a href="#">Dataset & EDA Report</a>
+                            <a href="#">Model Architecture Report</a>
+                            <a href="#">Experimental Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Text" class="tabcontent">
+                <h3 class="section-title">01. Dataset, EDA & Preprocessing</h3>
+                <div class="grid-2">
+                    <div class="dash-box" style="border-left: 5px solid #007bff;">
+                        <h4 style="margin-top: 0; color: #007bff;">VNTC (Vietnamese News)</h4>
+                        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div class="metric-value" style="color: #007bff;">84,132</div>
+                                <div class="metric-label">News Articles</div>
+                            </div>
+                            <div style="font-size: 1.5em;">⚖️ 🏛️ 🔬 ⚽</div>
+                        </div>
+                        <p style="font-size: 0.9em; color: #555;">Collected from multiple major online newspapers (VnExpress, Tuổi Trẻ, Thanh Niên, Người Lao Động).</p>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>Training (33,759)</span><span>40%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 40%; background: #007bff;"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>Testing (50,373)</span><span>60%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 60%; background: #fd7e14;"></div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-box">
+                        <h4 style="margin-top: 0; color: #555;">Exploratory Data Analysis</h4>
+                        <div class="eda-insight" style="border-left-color: #007bff;">
+                            <strong>Imbalanced Distribution:</strong> Society (Chính trị Xã hội) and Sports (Thể thao) dominate both train and test sets, while Science (Khoa học) is the minority.
+                        </div>
+                        <ul style="font-size: 0.9em; padding-left: 20px; color: #444;">
+                            <li><strong>Categories:</strong> 10 Classes including Politics, Lifestyle, Science, Business, Law, Health, World, Sports, Culture, IT.</li>
+                            <li><strong>Diverse Styles:</strong> Articles range from short blurbs to complex reports.</li>
+                        </ul>
+
+                        <h4 style="margin: 20px 0 5px 0; color: #555; border-top: 1px solid #ddd; padding-top: 15px;">Data Preprocessing Pipeline</h4>
+                        <ul class="preprocessing-list">
+                            <li><strong>Raw Text Handling:</strong> Clean and prepare real-world Vietnamese text.</li>
+                            <li><strong>Word Segmentation:</strong> Utilize tools like <code>VnCoreNLP</code> or <code>underthesea</code> to correctly group Vietnamese compound words (e.g., "học sinh").</li>
+                            <li><strong>Subword Tokenization:</strong> Apply Byte Pair Encoding (BPE) to tokenize text into subwords, optimizing the input specifically for the PhoBERT architecture.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="section-title">02. Model Building Pipeline</h3>
+                <div class="dash-box" style="margin-bottom: 30px;">
+                    <strong style="display: block; margin-bottom: 20px; font-size: 1.1em; color: var(--primary);">🎯 Comparison: RNN vs. Transformer</strong>
+                    
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="arch-img-container">
+                            <h4 style="margin-top: 0; color: #fd7e14; border-bottom: 1px solid #eee; padding-bottom: 10px;">RNN: LSTM (Long Short-Term Memory)</h4>
+                            <img src="images/lstm.png" alt="LSTM Cell Architecture" class="arch-img" onerror="this.src='https://via.placeholder.com/800x300?text=Please+add+lstm.png'">
+                            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Designed to capture sequential dependencies in text by maintaining a memory cell that can retain information over time (Forget, Input, and Output gates).</p>
+                        </div>
+                        <div class="arch-img-container" style="margin-bottom: 0;">
+                            <h4 style="margin-top: 0; color: #6f42c1; border-bottom: 1px solid #eee; padding-bottom: 10px;">Transformer: PhoBERT</h4>
+                            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Pretrained language model specifically designed for Vietnamese, based on the RoBERTa architecture. Uses a self-attention mechanism to process the entire input sequence simultaneously, capturing long-range dependencies effectively.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">03. Evaluation & Results</h3>
+                <div class="grid-2">
+                    <div class="result-box" style="background: #f8f9fa; border-color: #ddd;">
+                        <div style="color: #666;">Model Results</div>
+                        <div class="result-val" style="color: #666;">Updating...</div>
+                        <div style="font-size: 0.85em; color: #999;">Finalizing evaluation metrics</div>
+                    </div>
+                    <div class="dash-box">
+                        <strong>📄 Detailed Reports:</strong>
+                        <div class="report-links">
+                            <a href="#">Dataset & EDA Report</a>
+                            <a href="#">Model Architecture Report</a>
+                            <a href="#">Experimental Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Multimodal" class="tabcontent">
+                <h3 class="section-title">01. Dataset, EDA & Preprocessing</h3>
+                <div class="grid-2">
+                    <div class="dash-box" style="border-left: 5px solid #dc3545;">
+                        <h4 style="margin-top: 0; color: #dc3545;">MSCOCO Subset</h4>
+                        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div class="metric-value" style="color: #dc3545;">5</div>
+                                <div class="metric-label">Target Classes</div>
+                            </div>
+                            <div style="font-size: 1.5em;">🐈 🐄 🐕 🐎 🐑</div>
+                        </div>
+                        <p style="font-size: 0.9em; color: #555;">Provides authentic Image-Text pairs describing the same entity, ensuring multimodal integrity and high complexity.</p>
+                        <div style="background: #fdf3f4; padding: 10px; border-radius: 5px; font-size: 0.9em; text-align: center; color: #dc3545; font-weight: bold;">
+                            1 Image 🔗 5 Human-written Captions
+                        </div>
+                    </div>
+                    
+                    <div class="dash-box">
+                        <h4 style="margin-top: 0; color: #555;">Exploratory Data Analysis</h4>
+                        <div class="eda-insight" style="border-left-color: #dc3545;">
+                            <strong>Long-tail Image Distribution:</strong> Images per class vary significantly. Cat (3421), Dog (2336), Cow (1353), Sheep (1161), Horse (933).
+                        </div>
+                        <ul style="font-size: 0.9em; padding-left: 20px; color: #444;">
+                            <li><strong>Caption Length:</strong> Follows a normal distribution, peaking at around 50 characters per caption.</li>
+                            <li><strong>Top 20 Words:</strong> 'sheep', 'field', 'cows', 'cat', 'grass', 'standing', 'grazing', 'dog', 'white', etc.</li>
+                        </ul>
+
+                        <h4 style="margin: 20px 0 5px 0; color: #555; border-top: 1px solid #ddd; padding-top: 15px;">Data Setup & Preprocessing Pipeline</h4>
+                        <ul class="preprocessing-list">
+                            <li><strong>Text Prompt Generation:</strong> Convert dataset classes into specific caption structures (e.g., <code>"a photo of a {object}"</code>) for zero-shot capability.</li>
+                            <li><strong>Prototype Extraction (Few-shot):</strong> Extract vector prototypes for each class (5 vectors for 5 classes) from the image embedding space to use as similarity anchors.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="section-title">02. Model Building Pipeline</h3>
+                <div class="dash-box" style="margin-bottom: 30px;">
+                    <strong style="display: block; margin-bottom: 20px; font-size: 1.1em; color: var(--primary);">🎯 Approach: CLIP (Zero-shot vs. Few-shot)</strong>
+                    
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="arch-img-container" style="margin-bottom: 0;">
+                            <h4 style="margin-top: 0; color: #dc3545; border-bottom: 1px solid #eee; padding-bottom: 10px;">Contrastive Language-Image Pre-training (CLIP)</h4>
+                            <img src="images/clip.png" alt="CLIP Architecture" class="arch-img" onerror="this.src='https://via.placeholder.com/800x300?text=Please+add+clip.png'">
+                            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">
+                                <strong>Zero-shot Classification:</strong> Predicts the class by estimating which generated text prompt (e.g., "a photo of a dog") pairs best with a given image using contrastive scoring.<br><br>
+                                <strong>Few-shot Classification:</strong> Evaluates the similarity of a new image's vector against the 5 pre-extracted class vector prototypes. The class with the highest similarity is selected.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">03. Evaluation & Results</h3>
+                <div class="grid-2">
+                    <div class="dash-box" style="display: flex; justify-content: space-around; align-items: center; border: 2px solid #28a745; background: #fcfdfc;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.85em; font-weight: bold; color: #666; text-transform: uppercase;">Zero-Shot Accuracy</div>
+                            <div style="font-size: 2.2em; font-weight: bold; color: #dc3545;">~0.83</div>
+                        </div>
+                        <div style="width: 1px; height: 50px; background: #ddd;"></div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.85em; font-weight: bold; color: #666; text-transform: uppercase;">Few-Shot Accuracy</div>
+                            <div style="font-size: 2.2em; font-weight: bold; color: #28a745;">~0.93</div>
+                        </div>
+                    </div>
+                    <div class="dash-box">
+                        <strong>📄 Detailed Reports:</strong>
+                        <div class="report-links">
+                            <a href="#">Dataset & EDA Report</a>
+                            <a href="#">Model Architecture Report</a>
+                            <a href="#">Experimental Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openDataset(evt, datasetName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(datasetName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>
