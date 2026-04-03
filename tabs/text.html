@@ -1,0 +1,72 @@
+<h3 class="section-title">01. About the Dataset</h3>
+<div class="dash-box" style="border-left: 5px solid #007bff; margin-bottom: 30px;">
+    <div class="grid-2" style="margin-bottom: 0;">
+        <div>
+            <h4 style="margin-top: 0; color: #007bff;">VNTC (Vietnamese News)</h4>
+            <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px;">
+                <div>
+                    <div class="metric-value" style="color: #007bff;">84,132</div>
+                    <div class="metric-label">News Articles</div>
+                </div>
+                <div style="font-size: 1.5em;">⚖️ 🏛️ 🔬 ⚽</div>
+            </div>
+            <p style="font-size: 0.9em; color: #555;">Collected from major online newspapers (VnExpress, Tuổi Trẻ, etc.).</p>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+            <div class="progress-container">
+                <div class="progress-label"><span>Training (33,759)</span><span>40%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 40%; background: #007bff;"></div></div>
+            </div>
+            <div class="progress-container" style="margin-top: 20px;">
+                <div class="progress-label"><span>Testing (50,373)</span><span>60%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 60%; background: #fd7e14;"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="section-title">02. Exploratory Data Analysis (EDA)</h3>
+<div class="dash-box" style="border-left: 5px solid #ffc107; margin-bottom: 30px;">
+    <div class="grid-2" style="margin-bottom: 0;">
+        <div>
+            <h4 style="margin-top: 0; color: #555;">Data Insights</h4>
+            <div class="eda-insight">
+                <strong>Imbalanced Distribution:</strong> Society (XH) and Sports (TT) dominate both train and test sets.
+            </div>
+            <ul style="font-size: 0.9em; padding-left: 20px; color: #444;">
+                <li><strong>Categories:</strong> 10 Classes including Politics, Lifestyle, Science, etc.</li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="margin-top: 0; color: #555;">Preprocessing Pipeline</h4>
+            <ul class="preprocessing-list" style="margin-top: 0;">
+                <li><strong>Word Segmentation:</strong> Utilize tools like <code>VnCoreNLP</code>.</li>
+                <li><strong>Subword Tokenization:</strong> Apply Byte Pair Encoding (BPE).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<h3 class="section-title">03. Model Building Pipeline</h3>
+<div class="dash-box" style="margin-bottom: 30px;">
+    <div style="display: flex; flex-direction: column;">
+        <div class="arch-img-container">
+            <h4 style="margin-top: 0; color: #fd7e14; border-bottom: 1px solid #eee; padding-bottom: 10px;">RNN: LSTM</h4>
+            <img src="images/lstm.png" alt="LSTM" class="arch-img" onerror="this.src='https://via.placeholder.com/800x300?text=Please+add+lstm.png'">
+            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Designed to capture sequential dependencies in text.</p>
+        </div>
+        <div class="arch-img-container" style="margin-bottom: 0;">
+            <h4 style="margin-top: 0; color: #6f42c1; border-bottom: 1px solid #eee; padding-bottom: 10px;">Transformer: PhoBERT</h4>
+            <p style="font-size: 0.95em; color: #555; text-align: left; margin: 0;">Pretrained language model specifically designed for Vietnamese.</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="section-title">04. Evaluation & Results</h3>
+<div class="dash-box" style="margin-bottom: 30px;">
+    <div class="result-box" style="background: #f8f9fa; border-color: #ddd;">
+        <div style="color: #666;">Model Results</div>
+        <div class="result-val" style="color: #666;">Updating...</div>
+        <div style="font-size: 0.85em; color: #999;">Finalizing evaluation metrics</div>
+    </div>
+</div>
