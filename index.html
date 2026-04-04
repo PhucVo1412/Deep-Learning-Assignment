@@ -8,70 +8,178 @@
     <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
+        /* =========================================
+           MODERN THEME & TYPOGRAPHY
+           ========================================= */
         :root {
             --primary: #032b5f; 
+            --primary-light: #0a4b9c;
             --secondary: #007bff;
+            --secondary-hover: #0056b3;
             --bg: #f4f7f6;
-            --text: #333;
-            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
+        
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--bg); 
             color: var(--text); 
             margin: 0; 
             padding: 0; 
             line-height: 1.6;
+            
+            /* Modern Grid Background */
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(3, 43, 95, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 123, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
         }
+
+        /* =========================================
+           HEADER SECTION
+           ========================================= */
         header {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 60px 20px 50px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(3, 43, 95, 0.15);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            position: relative;
+            overflow: hidden;
         }
-        header h1 { margin: 0; font-size: 2em; }
-        header p { margin: 10px 0 0; font-size: 1.1em; opacity: 0.9; }
+        /* Glow effect inside header */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 10s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        header h1 { 
+            margin: 0; font-size: 2.8em; font-weight: 800; letter-spacing: -1px; 
+            position: relative; z-index: 1;
+        }
+        header p { 
+            margin: 10px 0 0; font-size: 1.2em; opacity: 0.9; font-weight: 300;
+            position: relative; z-index: 1;
+        }
         
-        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        /* =========================================
+           MAIN CONTAINER & CARDS
+           ========================================= */
+        .container { max-width: 850px; margin: -30px auto 40px; padding: 0 20px; position: relative; z-index: 2;}
         
         .card {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 25px;
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 35px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6);
             border-top: 5px solid var(--secondary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .card h2 { 
+            color: var(--primary); margin-top: 0; font-size: 1.6em;
+            border-bottom: 2px solid #edf2f7; padding-bottom: 12px; margin-bottom: 25px;
+        }
         
-        ul.member-list { list-style: none; padding: 0; }
+        .instructor-tag {
+            background: #e2e8f0; color: var(--primary);
+            display: inline-block; padding: 8px 16px; border-radius: 20px;
+            font-weight: 600; font-size: 0.95em; margin-bottom: 25px;
+        }
+
+        /* =========================================
+           MEMBER LIST STYLING
+           ========================================= */
+        .card h3 { color: var(--text); margin-bottom: 15px; font-size: 1.2em; }
+        ul.member-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;}
+        
         ul.member-list li { 
-            padding: 10px 0; 
-            border-bottom: 1px dashed #ccc; 
+            background: #f8fafc;
+            padding: 15px 20px; 
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary); 
             display: flex; 
             justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        ul.member-list li:last-child { border-bottom: none; }
+        ul.member-list li:hover {
+            background: white;
+            border-left-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        ul.member-list li span { font-weight: 600; color: var(--primary); }
+        ul.member-list li strong { background: #e2e8f0; padding: 4px 10px; border-radius: 6px; font-size: 0.85em; color: var(--text-muted); }
         
+        /* =========================================
+           ASSIGNMENTS STYLING
+           ========================================= */
         .assignment-link {
-            display: block;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #e9f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            background: #f0f7ff;
             color: var(--primary);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: bold;
+            font-size: 1.05em;
             transition: all 0.3s ease;
+            border: 1px solid #cce3ff;
         }
+        .assignment-link .title { display: flex; align-items: center; gap: 10px; }
+        .assignment-link .arrow { transition: transform 0.3s ease; font-size: 1.2em; }
+        
         .assignment-link:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(3, 43, 95, 0.2);
+            border-color: var(--primary);
         }
-        footer { text-align: center; padding: 20px; color: #777; font-size: 0.9em; }
+        .assignment-link:hover .arrow { transform: translateX(5px); }
+
+        /* Locked Assignments */
+        .assignment-locked {
+            background: #f8fafc;
+            color: #a0aec0;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .assignment-locked:hover {
+            transform: none; box-shadow: none; background: #f8fafc; color: #a0aec0; border-color: #e2e8f0;
+        }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.95em; }
     </style>
 </head>
 <body>
@@ -83,23 +191,35 @@
 
     <div class="container">
         <div class="card">
-            <h2>General Information</h2>
-            <p><strong>👨‍🏫 Instructor:</strong> Dr. LÊ THÀNH SÁCH</p>
+            <h2>ℹ️ General Information</h2>
+            <div class="instructor-tag">👨‍🏫 Instructor: Dr. LÊ THÀNH SÁCH</div>
             
-            <h3>👥 Group Members:</h3>
+            <h3>👥 Group Members</h3>
             <ul class="member-list">
-                <li><span>ĐOÀN TẤN SANG </span> <strong>2252711</strong></li>
-                <li><span>LƯU CHÍ CƯỜNG</span> <strong>2252097</strong></li>
-                <li><span>  NGÔ NHẬT TUẤN</span> <strong>2213774</strong></li>
-                <li><span>VÕ HOÀNG PHÚC</span> <strong>2252650</strong></li>
+                <li><span>Đoàn Tấn Sang</span> <strong>2252711</strong></li>
+                <li><span>Lưu Chí Cường</span> <strong>2252097</strong></li>
+                <li><span>Ngô Nhật Tuấn</span> <strong>2213774</strong></li>
+                <li><span>Võ Hoàng Phúc</span> <strong>2252650</strong></li>
             </ul>
         </div>
 
         <div class="card">
-            <h2>Assignments List</h2>
-            <a href="assignment1.html" class="assignment-link">📌 Assignment 1: Classification on images, text, and multimodal data</a>
-            <a href="#" class="assignment-link" style="opacity: 0.6; pointer-events: none;">⏳ Assignment 2: (Coming soon)</a>
-            <a href="#" class="assignment-link" style="opacity: 0.6; pointer-events: none;">⏳ Assignment 3: (Coming soon)</a>
+            <h2>📁 Assignments List</h2>
+            
+            <a href="assignment1.html" class="assignment-link">
+                <div class="title"><span>🚀</span> Assignment 1: Classification (Images, Text, Multimodal)</div>
+                <div class="arrow">➔</div>
+            </a>
+            
+            <a href="#" class="assignment-link assignment-locked">
+                <div class="title"><span>⏳</span> Assignment 2: (Coming soon...)</div>
+                <div class="arrow">🔒</div>
+            </a>
+            
+            <a href="#" class="assignment-link assignment-locked">
+                <div class="title"><span>⏳</span> Assignment 3: (Coming soon...)</div>
+                <div class="arrow">🔒</div>
+            </a>
         </div>
     </div>
 
