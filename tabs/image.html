@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Dataset Report - Group TCPS</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -21,6 +19,10 @@
             --card-bg: #ffffff;
             --gradient-img: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
+        
+        /* Hiệu ứng cuộn mượt cho toàn trang */
+        html { scroll-behavior: smooth; }
+
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             color: var(--text); 
@@ -40,7 +42,14 @@
             text-align: center; padding: 40px 20px 30px 20px; 
             background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             margin-bottom: 20px; position: relative;
+            /* Hiệu ứng trượt nhẹ header xuống */
+            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         .header h1 { margin: 0; color: var(--primary); font-size: 2.2em; }
         .subtitle { color: #666; font-size: 1.1em; margin-top: 10px; }
         
@@ -48,28 +57,55 @@
             position: absolute; top: 20px; left: 20px;
             color: #555; text-decoration: none; font-weight: bold;
             padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px;
-            transition: all 0.3s; background: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); background: white;
         }
-        .back-btn:hover { background: #eee; color: var(--primary); }
+        .back-btn:hover { 
+            background: #eee; color: var(--primary); 
+            transform: translateX(-3px); /* Nút back lùi nhẹ về trái */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
 
         .control-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; align-items: center; }
         .control-btn { 
             background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; 
-            cursor: pointer; font-weight: bold; color: #555; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            cursor: pointer; font-weight: bold; color: #555; 
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .control-btn:hover { background: #f8f9fa; border-color: #ccc; transform: translateY(-1px); }
+        .control-btn:hover { background: #f8f9fa; border-color: #ccc; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 50px 20px; }
 
-        /* COLLAPSIBLE SECTIONS */
-        .section { background: white; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 25px; overflow: hidden; }
+        /* =========================================
+           Hiệu ứng trượt lên (Fade Up) cho các Section 
+           ========================================= */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section { 
+            background: white; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 25px; overflow: hidden; 
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0; /* Ẩn đi chờ animation */
+        }
+        /* Làm so le thời gian xuất hiện của các thẻ (Stagger effect) */
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
         .section h2 { 
             margin: 0; padding: 18px 25px; background: #fdfdfd; border-bottom: 1px solid #eee; 
             cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--primary);
-            user-select: none; transition: background 0.2s;
+            user-select: none; transition: all 0.3s ease;
         }
-        .section h2:hover { background: #f8f9fa; }
-        .section h2::after { content: '▼'; font-size: 0.6em; transition: transform 0.3s; color: #999; }
+        .section h2:hover { 
+            background: #f8f9fa; 
+            padding-left: 32px; /* Thụt vào một chút xíu tạo cảm giác nhấn */
+        }
+        .section h2::after { content: '▼'; font-size: 0.6em; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); color: #999; }
         .section h2.collapsed::after { transform: rotate(-90deg); }
         .section h2.collapsed { border-bottom: none; }
         
@@ -81,6 +117,12 @@
         .stat-card { 
             background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; padding: 20px; 
             text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Mượt hơn */
+        }
+        .stat-card:hover {
+            transform: translateY(-5px); /* Nổi lên */
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.1);
+            border-color: #c3e6cb;
         }
         .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient-img); }
         .stat-value { font-size: 2.2em; font-weight: bold; color: var(--success); line-height: 1.2; }
@@ -91,7 +133,12 @@
         .table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
         .table th, .table td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #f1f1f1; }
         .table th { background: var(--gradient-img); color: #004d40; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
-        .table tbody tr:hover { background-color: #f8f9fa; }
+        
+        .table tbody tr { transition: all 0.2s ease; }
+        .table tbody tr:hover { 
+            background-color: #f1fcf5 !important; 
+            box-shadow: inset 4px 0 0 var(--success); /* Hiện vạch màu xanh lá bên trái */
+        }
         .table tbody tr td:first-child { text-align: left; font-weight: bold; color: var(--primary); }
         .highlight-row { background-color: #eef7ee !important; font-weight: bold; border-top: 2px solid var(--success); }
         .danger-row { background-color: #fde8e8 !important; color: #c0392b; font-weight: bold; }
@@ -100,56 +147,53 @@
         .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .tab-btn {
             background: none; border: 2px solid transparent; padding: 8px 20px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s; font-size: 1em;
+            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s ease; font-size: 1em;
         }
-        .tab-btn:hover { background: #e8f5e9; color: var(--success); }
+        .tab-btn:hover { background: #e8f5e9; color: var(--success); transform: translateY(-2px); }
         .tab-btn.active { 
             background: var(--success); color: white; border-color: var(--success); 
-            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2); 
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); transform: translateY(-2px);
         }
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content { display: none; animation: fadeInTab 0.5s ease; }
+        @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* HIGHLIGHT BOXES & UI ELEMENTS */
-        .insight-box { background: var(--gradient-img); color: #004d40; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: 500;}
+        .insight-box { background: var(--gradient-img); color: #004d40; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; transition: transform 0.3s ease;}
+        .insight-box:hover { transform: scale(1.01); }
         .info-box { background: #e8f5e9; border-left: 4px solid var(--success); padding: 15px; border-radius: 8px; color: #333; margin-top: 15px;}
         .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; color: #856404; margin-top: 15px; margin-bottom: 15px;}
         
-        /* EDA BLOCKS */
+        /* EDA BLOCKS & IMAGES */
         .eda-block { display: flex; flex-wrap: wrap; gap: 20px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; align-items: center; margin-bottom: 20px;}
-        .eda-block img { width: 100%; height: auto; max-height: 450px; object-fit: contain; border-radius: 5px; }
+        .eda-block img { 
+            width: 100%; height: auto; max-height: 450px; object-fit: contain; border-radius: 5px; 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Hiệu ứng zoom nhẹ */
+        }
+        .eda-block img:hover { transform: scale(1.03); z-index: 10; position: relative;}
         
         .preprocessing-list { list-style: none; padding: 0; margin: 0; }
-        .preprocessing-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #444; }
+        .preprocessing-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #444; transition: transform 0.2s ease;}
+        .preprocessing-list li:hover { transform: translateX(5px); }
         .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--success); font-weight: bold; }
         
         /* CUSTOM MODEL LINKS */
         .model-link {
             display: inline-block; margin-top: 15px; padding: 8px 20px; 
             border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.9em;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .link-densenet { background: #e8f5e9; color: var(--success); border: 1px solid #c3e6cb; }
-        .link-densenet:hover { background: #d4edda; }
+        .link-densenet:hover { background: #d4edda; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2); }
         .link-vit { background: #e3f2fd; color: #3498db; border: 1px solid #b3d4fc; }
-        .link-vit:hover { background: #cce5ff; }
+        .link-vit:hover { background: #cce5ff; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2); }
 
         /* HIGH-QUALITY CODE BLOCK STYLING */
         .code-container {
-            background-color: #282c34;
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin: 20px 0;
-            overflow-x: auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #282c34; border-radius: 8px; padding: 16px 20px; margin: 20px 0; overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: box-shadow 0.3s ease;
         }
-        .code-container pre {
-            margin: 0;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.95em;
-            line-height: 1.6;
-            color: #abb2bf;
-        }
+        .code-container:hover { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .code-container pre { margin: 0; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; color: #abb2bf; }
         .kw { color: #c678dd; } 
         .func { color: #61afef; } 
         .str { color: #98c379; } 
@@ -159,9 +203,11 @@
 
         /* INTERPRETABILITY LIST */
         .interpret-list { list-style: none; padding: 0; margin: 15px 0 0 0; display: flex; flex-wrap: wrap; gap: 15px;}
-        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); flex: 1; min-width: 200px; display: flex; align-items: flex-start; }
+        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); flex: 1; min-width: 200px; display: flex; align-items: flex-start; transition: transform 0.3s ease;}
+        .interpret-list li:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
         .interpret-list li strong { color: var(--primary); display: block; margin-bottom: 5px; }
-        .interpret-icon { margin-right: 10px; font-size: 1.2em; line-height: 1; }
+        .interpret-icon { margin-right: 10px; font-size: 1.2em; line-height: 1; transition: transform 0.3s ease; }
+        .interpret-list li:hover .interpret-icon { transform: scale(1.2); }
 
         /* PIPELINE FLOW CHART CSS */
         .pipeline-flow { 
@@ -174,12 +220,20 @@
             text-align: center; background: rgba(255,255,255,0.08); 
             padding: 15px; border-radius: 8px; min-width: 140px; 
             border: 1px solid rgba(255,255,255,0.15); position: relative;
+            transition: all 0.3s ease;
         }
+        .flow-step:hover { transform: translateY(-3px); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);}
         .flow-step strong { display: block; color: #98c379; margin-bottom: 8px; font-size: 1.1em; letter-spacing: 0.5px;}
         .flow-step span { font-family: 'Consolas', monospace; font-size: 0.9em; color: #abb2bf; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;}
-        .flow-arrow { font-size: 1.8em; color: #61afef; font-weight: bold; }
+        .flow-arrow { font-size: 1.8em; color: #61afef; font-weight: bold; animation: floatRight 2s infinite ease-in-out;}
         
-        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        @keyframes floatRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.3s; }
+        .step-detail:hover { background: #f4f7f6; }
         .step-detail h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.05em; }
         .step-detail p { margin: 0; color: #555; font-size: 0.95em; }
         .step-detail code { background: #eee; padding: 2px 6px; border-radius: 4px; color: #c0392b; font-size: 0.9em; }
@@ -207,7 +261,7 @@
                     <p style="color: #666; margin: 0; font-size: 1.05em;">
                         Created by Zalando to provide a more realistic and challenging image dataset while maintaining the convenient format of the original MNIST.
                     </p>
-                    <a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" style="background: #e8f5e9; color: var(--success); padding: 6px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; border: 1px solid #c3e6cb;">🔗 Source</a>
+                    <a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" style="background: #e8f5e9; color: var(--success); padding: 6px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; border: 1px solid #c3e6cb; transition: all 0.2s;">🔗 Source</a>
                 </div>
                 
                 <div class="stats-grid">
@@ -328,18 +382,18 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 30px; margin-bottom: 40px;">
-                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center;">
+                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
                         <h3 style="color: var(--success); margin-top: 0; font-size: 1.5em;">CNN: DenseNet</h3>
-                        <img src="../images/densenet.png" alt="DenseNet Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px;" onerror="this.src='https://via.placeholder.com/800x300?text=DenseNet'">
+                        <img src="../images/densenet.png" alt="DenseNet Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.4s;" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=DenseNet'">
                         <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px;">Extracts features hierarchically using dense connectivity patterns, where each layer receives inputs from all preceding layers.</p>
                         <div style="margin-top: 15px;">
                             <a href="https://arxiv.org/abs/1608.06993" target="_blank" class="model-link link-densenet">🔗 DenseNet Paper</a>
                         </div>
                     </div>
                     
-                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center;">
+                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
                         <h3 style="color: #3498db; margin-top: 0; font-size: 1.5em;">Vision Transformer (ViT)</h3>
-                        <img src="../images/vit.png" alt="ViT Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px;" onerror="this.src='https://via.placeholder.com/800x300?text=ViT'">
+                        <img src="../images/vit.png" alt="ViT Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.4s;" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=ViT'">
                         <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px;">Splits the image into fixed-size patches, linearly embeds them with position encodings, and feeds them into a standard Transformer encoder.</p>
                         <div style="margin-top: 15px;">
                             <a href="https://arxiv.org/abs/2010.11929" target="_blank" class="model-link link-vit">🔗 ViT Paper</a>
@@ -692,17 +746,14 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
     <script>
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
-            // Ẩn tất cả nội dung tab
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
-            // Xóa class 'active' khỏi các nút
             tablinks = document.getElementsByClassName("tab-btn");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            // Hiển thị tab được chọn và thêm class active
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
@@ -737,7 +788,7 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 8000,
+                            max: 8000, // Cho trục y dư ra một xíu cho đẹp
                             grid: { color: '#f1f1f1' },
                             ticks: { color: '#666', font: { weight: 'bold' } }
                         },
@@ -746,7 +797,7 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                             ticks: { 
                                 color: '#333', 
                                 font: { weight: 'bold', size: 11 },
-                                maxRotation: 45,
+                                maxRotation: 45, // Góc nghiêng để nhãn không đè lên nhau
                                 minRotation: 45
                             }
                         }
