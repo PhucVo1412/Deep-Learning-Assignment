@@ -87,11 +87,34 @@
         .info-box { background: #fdf3f4; border-left: 4px solid var(--theme-color); padding: 15px; border-radius: 8px; color: #333; margin-top: 15px;}
         
         .eda-block { display: flex; flex-wrap: wrap; gap: 20px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; align-items: center; margin-bottom: 20px;}
-        .eda-block img { width: 100%; height: auto; max-height: 280px; object-fit: contain; border-radius: 5px; }
+        .eda-block img { width: 100%; height: auto; max-height: 350px; object-fit: contain; border-radius: 5px; }
         
         .preprocessing-list { list-style: none; padding: 0; margin: 0; }
         .preprocessing-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #444; }
         .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--theme-color); font-weight: bold; }
+
+        /* HIGH-QUALITY CODE BLOCK STYLING (One Dark Pro Theme) */
+        .code-container {
+            background-color: #282c34;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .code-container pre {
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #abb2bf;
+        }
+        .kw { color: #c678dd; } /* Keywords */
+        .func { color: #61afef; } /* Functions/Methods */
+        .str { color: #98c379; } /* Strings */
+        .num { color: #d19a66; } /* Numbers */
+        .com { color: #5c6370; font-style: italic; } /* Comments */
+        .arg { color: #e06c75; } /* Arguments */
     </style>
 </head>
 <body>
@@ -137,6 +160,29 @@
                         <div class="stat-label">Data Mapping Structure</div>
                     </div>
                 </div>
+
+                <div style="background: #fff; border: 1px solid #f5c6cb; border-radius: 8px; padding: 20px; margin-top: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                    <h4 style="color: var(--theme-color); margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                        📸 Sample Data Point: 1 Image ➔ 5 Captions
+                    </h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+                        <div style="flex: 1; min-width: 250px; text-align: center;">
+                            <img src="../images/mscoco_sample.png" alt="MSCOCO Sample Image" style="width: 100%; max-width: 400px; border-radius: 8px; border: 1px solid #ddd; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x300?text=MSCOCO+Sample+Image'">
+                        </div>
+                        <div style="flex: 2; min-width: 300px;">
+                            <div style="background: #fdf3f4; border-radius: 6px; padding: 15px;">
+                                <div style="font-weight: bold; color: var(--primary); margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase;">Corresponding Captions:</div>
+                                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"A small dog carrying a large Frisbee down a sidewalk."</li>
+                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"there is a small white dog that is carrying a frisbee"</li>
+                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"a small dog carries a frisbe in its mouth "</li>
+                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"Small toy sized dog carrying a Frisbee down the street."</li>
+                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"A white fluffy dog carries around a red Frisbee. "</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -148,7 +194,7 @@
 
                 <div class="eda-block">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="images/multi_animaldist.png" alt="Distribution of unique images per animal class" onerror="this.src='https://via.placeholder.com/600x200?text=Unique+Images+per+Animal+Class'">
+                        <img src="../images/multi_animaldist.png" alt="Distribution of unique images per animal class" onerror="this.src='https://via.placeholder.com/600x300?text=Unique+Images+per+Animal+Class'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
                         <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Unique Images per Class</div>
@@ -160,7 +206,7 @@
 
                 <div class="eda-block">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x200?text=Caption+Length'">
+                        <img src="../images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Caption+Length'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
                         <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Caption Length</div>
@@ -172,7 +218,7 @@
 
                 <div class="eda-block">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="images/multi_top_words.png" alt="Top 20 common words" onerror="this.src='https://via.placeholder.com/600x200?text=Top+20+Words'">
+                        <img src="../images/multi_top_words.png" alt="Top 20 common words" onerror="this.src='https://via.placeholder.com/600x300?text=Top+20+Words'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
                         <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Top 20 Words</div>
@@ -182,16 +228,61 @@
                     </div>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px;">⚙️ Setup & Preprocessing Pipeline</h3>
-                <ul class="preprocessing-list">
-                    <li><strong>Text Prompt Generation:</strong> Convert dataset classes into specific caption structures (e.g., <code>"a photo of a {object}"</code>) to enable Zero-shot classification.</li>
-                    <li><strong>Prototype Extraction (Few-shot):</strong> Extract vector prototypes for each class (5 vectors for the 5 classes) from the image embedding space to serve as similarity anchors.</li>
-                </ul>
+                <div class="code-container">
+<pre><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns
+
+<span class="com"># Calculate the number of unique image_id for each 'class'</span>
+unique_image_counts = df_animal_data.<span class="func">groupby</span>(<span class="str">'class'</span>)[<span class="str">'image_id'</span>].<span class="func">nunique</span>()
+
+<span class="com"># Create the bar chart to visualize the distribution</span>
+plt.<span class="func">figure</span>(<span class="arg">figsize</span>=(<span class="num">10</span>, <span class="num">6</span>))
+sns.<span class="func">barplot</span>(<span class="arg">x</span>=unique_image_counts.index, <span class="arg">y</span>=unique_image_counts.values, <span class="arg">palette</span>=<span class="str">'viridis'</span>)
+plt.<span class="func">title</span>(<span class="str">'Distribution of Unique Images per Animal Class'</span>)
+plt.<span class="func">show</span>()
+</pre>
+                </div>
             </div>
         </div>
 
         <div class="section">
-            <h2 onclick="toggleSection(this)">🏗️ 03. Model Building Pipeline</h2>
+            <h2 onclick="toggleSection(this)">⚙️ 03. Setup & Preprocessing Pipeline</h2>
+            <div class="section-content">
+                <ul class="preprocessing-list">
+                    <li><strong>Class Filtering:</strong> Extract only annotations related to the 5 target animals to maintain domain focus.</li>
+                    <li><strong>Human Exclusion:</strong> Explicitly scan and drop any images that contain the <code>'person'</code> category to prevent the model from learning unintended correlations.</li>
+                    <li><strong>Text Prompt Generation:</strong> Convert dataset classes into specific caption structures (e.g., <code>"a photo of a {object}"</code>) to enable Zero-shot classification.</li>
+                    <li><strong>Prototype Extraction (Few-shot):</strong> Extract vector prototypes for each class (5 vectors for the 5 classes) from the image embedding space to serve as similarity anchors.</li>
+                </ul>
+
+                <div class="code-container">
+<pre><span class="com"># 1. Define target animal classes</span>
+target_classes = [<span class="str">'cat'</span>, <span class="str">'dog'</span>, <span class="str">'horse'</span>, <span class="str">'sheep'</span>, <span class="str">'cow'</span>]
+extracted_data = []
+
+<span class="com"># 2. Extract annotations & exclude images containing 'person'</span>
+<span class="kw">for</span> annotation <span class="kw">in</span> coco_annotations[<span class="str">'annotations'</span>]:
+    <span class="kw">if</span> annotation[<span class="str">'category_id'</span>] <span class="kw">in</span> target_category_ids:
+        img_id = annotation[<span class="str">'image_id'</span>]
+        
+        <span class="com"># Exclude images that contain 'person' to ensure pure animal context</span>
+        <span class="kw">if</span> img_id <span class="kw">not in</span> image_ids_with_person_list:
+            extracted_data.<span class="func">append</span>({
+                <span class="str">'image_id'</span>: img_id,
+                <span class="str">'class'</span>: category_id_to_name[annotation[<span class="str">'category_id'</span>]]
+            })
+
+<span class="com"># 3. Convert to DataFrame and drop duplicates to prevent data explosion</span>
+df_animal = pd.<span class="func">DataFrame</span>(final_animal_data)
+df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg">subset</span>=[<span class="str">'image_id'</span>, <span class="str">'class'</span>, <span class="str">'caption'</span>])
+df_animal.<span class="func">to_csv</span>(<span class="str">'animal_classification_data.csv'</span>, <span class="arg">index</span>=<span class="kw">False</span>)
+</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 onclick="toggleSection(this)">🏗️ 04. Model Building Pipeline</h2>
             <div class="section-content">
                 
                 <div class="insight-box">
@@ -199,7 +290,7 @@
                 </div>
 
                 <div style="border: 1px solid #eee; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
-                    <img src="images/clip.png" alt="CLIP Architecture" style="width: 100%; max-height: 250px; object-fit: contain; margin-bottom: 15px;" onerror="this.src='https://via.placeholder.com/600x250?text=CLIP+Architecture'">
+                    <img src="../images/clip.png" alt="CLIP Architecture" style="width: 100%; max-height: 250px; object-fit: contain; margin-bottom: 15px;" onerror="this.src='https://via.placeholder.com/600x250?text=CLIP+Architecture'">
                     <p style="font-size: 0.95em; color: #555; text-align: center; margin: 0;">
                         CLIP uses dual encoders (a Vision Transformer for images and a Text Transformer for captions) to map both modalities into a shared high-dimensional embedding space.
                     </p>
@@ -223,7 +314,7 @@
         </div>
 
         <div class="section">
-            <h2 onclick="toggleSection(this)">🏆 04. Evaluation & Results</h2>
+            <h2 onclick="toggleSection(this)">🏆 05. Evaluation & Results</h2>
             <div class="section-content">
                 
                 <p style="color: #666; margin-bottom: 20px; text-align: center; font-size: 1.1em;">
@@ -244,10 +335,20 @@
                     </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <a href="#" style="display: inline-block; background: #333; color: white; padding: 10px 25px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.95em; transition: 0.2s;">
-                        📄 View Detailed Confusion Matrices
-                    </a>
+                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Confusion Matrices</h3>
+                <div class="eda-block" style="justify-content: center; align-items: stretch;">
+                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
+                        <h4 style="color: var(--theme-color); margin-bottom: 10px;">CLIP Zero-Shot</h4>
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                            <img src="../images/cm_clip_zeroshot.png" alt="Zero-Shot Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+Zero-Shot'">
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
+                        <h4 style="color: var(--success); margin-bottom: 10px;">CLIP Few-Shot</h4>
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
+                            <img src="../images/cm_clip_fewshot.png" alt="Few-Shot Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+Few-Shot'">
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -256,7 +357,6 @@
     </div>
 
     <script>
-        // Toggle individual section
         function toggleSection(element) {
             element.classList.toggle('collapsed');
             var content = element.nextElementSibling;
@@ -269,7 +369,6 @@
             }
         }
 
-        // Collapse all sections
         function collapseAll() {
             var headers = document.querySelectorAll('.section h2');
             var contents = document.querySelectorAll('.section-content');
@@ -277,7 +376,6 @@
             contents.forEach(c => { c.classList.add('collapsed'); c.style.display = "none"; });
         }
 
-        // Expand all sections
         function expandAll() {
             var headers = document.querySelectorAll('.section h2');
             var contents = document.querySelectorAll('.section-content');

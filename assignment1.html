@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment 1 Dashboard - Group TCPS</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <style>
         /* =========================================
            GLOBAL THEME & TYPOGRAPHY
@@ -15,7 +18,7 @@
             --text: #333;
             --card-bg: #ffffff;
             
-            /* Gradients cho từng loại Dataset */
+            /* Gradients */
             --grad-image: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             --grad-text: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --grad-multi: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
@@ -45,8 +48,8 @@
             background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
             margin-bottom: 40px; position: relative;
             background-color: var(--bg);
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAL0lEQVRYR2P48OFDPxcXF3MYwYEDO//7989//fr9+vXr8evXr+ePD8R8H8ePj/X8f48f48Y8b8f4AAAAAElFTkSuQmCC'); /* Base64 for the subtle data grid pattern */
-            background-repeat: repeat; /* Repeat the pattern to cover the whole background */
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAL0lEQVRYR2P48OFDPxcXF3MYwYEDO//7989//fr9+vXr8evXr+ePD8R8H8ePj/X8f48f48Y8b8f4AAAAAElFTkSuQmCC'); 
+            background-repeat: repeat; 
             background-attachment: fixed;
         }
         .header h1 { margin: 0; color: var(--primary); font-size: 2.5em; letter-spacing: -0.5px; }
@@ -71,29 +74,23 @@
             gap: 30px; margin-top: 20px;
         }
 
-        /* Window Card Style */
+        /* Window Card Style - Changed to DIV */
         .dataset-window {
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-decoration: none; /* Bỏ gạch chân vì thẻ a bao ngoài */
-            color: inherit;
             display: flex;
             flex-direction: column;
-            cursor: pointer;
             position: relative;
-            top: 0;
         }
         
-        /* Hiệu ứng Nổi lên & Phát sáng khi Hover */
         .dataset-window:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        /* Màu Header cho từng Window */
         .window-header { padding: 25px 20px; color: white; text-align: center; }
         .window-image .window-header { background: var(--grad-image); }
         .window-text .window-header { background: var(--grad-text); }
@@ -102,7 +99,6 @@
         .window-header h2 { margin: 0; font-size: 1.6em; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .window-header .icon { font-size: 2.5em; margin-bottom: 10px; display: block; }
 
-        /* Nội dung bên trong Window */
         .window-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
         .window-desc { color: #666; font-style: italic; margin-top: 0; margin-bottom: 20px; font-size: 0.95em; text-align: center;}
         
@@ -114,34 +110,58 @@
             content: '✓'; position: absolute; left: 0; color: var(--secondary); font-weight: bold;
         }
 
-        /* Nút giả lập (để tăng trải nghiệm UI) */
-        .window-footer { padding: 20px; border-top: 1px solid #f1f1f1; text-align: center; background: #fdfdfd; }
+        /* Footer & Buttons */
+        .window-footer { 
+            padding: 20px; border-top: 1px solid #f1f1f1; 
+            text-align: center; background: #fdfdfd; 
+            display: flex; flex-direction: column; gap: 15px;
+        }
         .enter-btn {
             display: inline-block; padding: 10px 25px; border-radius: 20px; font-weight: bold;
-            font-size: 0.9em; transition: 0.3s;
+            font-size: 0.95em; transition: 0.3s; text-decoration: none;
         }
-        .window-image .enter-btn { color: #28a745; background: #e8f5e9; }
-        .window-text .enter-btn { color: #667eea; background: #f0f4ff; }
-        .window-multi .enter-btn { color: #e74c3c; background: #fdf3f4; }
+        .window-image .enter-btn { color: #28a745; background: #e8f5e9; border: 1px solid #c3e6cb; }
+        .window-text .enter-btn { color: #667eea; background: #f0f4ff; border: 1px solid #b8daff; }
+        .window-multi .enter-btn { color: #e74c3c; background: #fdf3f4; border: 1px solid #f5c6cb; }
         
-        .dataset-window:hover .enter-btn { filter: brightness(0.95); }
+        .enter-btn:hover { filter: brightness(0.95); transform: translateY(-1px); }
+
+        /* Resource Buttons (Demo & Code) */
+        .resource-links { display: flex; justify-content: center; gap: 10px; }
+        .res-btn {
+            text-decoration: none; font-size: 0.85em; padding: 6px 12px;
+            border-radius: 6px; font-weight: 600; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 5px;
+            border: 1px solid #ddd; color: #555; background: white;
+        }
+        .res-btn:hover { background: #eee; color: var(--primary); border-color: #ccc; }
 
         /* =========================================
-           DELIVERABLES SECTION
+           YOUTUBE PRESENTATION SECTION
            ========================================= */
-        .deliverables-box {
+        .video-box {
             margin-top: 50px; background: white; border-radius: 12px; padding: 30px;
             text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eee;
         }
-        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
-        .btn {
-            display: inline-flex; align-items: center; padding: 12px 24px; color: white;
-            text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            aspect-ratio: 16 / 9; /* Giúp video giữ tỉ lệ chuẩn và co giãn trên điện thoại */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            background: #000;
         }
-        .btn-demo { background-color: #27ae60; }
-        .btn-youtube { background-color: #e74c3c; }
-        .btn-github { background-color: #333; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); filter: brightness(1.1); }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -166,7 +186,7 @@
 
         <div class="grid-3">
             
-            <a href="tabs/image.html" class="dataset-window window-image">
+            <div class="dataset-window window-image">
                 <div class="window-header">
                     <span class="icon">🖼️</span>
                     <h2>Image Dataset</h2>
@@ -181,11 +201,15 @@
                     </ul>
                 </div>
                 <div class="window-footer">
-                    <span class="enter-btn">View Image Report ➔</span>
+                    <a href="tabs/image.html" class="enter-btn">📄 View Detailed Report</a>
+                    <div class="resource-links">
+                        <a href="LINK_DEMO_IMAGE_CỦA_BẠN_Ở_ĐÂY" target="_blank" class="res-btn">🖥️ Demo</a>
+                        <a href="https://github.com/PhucVo1412/Deep-Learning-Assignment/tree/5296ddef1b5c3ef2648029ef7f79b7f75d60ae6f/assignment%201/src/image" target="_blank" class="res-btn">💻 Code</a>
+                    </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="tabs/text.html" class="dataset-window window-text">
+            <div class="dataset-window window-text">
                 <div class="window-header">
                     <span class="icon">📝</span>
                     <h2>Text Dataset</h2>
@@ -200,11 +224,15 @@
                     </ul>
                 </div>
                 <div class="window-footer">
-                    <span class="enter-btn">View Text Report ➔</span>
+                    <a href="tabs/text.html" class="enter-btn">📄 View Detailed Report</a>
+                    <div class="resource-links">
+                        <a href="LINK_DEMO_TEXT_CỦA_BẠN_Ở_ĐÂY" target="_blank" class="res-btn">🖥️ Demo</a>
+                        <a href="https://github.com/PhucVo1412/Deep-Learning-Assignment/tree/5296ddef1b5c3ef2648029ef7f79b7f75d60ae6f/assignment%201/src/text" target="_blank" class="res-btn">💻 Code</a>
+                    </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="tabs/multimodal.html" class="dataset-window window-multi">
+            <div class="dataset-window window-multi">
                 <div class="window-header">
                     <span class="icon">🧩</span>
                     <h2>Multimodal Dataset</h2>
@@ -219,20 +247,22 @@
                     </ul>
                 </div>
                 <div class="window-footer">
-                    <span class="enter-btn">View Multimodal Report ➔</span>
+                    <a href="tabs/multimodal.html" class="enter-btn">📄 View Detailed Report</a>
+                    <div class="resource-links">
+                        <a href="LINK_DEMO_MULTI_CỦA_BẠN_Ở_ĐÂY" target="_blank" class="res-btn">🖥️ Demo</a>
+                        <a href="LINK_GITHUB_MULTI_CỦA_BẠN_Ở_ĐÂY" target="_blank" class="res-btn">💻 Code</a>
+                    </div>
                 </div>
-            </a>
+            </div>
 
         </div>
 
-        <div class="deliverables-box">
-            <h3 style="color: var(--primary); margin-top: 0; font-size: 1.4em;">Project Deliverables</h3>
-            <p style="color: #666; font-size: 0.95em; margin-bottom: 0;">Explore our full implementation, presentation, and demonstration videos below.</p>
-            <div class="btn-group">
-                <a href="#" class="btn btn-demo">🖥️ Demo Video</a>
-                <a href="#" class="btn btn-youtube">🎥 YouTube Presentation</a>
-                <a href="#" class="btn btn-github">💻 Source Code</a>
-            </div>
+        <div class="video-box">
+            <h3 style="color: var(--primary); margin-top: 0; font-size: 1.6em;">🎥 Project Presentation</h3>
+            <p style="color: #666; font-size: 1.05em; margin-bottom: 25px;">Watch our full team presentation covering all three domains (Image, Text, and Multimodal).</p>
+            
+            <div class="iframe-container">
+                
         </div>
 
     </div>
