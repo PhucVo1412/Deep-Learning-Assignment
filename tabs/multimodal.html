@@ -214,7 +214,7 @@
         .flow-step:hover { transform: translateY(-3px); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);}
         .flow-step strong { display: block; color: #98c379; margin-bottom: 8px; font-size: 1.1em; letter-spacing: 0.5px;}
         .flow-step span { font-family: 'Consolas', monospace; font-size: 0.9em; color: #abb2bf; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; display: block;}
-        .flow-arrow { font-size: 1.8em; color: #e74c3c; font-weight: bold; animation: floatRight 2s infinite ease-in-out; }
+        .flow-arrow { font-size: 1.8em; color: #e74c3c; font-weight: bold; animation: floatRight 2s infinite ease-in-out;}
         
         @keyframes floatRight {
             0%, 100% { transform: translateX(0); }
@@ -226,12 +226,38 @@
         .step-detail h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.05em; }
         .step-detail p { margin: 0; color: #555; font-size: 0.95em; }
         .step-detail code { background: #eee; padding: 2px 6px; border-radius: 4px; color: var(--theme-color); font-size: 0.9em; }
+
+        /* GRID NHIỀU CỘT CHO CONFUSION MATRIX MỚI */
+        .cm-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: stretch;
+            padding: 10px 0;
+        }
+        .cm-card {
+            flex: 1 1 220px; /* Linh hoạt co giãn, nhỏ nhất 220px */
+            max-width: 320px; /* Không để phình quá to nếu lỡ nằm 1 mình 1 dòng */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        .cm-img-container {
+            flex-grow: 1; display: flex; align-items: center; justify-content: center; 
+            background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;
+            transition: all 0.3s ease;
+        }
+        .cm-img-container:hover {
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="../assignment1.html" class="back-btn">⬅ Dashboard</a>
+        <a href="../index.html" class="back-btn">⬅ Dashboard</a>
         <h1>🧩 Multimodal Classification Report</h1>
         <div class="subtitle">MSCOCO Subset Analysis & CLIP Modeling</div>
     </div>
@@ -318,24 +344,24 @@
 
                 <div class="eda-block">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Caption+Length'">
+                        <img src="../images/multi_image_size.png" alt="Image Dimensions Distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Dimensions'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Caption Length</div>
+                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Image Size Variation</div>
                         <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; border-radius: 5px; color: #856404; margin-bottom: 10px;">
-                            <strong>Normal Distribution:</strong> The character length of the human-written captions generally follows a normal distribution pattern, peaking prominently at around <strong>50 characters</strong> per caption.
+                            <strong>Diverse Resolutions:</strong> As observed in the scatter plot, the images in MSCOCO scatter widely in both height and width (from ~100 to 640 pixels). This variation necessitates strict image resizing during preprocessing before feeding into the models.
                         </div>
                     </div>
                 </div>
 
                 <div class="eda-block">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/multi_top_words.png" alt="Top 20 common words" onerror="this.src='https://via.placeholder.com/600x300?text=Top+20+Words'">
+                        <img src="../images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Caption+Length'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Top 20 Words</div>
+                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Caption Length</div>
                         <div style="background: #e8f5e9; border-left: 4px solid var(--success); padding: 10px 15px; border-radius: 5px; color: #155724; margin-bottom: 10px;">
-                            <strong>Vocabulary Focus:</strong> The most frequent words heavily reflect the rural and animal context of our selected classes. Common keywords include <em>'sheep', 'field', 'cows', 'cat', 'grass'</em>, and <em>'standing'</em>.
+                            <strong>Normal Distribution:</strong> The character length of the human-written captions generally follows a normal distribution pattern, peaking prominently at around <strong>40-50 characters</strong> per caption, ensuring they are descriptive and not overly simplistic.
                         </div>
                     </div>
                 </div>
@@ -348,8 +374,8 @@
             <div class="section-content">
                 <ul class="preprocessing-list">
                     <li><strong>Class Filtering:</strong> Extract only annotations related to the 5 target animals to maintain domain focus.</li>
-                    <li><strong>Human Exclusion:</strong> Explicitly scan and drop any images that contain the <code>'person'</code> category to prevent the model from learning unintended correlations.</li>
-                    <li><strong>Zero-Shot Prompts:</strong> Use standard text templates (e.g., <code>"a photo of a {object}"</code>).</li>
+                    <li><strong>Human & Redundancy Exclusion:</strong> Explicitly scan and drop any images that contain the <code>'person'</code> category to prevent the model from learning unintended correlations. We also remove redundancy (multiple labels on 1 image).</li>
+                    <li><strong>Zero-Shot Prompts:</strong> Use standard text templates (e.g., <code>"a photo of a {animal_class}"</code>).</li>
                     <li><strong>Few-Shot Text Prototypes:</strong> Compute the normalized Mean of all caption feature vectors within each class to create an aggregated robust prototype.</li>
                 </ul>
 
@@ -401,7 +427,7 @@ df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg
                     <div style="display: flex; flex-direction: column; gap: 15px;">
                         <div class="flow-step" style="border-color: #c678dd; background: rgba(198, 120, 221, 0.1);">
                             <strong style="color: #c678dd;">Encoders</strong>
-                            <span>Image Encoder (ViT)</span>
+                            <span>Image Encoder (ViT/RN)</span>
                             <span style="margin-top: 5px;">Text Transformer</span>
                         </div>
                     </div>
@@ -420,7 +446,7 @@ df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg
 
                 <div class="step-detail">
                     <h4>1. Text Prototype Aggregation (The Few-Shot Core)</h4>
-                    <p>Instead of matching against a single prompt, the model processes <em>all available captions</em> for a class. The text features are normalized, averaged together (Mean Aggregation), and normalized again to form a single, robust <strong>Class Prototype</strong> vector <code>(5, 512)</code>.</p>
+                    <p>Instead of matching against a single zero-shot prompt (<code>"a photo of a {animal}"</code>), the few-shot model processes <em>all available captions</em> for a class. The text features are normalized, averaged together (Mean Aggregation), and normalized again to form a single, robust <strong>Class Prototype</strong> vector <code>(5, 512)</code>.</p>
                 </div>
 
                 <div class="code-container">
@@ -466,52 +492,52 @@ df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg
                         <tbody>
                             <tr class="highlight-row">
                                 <td>ViT-L/14@336px</td>
-                                <td style="color: var(--theme-color); font-weight: bold;">🏆 0.9294</td>
+                                <td style="color: var(--theme-color); font-weight: bold;">🏆 0.929</td>
                                 <td>~427.9M</td>
-                                <td style="color: var(--success); font-weight: bold;">⚡ 8.54 s</td>
+                                <td>39.18 s</td>
                             </tr>
                             <tr>
                                 <td>ViT-L/14</td>
-                                <td>0.9254</td>
+                                <td>0.925</td>
                                 <td>~427.6M</td>
-                                <td>9.72 s</td>
+                                <td>29.65 s</td>
                             </tr>
                             <tr>
                                 <td>RN50x16</td>
-                                <td>0.9192</td>
-                                <td>~290.9M</td>
-                                <td>42.13 s</td>
+                                <td>0.919</td>
+                                <td>~291.0M</td>
+                                <td>34.09 s</td>
                             </tr>
                             <tr>
                                 <td>ViT-B/16</td>
-                                <td>0.9051</td>
+                                <td>0.905</td>
                                 <td>~149.6M</td>
-                                <td>21.68 s</td>
+                                <td>21.79 s</td>
                             </tr>
                             <tr>
                                 <td>RN50x4</td>
-                                <td>0.8991</td>
+                                <td>0.899</td>
                                 <td>~178.3M</td>
-                                <td>28.55 s</td>
+                                <td>26.36 s</td>
                             </tr>
                             <tr>
                                 <td>ViT-B/32</td>
-                                <td>0.8761</td>
-                                <td>~151.2M</td>
-                                <td>32.50 s</td>
+                                <td>0.876</td>
+                                <td>~151.3M</td>
+                                <td style="color: var(--success); font-weight: bold;">⚡ 21.22 s</td>
                             </tr>
                             <tr>
                                 <td>RN50</td>
-                                <td>0.8681</td>
-                                <td>~102.0M</td>
-                                <td>21.30 s</td>
+                                <td>0.868</td>
+                                <td style="color: var(--success); font-weight: bold;">⚡ 102.0M</td>
+                                <td>21.24 s</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
                 <div class="info-box" style="margin-top: 15px; background: #fff3cd; border-left: 4px solid #ffc107; color: #856404;">
-                    <strong>💡 Benchmark Insights:</strong> <code>ViT-L/14@336px</code> emerges as the best performer, achieving the highest accuracy (~92.9%) while surprisingly maintaining the fastest inference time (8.54s) among the tested models, outperforming the heavy ResNet alternatives like <code>RN50x16</code>.
+                    <strong>💡 Benchmark Insights:</strong> <code>ViT-L/14@336px</code> emerges as the best performer, achieving the highest accuracy (~92.9%) with the most time consumption. <code>ViT-B/16</code> also has a really good performance with half the parameters of large models, less time consumption, and the accuracy is only about 2-3% away from them.
                 </div>
 
                 <h3 style="color: var(--primary); margin-top: 40px; margin-bottom: 15px;">CLIP Backbone Benchmarking (Few-Shot & Ensemble)</h3>
@@ -592,46 +618,100 @@ df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg
                 </div>
 
                 <div id="cm-zeroshot" class="tab-content" style="display: block;">
-                    <div class="eda-block" style="justify-content: center; align-items: stretch; background: transparent; border: none; padding: 0;">
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
+                    <div class="cm-grid">
+                        <div class="cm-card">
                             <h4 style="color: var(--theme-color); margin-bottom: 10px;">ViT-L/14@336px</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_zero_vitL.png" alt="Zero-Shot ViT-L CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Zero+ViT-L'">
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_vitL336.png" alt="Zero-Shot ViT-L@336" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
                             </div>
                         </div>
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
-                            <h4 style="color: var(--primary); margin-bottom: 10px;">ViT-B/32</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_zero_vitB.png" alt="Zero-Shot ViT-B CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Zero+ViT-B'">
+                        <div class="cm-card">
+                            <h4 style="color: var(--primary); margin-bottom: 10px;">ViT-L/14</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_vitL14.png" alt="Zero-Shot ViT-L/14" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
                             </div>
                         </div>
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
-                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_zero_rn50.png" alt="Zero-Shot RN50 CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Zero+RN50'">
+                        <div class="cm-card">
+                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50x16</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_rn50x16.png" alt="Zero-Shot RN50x16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #9b59b6; margin-bottom: 10px;">ViT-B/16</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_vitB16.png" alt="Zero-Shot ViT-B/16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #e67e22; margin-bottom: 10px;">RN50x4</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_rn50x4.png" alt="Zero-Shot RN50x4" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #1abc9c; margin-bottom: 10px;">ViT-B/32</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_vitB32.png" alt="Zero-Shot ViT-B/32" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: var(--success); margin-bottom: 10px;">RN50</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_zero_rn50.png" alt="Zero-Shot RN50" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="cm-fewshot" class="tab-content">
-                    <div class="eda-block" style="justify-content: center; align-items: stretch; background: transparent; border: none; padding: 0;">
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
-                            <h4 style="color: var(--success); margin-bottom: 10px;">ViT-L/14@336px</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_vit_l14_few.png" alt="Few-Shot ViT-L CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Few+ViT-L'">
+                    <div class="cm-grid">
+                        <div class="cm-card">
+                            <h4 style="color: var(--theme-color); margin-bottom: 10px;">ViT-L/14@336px</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_vitL336.png" alt="Few-Shot ViT-L@336" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
                             </div>
                         </div>
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
-                            <h4 style="color: #d35400; margin-bottom: 10px;">Ensemble</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_few_ensemble.png" alt="Few-Shot Ensemble CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Few+Ensemble'">
+                        <div class="cm-card">
+                            <h4 style="color: var(--primary); margin-bottom: 10px;">ViT-L/14</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_vitL14.png" alt="Few-Shot ViT-L/14" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
                             </div>
                         </div>
-                        <div style="flex: 1; min-width: 250px; text-align: center; display: flex; flex-direction: column;">
-                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50</h4>
-                            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                                <img src="../images/cm_res_5016_few.png" alt="Few-Shot RN50 CM" style="width: 100%; max-height: 300px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=CM+Few+RN50'">
+                        <div class="cm-card" style="border: 2px solid #f1c40f; border-radius: 10px; padding: 2px;">
+                            <h4 style="color: #d35400; margin-bottom: 10px;">🌟 Ensemble</h4>
+                            <div class="cm-img-container" style="background: #fffcf0;">
+                                <img src="../images/cm_few_ensemble.png" alt="Few-Shot Ensemble" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=Ensemble'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50x16</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_rn50x16.png" alt="Few-Shot RN50x16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #9b59b6; margin-bottom: 10px;">ViT-B/16</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_vitB16.png" alt="Few-Shot ViT-B/16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #e67e22; margin-bottom: 10px;">RN50x4</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_rn50x4.png" alt="Few-Shot RN50x4" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: #1abc9c; margin-bottom: 10px;">ViT-B/32</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_vitB32.png" alt="Few-Shot ViT-B/32" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: var(--success); margin-bottom: 10px;">RN50</h4>
+                            <div class="cm-img-container">
+                                <img src="../images/cm_few_rn50.png" alt="Few-Shot RN50" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
                             </div>
                         </div>
                     </div>
@@ -643,86 +723,43 @@ df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg
         <div class="section">
             <h2 onclick="toggleSection(this)">🔬 06. Error Analysis & Interpretability</h2>
             <div class="section-content">
-                <div class="info-box" style="margin-top: 0;">
-                    To understand where the Zero-Shot model fails, we analyzed the confusion matrix and utilized <strong>Attention Maps</strong> to visualize the areas of the image the Vision Transformer focuses on.
-                </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Common Wrong Predictions</h3>
+                <h3 style="color: var(--primary); margin-top: 10px; margin-bottom: 15px;">Common Wrong Predictions</h3>
+                <p style="color: #555; margin-bottom: 15px;">We reviewed images that were mispredicted by the models. Initially, <strong>ViT-B/32</strong> resulted in 124 mispredicted images. By switching to a more powerful backbone like <strong>RN50x16</strong>, we successfully reduced the errors to just 12 images.</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Cow ➔ Predict: Sheep</li>
-                        <li>True: Sheep ➔ Predict: Cow</li>
+                        <li>True: Cow ➔ Predict: Sheep / Horse</li>
+                        <li>True: Sheep ➔ Predict: Cow / Horse</li>
                     </ul>
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Dog ➔ Predict: Cat</li>
-                        <li>True: Horse ➔ Predict: Dog</li>
+                        <li>True: Dog ➔ Predict: Cat / Cow / Horse</li>
+                        <li>True: Horse ➔ Predict: Cow</li>
                     </ul>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Visual Analysis & Attention Maps</h3>
-                <div class="eda-block" style="justify-content: center;">
-                        <h4 style="color: var(--theme-color); margin-bottom: 10px;">CLIP Misclassifications</h4>
-                        <img src="../images/wrong_clip.png" alt="CLIP Wrong Predictions" style="width: 100%; max-height: 450px; object-fit: contain; border-radius: 8px; border: 1px solid #eee; padding: 5px; background: #fff;" onerror="this.src='https://via.placeholder.com/600x400?text=Attention+Maps+/+Errors'">   
-                </div>
-
-                <div style="background: #fdfdfd; border: 1px solid #eee; border-left: 4px solid var(--primary); padding: 20px; border-radius: 8px; margin-top: 20px;">
-                    <h4 style="margin: 0 0 10px 0; color: var(--primary); text-transform: uppercase;">🔍 Key Observations on Zero-Shot Errors</h4>
-                    <p style="color: #555; margin-bottom: 15px;">Without fine-tuning, CLIP occasionally relies on strong contextual biases rather than the main subject:</p>
-                    
+                <div style="background: #fdfdfd; border: 1px solid #eee; border-left: 4px solid var(--primary); padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 30px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--primary); text-transform: uppercase;">🔍 Error Observations</h4>
+                    <p style="color: #555; margin-bottom: 15px;">Looking at the mispredicted images, we identified several common factors causing confusion:</p>
                     <ul class="interpret-list">
-                        <li>
-                            <div class="interpret-icon">🐄🐑</div>
-                            <div>
-                                <strong>Cow vs. Sheep Confusion</strong>
-                                <span style="color: #666; font-size: 0.9em;">Both animals frequently appear in similar rural contexts (green pastures, fences, farms). CLIP's attention maps often highlight the grassy background rather than the animal itself, leading to misclassification.</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="interpret-icon">🐕🐈</div>
-                            <div>
-                                <strong>Dog vs. Cat Overlap</strong>
-                                <span style="color: #666; font-size: 0.9em;">When photographed from a distance or on typical indoor furniture (like a sofa), the visual features of small dogs and cats heavily overlap in the embedding space.</span>
-                            </div>
-                        </li>
+                        <li><strong>Shape Similarity:</strong> The physical shape of the animal strongly resembles another class.</li>
+                        <li><strong>Size:</strong> The animal is too small in the frame, lacking distinct features.</li>
+                        <li><strong>Camouflage:</strong> The animal is blended into the background.</li>
+                        <li><strong>Dataset Noise:</strong> The image was mislabeled by the original COCO dataset caption.</li>
                     </ul>
                 </div>
 
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 onclick="toggleSection(this)">🛡️ 07. Robustness Evaluation (Noise Data)</h2>
-            <div class="section-content">
-                <p style="color: #555;">To evaluate the resilience of the CLIP architecture, we injected Gaussian noise into the test images prior to computing embeddings:</p>
+                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Interpretability with Grad-CAM</h3>
+                <div class="info-box" style="margin-top: 0; margin-bottom: 20px;">
+                    We used GRAD-cam to visualize what the <strong>RN50x16</strong> model focuses on when making predictions.
+                </div>
                 
-                <div class="code-container">
-<pre><span class="kw">def</span> <span class="func">add_noise</span>(images, <span class="arg">std</span>=<span class="num">0.1</span>):
-    noise = torch.<span class="func">randn_like</span>(images) * std
-    noisy_images = images + noise
-    <span class="kw">return</span> torch.<span class="func">clamp</span>(noisy_images, <span class="num">-1</span>, <span class="num">1</span>)
-</pre>
+                <div class="eda-block" style="justify-content: center;">
+                        <h4 style="color: var(--theme-color); margin-bottom: 10px;">Grad-CAM (RN50x16)</h4>
+                        <img src="../images/gradcam_multimodal.png" alt="Grad-CAM RN50x16" style="width: 100%; max-height: 450px; object-fit: contain; border-radius: 8px; border: 1px solid #eee; padding: 5px; background: #fff;" onerror="this.src='https://via.placeholder.com/600x400?text=Grad-CAM+RN50x16'">   
                 </div>
-
-                <h3 style="color: var(--primary); margin-top: 20px; margin-bottom: 15px;">Performance Drop on Noisy Data</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Method</th>
-                                <th>Clean Acc (%)</th>
-                                <th>Noisy Acc (%)</th>
-                                <th>Drop (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>CLIP Zero-Shot</td><td>83.12</td><td>81.95</td><td style="color: var(--success); font-weight: bold;">-1.17</td></tr>
-                            <tr><td>CLIP Few-Shot</td><td>93.45</td><td>91.88</td><td style="color: var(--success); font-weight: bold;">-1.57</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
+                
                 <div class="insight-box" style="margin-top: 20px;">
-                    <strong>📌 Conclusion:</strong> Pre-trained on massive amounts of varied web data, CLIP demonstrates exceptional robustness. The performance drop is minimal (~1%) even under significant noise, proving the resilience of the Vision Transformer backbone and the contrastive learning approach.
+                    <strong>📌 Insight (Data Mismatch):</strong> In cases like confusing a Horse for a Sheep, the Grad-CAM shows that the most strong activation points are <strong>not focusing on the animal itself</strong>. Instead, the model relies on the grassy background context, highlighting a classic data mismatch problem in contrastive pre-training.
                 </div>
 
             </div>
