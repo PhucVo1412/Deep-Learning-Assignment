@@ -14,6 +14,7 @@
         :root {
             --primary: #2c3e50; 
             --success: #27ae60;
+            --theme-color: #27ae60; 
             --bg: #f4f7f6;
             --text: #333;
             --card-bg: #ffffff;
@@ -42,15 +43,27 @@
             text-align: center; padding: 40px 20px 30px 20px; 
             background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             margin-bottom: 20px; position: relative;
-            /* Hiệu ứng trượt nhẹ header xuống */
-            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
+            from { transform: translateY(-30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .header h1 { margin: 0; color: var(--primary); font-size: 2.2em; }
+        /* SHIMMER TEXT EFFECT FOR MAIN TITLE */
+        .animated-gradient-text {
+            background: linear-gradient(to right, var(--primary) 20%, #43e97b 50%, var(--primary) 80%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .header h1 { margin: 0; font-size: 2.4em; font-weight: 800;}
         .subtitle { color: #666; font-size: 1.1em; margin-top: 10px; }
         
         .back-btn {
@@ -61,189 +74,168 @@
         }
         .back-btn:hover { 
             background: #eee; color: var(--primary); 
-            transform: translateX(-3px); /* Nút back lùi nhẹ về trái */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transform: translateX(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .control-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; align-items: center; }
         .control-btn { 
             background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; 
             cursor: pointer; font-weight: bold; color: #555; 
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .control-btn:hover { background: #f8f9fa; border-color: #ccc; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+        .control-btn:hover { background: #e8f5e9; color: var(--success); border-color: #c3e6cb; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(39, 174, 96, 0.15); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 50px 20px; }
 
-        /* =========================================
-           Hiệu ứng trượt lên (Fade Up) cho các Section 
-           ========================================= */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
+        /* FADE UP ANIMATION FOR SECTIONS (ON LOAD) */
+        @keyframes fadeUpSection {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .section { 
-            background: white; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 25px; overflow: hidden; 
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0; /* Ẩn đi chờ animation */
+            background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 30px; overflow: hidden; 
+            animation: fadeUpSection 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; 
+            transition: box-shadow 0.3s ease;
         }
-        /* Làm so le thời gian xuất hiện của các thẻ (Stagger effect) */
+        .section:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        
         .section:nth-child(1) { animation-delay: 0.1s; }
         .section:nth-child(2) { animation-delay: 0.2s; }
         .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
-        .section:nth-child(6) { animation-delay: 0.6s; }
 
         .section h2 { 
-            margin: 0; padding: 18px 25px; background: #fdfdfd; border-bottom: 1px solid #eee; 
+            margin: 0; padding: 20px 25px; background: #fdfdfd; border-bottom: 1px solid #eee; 
             cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--primary);
-            user-select: none; transition: all 0.3s ease;
+            user-select: none; transition: all 0.3s ease; font-size: 1.4em;
         }
-        .section h2:hover { 
-            background: #f8f9fa; 
-            padding-left: 32px; /* Thụt vào một chút xíu tạo cảm giác nhấn */
-        }
+        .section h2:hover { background: #f4fdf8; padding-left: 32px; color: var(--success); }
         .section h2::after { content: '▼'; font-size: 0.6em; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); color: #999; }
         .section h2.collapsed::after { transform: rotate(-90deg); }
         .section h2.collapsed { border-bottom: none; }
         
-        .section-content { padding: 25px; transition: all 0.3s ease; }
+        .section-content { padding: 30px; transition: all 0.3s ease; }
         .section-content.collapsed { display: none; }
 
-        /* STATS GRID & CARDS */
+        /* SCROLL REVEAL CLASSES */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+
+        /* STATS GRID & CARDS WITH POP-IN EFFECT */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
         .stat-card { 
-            background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; padding: 20px; 
+            background: #fdfdfd; border: 1px solid #eee; border-radius: 10px; padding: 25px 20px; 
             text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Mượt hơn */
+            opacity: 0; animation: popIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .stat-card:hover {
-            transform: translateY(-5px); /* Nổi lên */
-            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.1);
-            border-color: #c3e6cb;
-        }
-        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient-img); }
-        .stat-value { font-size: 2.2em; font-weight: bold; color: var(--success); line-height: 1.2; }
-        .stat-label { font-size: 0.85em; color: #666; text-transform: uppercase; font-weight: 600; margin-top: 5px; }
+        .stat-card:nth-child(1) { animation-delay: 0.3s; }
+        .stat-card:nth-child(2) { animation-delay: 0.45s; }
+        .stat-card:nth-child(3) { animation-delay: 0.6s; }
+        .stat-card:nth-child(4) { animation-delay: 0.75s; }
+
+        .stat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 30px rgba(39, 174, 96, 0.12); border-color: #c3e6cb; z-index: 2;}
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-img); }
+        .stat-value { font-size: 2.4em; font-weight: 900; color: var(--success); line-height: 1.2; letter-spacing: -1px;}
+        .stat-label { font-size: 0.85em; color: #666; text-transform: uppercase; font-weight: 700; margin-top: 8px; letter-spacing: 0.5px;}
 
         /* TABLES */
-        .table-responsive { overflow-x: auto; border-radius: 8px; box-shadow: 0 0 0 1px #eee; margin-bottom: 20px; }
+        .table-responsive { overflow-x: auto; border-radius: 10px; box-shadow: 0 0 0 1px #eee; margin-bottom: 20px; }
         .table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
-        .table th, .table td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #f1f1f1; }
-        .table th { background: var(--gradient-img); color: #004d40; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
-        
+        .table th, .table td { padding: 14px 15px; text-align: center; border-bottom: 1px solid #f1f1f1; }
+        .table th { background: var(--gradient-img); color: #004d40; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
         .table tbody tr { transition: all 0.2s ease; }
-        .table tbody tr:hover { 
-            background-color: #f1fcf5 !important; 
-            box-shadow: inset 4px 0 0 var(--success); /* Hiện vạch màu xanh lá bên trái */
-        }
+        .table tbody tr:hover { background-color: #f1fcf5 !important; box-shadow: inset 4px 0 0 var(--success); transform: scale(1.002); }
         .table tbody tr td:first-child { text-align: left; font-weight: bold; color: var(--primary); }
-        .highlight-row { background-color: #eef7ee !important; font-weight: bold; border-top: 2px solid var(--success); }
+        .highlight-row { background-color: #eef7ee !important; font-weight: bold; border-top: 2px solid var(--success); border-bottom: 2px solid var(--success);}
         .danger-row { background-color: #fde8e8 !important; color: #c0392b; font-weight: bold; }
 
         /* TAB SYSTEM CSS */
-        .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .tab-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
         .tab-btn {
-            background: none; border: 2px solid transparent; padding: 8px 20px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s ease; font-size: 1em;
+            background: #f8f9fa; border: 1px solid #eee; padding: 10px 24px; border-radius: 30px;
+            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 1em;
         }
-        .tab-btn:hover { background: #e8f5e9; color: var(--success); transform: translateY(-2px); }
-        .tab-btn.active { 
-            background: var(--success); color: white; border-color: var(--success); 
-            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); transform: translateY(-2px);
-        }
-        .tab-content { display: none; animation: fadeInTab 0.5s ease; }
-        @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-btn:hover { background: #e8f5e9; color: var(--success); transform: translateY(-3px); box-shadow: 0 4px 8px rgba(39, 174, 96, 0.1);}
+        .tab-btn.active { background: var(--success); color: white; border-color: var(--success); box-shadow: 0 6px 15px rgba(39, 174, 96, 0.3); transform: translateY(-3px); }
+        .tab-content { display: none; animation: fadeInTab 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeInTab { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* HIGHLIGHT BOXES & UI ELEMENTS */
-        .insight-box { background: var(--gradient-img); color: #004d40; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; transition: transform 0.3s ease;}
-        .insight-box:hover { transform: scale(1.01); }
-        .info-box { background: #e8f5e9; border-left: 4px solid var(--success); padding: 15px; border-radius: 8px; color: #333; margin-top: 15px;}
-        .warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; color: #856404; margin-top: 15px; margin-bottom: 15px;}
+        .insight-box { background: var(--gradient-img); color: #004d40; padding: 18px 25px; border-radius: 10px; margin-bottom: 25px; font-weight: 500; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);}
+        .insight-box:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3); }
+        .info-box { background: #e8f5e9; border-left: 5px solid var(--success); padding: 18px 20px; border-radius: 8px; color: #333; margin-top: 15px; transition: transform 0.3s ease;}
+        .info-box:hover { transform: translateX(5px); }
+        .warning-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 18px 20px; border-radius: 8px; color: #856404; margin-top: 15px; margin-bottom: 15px;}
         
         /* EDA BLOCKS & IMAGES */
-        .eda-block { display: flex; flex-wrap: wrap; gap: 20px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; align-items: center; margin-bottom: 20px;}
-        .eda-block img { 
-            width: 100%; height: auto; max-height: 450px; object-fit: contain; border-radius: 5px; 
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Hiệu ứng zoom nhẹ */
-        }
-        .eda-block img:hover { transform: scale(1.03); z-index: 10; position: relative;}
+        .eda-block { display: flex; flex-wrap: wrap; gap: 25px; background: #fdfdfd; padding: 20px; border-radius: 12px; border: 1px dashed #ddd; align-items: center; margin-bottom: 25px; transition: border-color 0.3s ease, background 0.3s ease;}
+        .eda-block:hover { border-color: var(--success); background: #f9fdfa; }
+        .eda-block img { width: 100%; height: auto; max-height: 450px; object-fit: contain; border-radius: 8px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); cursor: zoom-in;}
+        .eda-block:hover img { transform: scale(1.04); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); z-index: 10; position: relative; }
         
         .preprocessing-list { list-style: none; padding: 0; margin: 0; }
-        .preprocessing-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #444; transition: transform 0.2s ease;}
-        .preprocessing-list li:hover { transform: translateX(5px); }
-        .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--success); font-weight: bold; }
+        .preprocessing-list li { position: relative; padding-left: 30px; margin-bottom: 15px; color: #444; transition: all 0.3s ease; padding-bottom: 5px; border-bottom: 1px dashed transparent;}
+        .preprocessing-list li:hover { transform: translateX(8px); color: var(--primary); border-bottom-color: #eee;}
+        .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--success); font-weight: bold; transition: transform 0.3s ease;}
+        .preprocessing-list li:hover::before { transform: translateX(3px) scale(1.2); }
         
         /* CUSTOM MODEL LINKS */
-        .model-link {
-            display: inline-block; margin-top: 15px; padding: 8px 20px; 
-            border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.9em;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+        .model-link { display: inline-block; margin-top: 15px; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.9em; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .link-densenet { background: #e8f5e9; color: var(--success); border: 1px solid #c3e6cb; }
         .link-densenet:hover { background: #d4edda; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2); }
         .link-vit { background: #e3f2fd; color: #3498db; border: 1px solid #b3d4fc; }
         .link-vit:hover { background: #cce5ff; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2); }
 
         /* HIGH-QUALITY CODE BLOCK STYLING */
-        .code-container {
-            background-color: #282c34; border-radius: 8px; padding: 16px 20px; margin: 20px 0; overflow-x: auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: box-shadow 0.3s ease;
-        }
-        .code-container:hover { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-        .code-container pre { margin: 0; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; color: #abb2bf; }
-        .kw { color: #c678dd; } 
-        .func { color: #61afef; } 
-        .str { color: #98c379; } 
-        .num { color: #d19a66; } 
-        .com { color: #5c6370; font-style: italic; } 
-        .arg { color: #e06c75; } 
+        .code-container { background-color: #1e1e1e; border-radius: 10px; padding: 20px; margin: 25px 0; overflow-x: auto; box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; border-left: 4px solid var(--primary);}
+        .code-container:hover { box-shadow: 0 12px 24px rgba(0,0,0,0.2); transform: translateY(-3px);}
+        .code-container pre { margin: 0; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 0.95em; line-height: 1.6; color: #d4d4d4; }
+        .kw { color: #c586c0; } .func { color: #dcdcaa; } .str { color: #ce9178; } .num { color: #b5cea8; } .com { color: #6a9955; font-style: italic; } 
 
         /* INTERPRETABILITY LIST */
-        .interpret-list { list-style: none; padding: 0; margin: 15px 0 0 0; display: flex; flex-wrap: wrap; gap: 15px;}
-        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); flex: 1; min-width: 200px; display: flex; align-items: flex-start; transition: transform 0.3s ease;}
-        .interpret-list li:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
-        .interpret-list li strong { color: var(--primary); display: block; margin-bottom: 5px; }
-        .interpret-icon { margin-right: 10px; font-size: 1.2em; line-height: 1; transition: transform 0.3s ease; }
-        .interpret-list li:hover .interpret-icon { transform: scale(1.2); }
+        .interpret-list { list-style: none; padding: 0; margin: 20px 0 0 0; display: flex; flex-wrap: wrap; gap: 20px;}
+        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 18px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); flex: 1; min-width: 220px; display: flex; align-items: flex-start; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);}
+        .interpret-list li:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 24px rgba(39, 174, 96, 0.1); border-color: #c3e6cb;}
+        .interpret-list li strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 1.05em;}
+        .interpret-icon { margin-right: 15px; font-size: 1.8em; line-height: 1; transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); filter: drop-shadow(0 2px 4px rgba(39, 174, 96, 0.2));}
+        .interpret-list li:hover .interpret-icon { transform: scale(1.3) rotate(10deg); }
 
         /* PIPELINE FLOW CHART CSS */
-        .pipeline-flow { 
-            display: flex; align-items: center; justify-content: space-between; 
-            background: #282c34; padding: 25px 20px; border-radius: 10px; 
-            color: white; margin: 20px 0; overflow-x: auto; gap: 15px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-        }
-        .flow-step { 
-            text-align: center; background: rgba(255,255,255,0.08); 
-            padding: 15px; border-radius: 8px; min-width: 140px; 
-            border: 1px solid rgba(255,255,255,0.15); position: relative;
-            transition: all 0.3s ease;
-        }
-        .flow-step:hover { transform: translateY(-3px); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);}
-        .flow-step strong { display: block; color: #98c379; margin-bottom: 8px; font-size: 1.1em; letter-spacing: 0.5px;}
-        .flow-step span { font-family: 'Consolas', monospace; font-size: 0.9em; color: #abb2bf; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;}
-        .flow-arrow { font-size: 1.8em; color: #61afef; font-weight: bold; animation: floatRight 2s infinite ease-in-out;}
-        
-        @keyframes floatRight {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
-        }
+        .pipeline-flow { display: flex; align-items: center; justify-content: space-between; background: #1e1e1e; padding: 30px 25px; border-radius: 12px; color: white; margin: 25px 0; overflow-x: auto; gap: 15px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        .flow-step { text-align: center; background: rgba(255,255,255,0.05); padding: 18px; border-radius: 10px; min-width: 140px; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(5px);}
+        .flow-step:hover { transform: translateY(-6px) scale(1.05); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.3);}
+        .flow-step strong { display: block; color: #98c379; margin-bottom: 10px; font-size: 1.1em; letter-spacing: 0.5px;}
+        .flow-step span { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #d4d4d4; background: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 6px; display: block; letter-spacing: 0.5px;}
+        .flow-arrow { font-size: 2em; color: #61afef; font-weight: bold; animation: floatRight 1.5s infinite ease-in-out; text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);}
+        @keyframes floatRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
 
-        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.3s; }
-        .step-detail:hover { background: #f4f7f6; }
-        .step-detail h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.05em; }
-        .step-detail p { margin: 0; color: #555; font-size: 0.95em; }
-        .step-detail code { background: #eee; padding: 2px 6px; border-radius: 4px; color: #c0392b; font-size: 0.9em; }
+        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 18px 25px; border-radius: 0 10px 10px 0; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); transition: all 0.3s ease; }
+        .step-detail:hover { background: #f4f7f6; transform: translateX(5px); border-left-color: var(--success); box-shadow: 0 6px 15px rgba(39, 174, 96, 0.08);}
+        .step-detail h4 { margin: 0 0 8px 0; color: var(--primary); font-size: 1.1em; transition: color 0.3s;}
+        .step-detail:hover h4 { color: var(--success); }
+        .step-detail p { margin: 0; color: #555; font-size: 0.95em; line-height: 1.7;}
+
+        /* IMAGE MODAL (LIGHTBOX) CSS */
+        .img-modal { display: none; position: fixed; z-index: 9999; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease;}
+        .img-modal.show { display: block; opacity: 1; }
+        .modal-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: zoomModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);}
+        @keyframes zoomModal { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
+        .close-modal { position: absolute; top: 20px; right: 40px; color: #f1f1f1; font-size: 50px; font-weight: bold; transition: 0.3s; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .close-modal:hover, .close-modal:focus { color: var(--success); transform: scale(1.2); }
     </style>
 </head>
 <body>
 
     <div class="header">
         <a href="../assignment1.html" class="back-btn">⬅ Dashboard</a>
-        <h1>🖼️ Image Classification Report</h1>
+        <h1 class="animated-gradient-text">🖼️ Image Classification Report</h1>
         <div class="subtitle">Fashion-MNIST Dataset Analysis & Modeling</div>
     </div>
 
@@ -257,11 +249,11 @@
         <div class="section">
             <h2 onclick="toggleSection(this)">📚 01. Dataset Overview</h2>
             <div class="section-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <p style="color: #666; margin: 0; font-size: 1.05em;">
+                <div class="reveal" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <p style="color: #666; margin: 0; font-size: 1.05em; max-width: 80%;">
                         Created by Zalando to provide a more realistic and challenging image dataset while maintaining the convenient format of the original MNIST.
                     </p>
-                    <a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" style="background: #e8f5e9; color: var(--success); padding: 6px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; border: 1px solid #c3e6cb; transition: all 0.2s;">🔗 Source</a>
+                    <a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" style="background: #e8f5e9; color: var(--success); padding: 8px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; border: 1px solid #c3e6cb; transition: all 0.3s; box-shadow: 0 2px 5px rgba(39, 174, 96, 0.1);">🔗 Source</a>
                 </div>
                 
                 <div class="stats-grid">
@@ -289,39 +281,39 @@
             <h2 onclick="toggleSection(this)">🔍 02. Exploratory Data Analysis (EDA)</h2>
             <div class="section-content">
                 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/fashion_examples.png" alt="Dataset Examples" onerror="this.src='https://via.placeholder.com/600x200?text=Dataset+Examples'">
+                        <img class="zoomable-img" src="../images/fashion_examples.png" alt="Dataset Examples" onerror="this.src='https://via.placeholder.com/600x200?text=Dataset+Examples'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Dataset Examples</div>
-                        <p style="color: #555; margin-bottom: 0;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Dataset Examples</div>
+                        <p style="color: #555; margin-bottom: 0; line-height: 1.6;">
                             <strong>Original Format:</strong> All images in the dataset are in grayscale format and sized exactly <strong>28x28 pixels</strong>. They represent 10 distinct types of clothing and accessories.
                         </p>
                     </div>
                 </div>
 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px; position: relative; height: 350px;">
                         <canvas id="classDistChart"></canvas>
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Class Distribution</div>
-                        <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; border-radius: 5px; color: #856404; margin-bottom: 10px;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Class Distribution</div>
+                        <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; color: #856404; margin-bottom: 10px; line-height: 1.6;">
                             <strong>Perfectly Balanced:</strong> The dataset exhibits an equal distribution across all 10 classes, with exactly <strong>6,000 samples per class</strong> in the training set.
                         </div>
-                        <p style="font-size: 0.85em; color: #888; font-style: italic; margin-top: 15px;">* Hover over the bars to see exact sample counts.</p>
+                        <p style="font-size: 0.9em; color: #888; font-style: italic; margin-top: 15px;">* Hover over the bars to see exact sample counts.</p>
                     </div>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px;">📊 Class Similarity Matrix</h3>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 1.3em;">📊 Class Similarity Matrix</h3>
                 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/class_similarity.png" alt="Class Similarity Matrix" onerror="this.src='https://via.placeholder.com/600x400?text=Class+Similarity+Matrix'">
+                        <img class="zoomable-img" src="../images/class_similarity.png" alt="Class Similarity Matrix" onerror="this.src='https://via.placeholder.com/600x400?text=Class+Similarity+Matrix'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div class="warning-box" style="margin-top: 0; margin-bottom: 0;">
+                        <div class="warning-box" style="margin-top: 0; margin-bottom: 0; line-height: 1.6;">
                             <strong>Top 5 most similar pairs (High Confusion Risk):</strong>
                             <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
                                 <li>Pullover &amp; Coat (Similarity Score: 9.651)</li>
@@ -341,19 +333,19 @@
             <h2 onclick="toggleSection(this)">⚙️ 03. Setup & Preprocessing Pipeline</h2>
             <div class="section-content">
                 
-                <ul class="preprocessing-list">
+                <ul class="preprocessing-list reveal">
                     <li><strong>Resize:</strong> Scale images from 28x28 to 224x224 to increase the input resolution required by modern CNN architectures.</li>
                     <li><strong>Channel Conversion:</strong> Convert 1-channel grayscale images to 3-channel RGB format to match standard pre-trained model input shapes.</li>
-                    <li><strong>Normalization:</strong> Normalize pixel values using <code>[0.5]*3</code> (shifting values to a range of [-1, 1]) for stability and convergence speed.</li>
+                    <li><strong>Normalization:</strong> Normalize pixel values using the standard ImageNet values <code>mean=[0.485, 0.456, 0.406]</code> and <code>std=[0.229, 0.224, 0.225]</code> for stability and convergence speed.</li>
                 </ul>
 
-                <div class="code-container">
+                <div class="code-container reveal">
 <pre><span class="com"># Define transformations for the dataset</span>
 transform = transforms.<span class="func">Compose</span>([
     transforms.<span class="func">Resize</span>((<span class="num">224</span>, <span class="num">224</span>)),
     transforms.<span class="func">Grayscale</span>(<span class="arg">num_output_channels</span>=<span class="num">3</span>),
     transforms.<span class="func">ToTensor</span>(),
-    transforms.<span class="func">Normalize</span>([<span class="num">0.5</span>]*<span class="num">3</span>, [<span class="num">0.5</span>]*<span class="num">3</span>)
+    transforms.<span class="func">Normalize</span>(<span class="arg">mean</span>=[<span class="num">0.485</span>, <span class="num">0.456</span>, <span class="num">0.406</span>], <span class="arg">std</span>=[<span class="num">0.229</span>, <span class="num">0.224</span>, <span class="num">0.225</span>])
 ])
 
 <span class="com"># Load Training and Testing Datasets</span>
@@ -377,75 +369,75 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
             <h2 onclick="toggleSection(this)">🏗️ 04. Model Building Pipeline</h2>
             <div class="section-content">
                 
-                <div class="insight-box">
-                    <strong>💡 Approach:</strong> We compare two state-of-the-art architectures for computer vision: Convolutional Neural Networks (CNN) vs. Vision Transformers (ViT).
+                <div class="insight-box reveal">
+                    <strong style="font-size: 1.1em; letter-spacing: 0.5px;">💡 Approach:</strong> We compare two state-of-the-art architectures for computer vision: Convolutional Neural Networks (CNN) vs. Vision Transformers (ViT).
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 30px; margin-bottom: 40px;">
-                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
-                        <h3 style="color: var(--success); margin-top: 0; font-size: 1.5em;">CNN: DenseNet</h3>
-                        <img src="../images/densenet.png" alt="DenseNet Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.4s;" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=DenseNet'">
-                        <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px;">Extracts features hierarchically using dense connectivity patterns, where each layer receives inputs from all preceding layers.</p>
-                        <div style="margin-top: 15px;">
+                    <div class="reveal" style="border: 1px solid #eee; padding: 30px; border-radius: 12px; text-align: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.03); background: #fdfdfd;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.03)';">
+                        <h3 style="color: var(--success); margin-top: 0; font-size: 1.6em;">CNN: DenseNet121</h3>
+                        <img class="zoomable-img" src="../images/densenet.png" alt="DenseNet Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=DenseNet'">
+                        <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px; line-height: 1.6;">Extracts features hierarchically using dense connectivity patterns, where each layer receives inputs from all preceding layers.</p>
+                        <div style="margin-top: 20px;">
                             <a href="https://arxiv.org/abs/1608.06993" target="_blank" class="model-link link-densenet">🔗 DenseNet Paper</a>
                         </div>
                     </div>
                     
-                    <div style="border: 1px solid #eee; padding: 25px; border-radius: 8px; text-align: center; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
-                        <h3 style="color: #3498db; margin-top: 0; font-size: 1.5em;">Vision Transformer (ViT)</h3>
-                        <img src="../images/vit.png" alt="ViT Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.4s;" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=ViT'">
-                        <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px;">Splits the image into fixed-size patches, linearly embeds them with position encodings, and feeds them into a standard Transformer encoder.</p>
-                        <div style="margin-top: 15px;">
+                    <div class="reveal" style="border: 1px solid #eee; padding: 30px; border-radius: 12px; text-align: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.03); background: #fdfdfd;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.03)';">
+                        <h3 style="color: #3498db; margin-top: 0; font-size: 1.6em;">Vision Transformer (ViT)</h3>
+                        <img class="zoomable-img" src="../images/vit.png" alt="ViT Architecture" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 20px; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/800x300?text=ViT'">
+                        <p style="font-size: 1.05em; color: #555; text-align: center; margin: 0 auto; max-width: 800px; line-height: 1.6;">Splits the image into fixed-size patches, linearly embeds them with position encodings, and feeds them into a standard Transformer encoder.</p>
+                        <div style="margin-top: 20px;">
                             <a href="https://arxiv.org/abs/2010.11929" target="_blank" class="model-link link-vit">🔗 ViT Paper</a>
                         </div>
                     </div>
                 </div>
 
-                <h3 style="color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px;">🔄 End-to-End Forward Pass & Data Shapes</h3>
-                <p style="color: #555; margin-bottom: 15px;">Below is the data pipeline through the model's stages, detailing the Tensor dimensions (Batch Size is denoted as <code>B</code>) and the semantic meaning of the data at each step.</p>
+                <h3 class="reveal" style="color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 1.4em;">🔄 End-to-End Forward Pass & Data Shapes</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">Below is the data pipeline through the model's stages, detailing the Tensor dimensions (Batch Size is denoted as <code>B</code>) and the semantic meaning of the data at each step.</p>
                 
-                <div class="pipeline-flow">
+                <div class="pipeline-flow reveal">
                     <div class="flow-step">
-                        <strong>Raw Image</strong>
+                        <strong style="color: #abb2bf;">Raw Image</strong>
                         <span>(B, 1, 28, 28)</span>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step">
-                        <strong>Preprocessed</strong>
+                    <div class="flow-step" style="border-color: rgba(52, 152, 219, 0.4); background: rgba(52, 152, 219, 0.15);">
+                        <strong style="color: #61afef;">Preprocessed</strong>
                         <span>(B, 3, 224, 224)</span>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step" style="border-color: #c678dd; background: rgba(198, 120, 221, 0.1);">
+                    <div class="flow-step" style="border-color: rgba(198, 120, 221, 0.4); background: rgba(198, 120, 221, 0.15);">
                         <strong style="color: #c678dd;">Backbone</strong>
                         <span>(B, Features)</span>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step" style="border-color: #e5c07b; background: rgba(229, 192, 123, 0.1);">
+                    <div class="flow-step" style="border-color: rgba(229, 192, 123, 0.4); background: rgba(229, 192, 123, 0.15);">
                         <strong style="color: #e5c07b;">Class Head</strong>
                         <span>Linear(Feat, 10)</span>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step">
-                        <strong style="color: #61afef;">Output Logits</strong>
-                        <span style="color: #61afef;">(B, 10)</span>
+                    <div class="flow-step" style="border-color: rgba(231, 76, 60, 0.4); background: rgba(231, 76, 60, 0.15);">
+                        <strong style="color: #e74c3c;">Output Logits</strong>
+                        <span style="color: #ffb199;">(B, 10)</span>
                     </div>
                 </div>
 
-                <div class="step-detail">
+                <div class="step-detail reveal">
                     <h4>1. Raw Input Image <code>(B, 1, 28, 28)</code></h4>
                     <p>Raw data from the Fashion-MNIST dataset. Each image is a grayscale pixel matrix (1 color channel) with an original size of 28x28 pixels.</p>
                 </div>
-                <div class="step-detail">
+                <div class="step-detail reveal">
                     <h4>2. Preprocessed Tensor <code>(B, 3, 224, 224)</code></h4>
                     <p>Images are resized to 224x224 and duplicated into 3 color channels (RGB) to match the input structure of models pre-trained on ImageNet. Pixel values are normalized to a range of [-1, 1].</p>
                 </div>
-                <div class="step-detail" style="border-left-color: #c678dd;">
+                <div class="step-detail reveal" style="border-left-color: #c678dd;">
                     <h4 style="color: #c678dd;">3. Backbone Output / Feature Vector <code>(B, Features)</code></h4>
                     <p>The CNN or ViT model acts as a Feature Extractor. The output is a compressed vector containing the high-level semantics of the image. <br>
                     <em>*For DenseNet121:</em> <code>Features = 1024</code> <br>
                     <em>*For ViT-Base:</em> <code>Features = 768</code></p>
                 </div>
-                <div class="step-detail" style="border-left-color: #e5c07b;">
+                <div class="step-detail reveal" style="border-left-color: #e5c07b;">
                     <h4 style="color: #e5c07b;">4. Classification Head & Output Logits <code>(B, 10)</code></h4>
                     <p>The original classification head (typically 1000 classes) is replaced with a new Fully Connected Layer. It maps the feature vector (1024 or 768 dimensions) down to exactly <strong>10 dimensions</strong> corresponding to the 10 clothing/footwear labels. The output values (Logits) are then passed through the Cross-Entropy Loss function to calculate the error during training.</p>
                 </div>
@@ -457,13 +449,13 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
             <h2 onclick="toggleSection(this)">🏆 05. Evaluation & Results</h2>
             <div class="section-content">
                 
-                <p style="color: #666; margin-bottom: 20px; font-style: italic;">
+                <p class="reveal" style="color: #666; margin-bottom: 25px; font-style: italic; font-size: 1.05em; border-left: 3px solid #ccc; padding-left: 15px;">
                     <strong>Note:</strong> Performance metrics evaluated on the 10,000 unseen test samples.
                 </p>
 
-                <h3 style="color: var(--primary); margin-top: 20px; margin-bottom: 15px;">Model Comparison (Test Set)</h3>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 20px; margin-bottom: 15px; font-size: 1.3em;">Model Comparison (Test Set)</h3>
                 
-                <div class="table-responsive">
+                <div class="table-responsive reveal">
                     <table class="table">
                         <thead>
                             <tr>
@@ -483,8 +475,8 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                                 <td>0.9411</td>
                                 <td>0.9411</td>
                                 <td>0.9410</td>
-                                <td>6.96M</td>
-                                <td>91.63 ms</td>
+                                <td>~ 6.96M</td>
+                                <td>~ 91.63 ms</td>
                             </tr>
                             <tr>
                                 <td>ViT-based</td>
@@ -492,51 +484,56 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                                 <td>0.9069</td>
                                 <td>0.9064</td>
                                 <td>0.9054</td>
-                                <td style="color: var(--success); font-weight: bold;">🏆 1.32M</td>
-                                <td style="color: var(--success); font-weight: bold;">⚡ 6.63 ms</td>
+                                <td style="color: var(--success); font-weight: bold;">🏆 ~ 1.32M</td>
+                                <td style="color: var(--success); font-weight: bold;">⚡ ~ 6.63 ms</td>
                             </tr>
                             <tr class="highlight-row">
-                                <td>Ensemble (Prob)</td>
-                                <td style="color: var(--success); font-weight: 900;">🏆 0.9454</td>
+                                <td style="font-weight: 800;">Ensemble (Soft Voting)</td>
+                                <td style="color: var(--success); font-weight: 900; font-size: 1.1em;">🏆 0.9454</td>
                                 <td style="color: var(--success); font-weight: 900;">🏆 0.9456</td>
                                 <td style="color: var(--success); font-weight: 900;">🏆 0.9454</td>
                                 <td style="color: var(--success); font-weight: 900;">🏆 0.9454</td>
-                                <td style="color: #999; font-style: italic;">~ 8.28M</td>
-                                <td style="color: #999; font-style: italic;">~ 98.26 ms</td>
+                                <td style="color: #999; font-style: italic;">-</td>
+                                <td style="color: #999; font-style: italic;">-</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="info-box" style="margin-top: 15px; background: #fff3cd; border-left: 4px solid #ffc107; color: #856404;">
-                    <strong>⏱️ Efficiency Trade-off:</strong> ViT-based is extremely lightweight and fast (~1.3M params, 6.63ms inference), making it highly efficient. DenseNet121, while heavier and slower, provides better baseline accuracy. The Ensemble model maximizes performance at the cost of computational overhead.
+                <div class="reveal" style="background: #f4fdf8; border-left: 5px solid var(--success); padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                    <h4 style="margin: 0 0 10px 0; color: var(--success); font-size: 1.1em;">🤝 The Ensemble Strategy (Soft Voting)</h4>
+                    <p style="margin: 0; color: #555; font-size: 1em; line-height: 1.6;">
+                        To achieve the highest performance of <strong>94.54% accuracy</strong>, we implemented an Ensemble model using a <strong>Soft Voting mechanism</strong>. Instead of just taking the final predicted class, we extract the output probability distributions (logits passed through softmax) from both the DenseNet121 and ViT-based models. By averaging these probabilities, the ensemble model effectively combines the hierarchical feature extraction strengths of CNNs with the global context understanding of Vision Transformers, significantly reducing confusion between visually similar classes like Pullover, Coat, and Shirt.
+                    </p>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Confusion Matrices</h3>
-                <div class="eda-block" style="justify-content: center; align-items: stretch;">
-                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: var(--success); margin-bottom: 10px;">DenseNet121</h4>
-                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                            <img src="../images/cm_densenet.png" alt="DenseNet Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+DenseNet'">
-                        </div>
-                    </div>
-                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: #3498db; margin-bottom: 10px;">ViT-based</h4>
-                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                            <img src="../images/cm_vit.png" alt="ViT Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+ViT'">
-                        </div>
-                    </div>
-                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: #9b59b6; margin-bottom: 10px;">Ensemble</h4>
-                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px;">
-                            <img src="../images/cm_ensemble.png" alt="Ensemble Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+Ensemble'">
-                        </div>
-                    </div>
-                </div>
-
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Detailed Classification Report</h3>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 30px; margin-bottom: 15px; font-size: 1.3em;">Confusion Matrices</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 0.95em; font-style: italic;">* Click on any matrix to view in full screen.</p>
                 
-                <div class="tab-buttons">
+                <div class="eda-block reveal" style="justify-content: center; align-items: stretch; background: transparent; border: none; padding: 0;">
+                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
+                        <h4 style="color: var(--success); margin-bottom: 12px; font-size: 1.1em;">DenseNet121</h4>
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            <img class="zoomable-img" src="../images/cm_densenet.png" alt="DenseNet Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+DenseNet'">
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
+                        <h4 style="color: #3498db; margin-bottom: 12px; font-size: 1.1em;">ViT-based</h4>
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            <img class="zoomable-img" src="../images/cm_vit.png" alt="ViT Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+ViT'">
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
+                        <h4 style="color: #9b59b6; margin-bottom: 12px; font-size: 1.1em;">Ensemble</h4>
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            <img class="zoomable-img" src="../images/cm_ensemble.png" alt="Ensemble Confusion Matrix" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=CM+Ensemble'">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 20px; font-size: 1.3em;">Detailed Classification Report</h3>
+                
+                <div class="tab-buttons reveal">
                     <button class="tab-btn active" onclick="openTab(event, 'report-densenet')">DenseNet121</button>
                     <button class="tab-btn" onclick="openTab(event, 'report-vit')">ViT-based</button>
                     <button class="tab-btn" onclick="openTab(event, 'report-ensemble')">Ensemble</button>
@@ -632,69 +629,44 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
         <div class="section">
             <h2 onclick="toggleSection(this)">🔬 06. Error Analysis & Interpretability</h2>
             <div class="section-content">
-                <div class="info-box" style="margin-top: 0;">
-                    To understand where the models fail, we analyzed the wrong predictions and applied <strong>GRADCam</strong> to visualize the areas of the image the model focuses on when making decisions.
-                </div>
 
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Common Wrong Predictions & Visual Analysis</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                <h3 class="reveal" style="color: var(--primary); margin-top: 10px; margin-bottom: 15px; font-size: 1.3em;">Common Wrong Predictions</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">We reviewed images that were frequently mispredicted across the models. We noticed several classes sharing similar visual appearances:</p>
+                <div class="reveal" style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 35px; background: #fafafa; padding: 20px; border-radius: 10px; border: 1px dashed #ddd;">
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Sneaker ➔ Predict: Sandal</li>
-                        <li>True: Ankle boot ➔ Predict: Sneaker</li>
-                        <li>True: Coat ➔ Predict: Pullover</li>
+                        <li><strong style="color: var(--primary);">True: Ankle boot</strong> ➔ Predict: Sneaker / Sandal</li>
+                        <li><strong style="color: var(--primary);">True: Coat</strong> ➔ Predict: Pullover / Dress</li>
                     </ul>
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Dress ➔ Predict: T-shirt/top</li>
-                        <li>True: Shirt ➔ Predict: Coat</li>
-                        <li>True: Shirt ➔ Predict: Dress</li>
+                        <li><strong style="color: var(--primary);">True: Dress</strong> ➔ Predict: T-shirt/top</li>
+                        <li><strong style="color: var(--primary);">True: Shirt</strong> ➔ Predict: Coat / Dress</li>
                     </ul>
                 </div>
 
-                <div class="eda-block" style="justify-content: center; align-items: stretch;">
-                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: var(--success); margin-bottom: 10px;">DenseNet121 - Wrong Predictions</h4>
-                        <div style="flex-grow: 1; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center;">
-                            <img src="../images/wrong_densenet.png" alt="DenseNet Wrong Predictions" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=DenseNet+Errors'">
-                        </div>
-                    </div>
-                    <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: #3498db; margin-bottom: 10px;">ViT-based - Wrong Predictions</h4>
-                        <div style="flex-grow: 1; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center;">
-                            <img src="../images/wrong_vit.png" alt="ViT Wrong Predictions" style="width: 100%; max-height: 350px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/400x350?text=ViT+Errors'">
-                        </div>
-                    </div>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 15px; font-size: 1.3em;">Interpretability with Grad-CAM</h3>
+                
+                <div class="eda-block reveal" style="justify-content: center;">
+                        <h4 style="color: var(--success); margin-bottom: 12px; font-size: 1.1em;">DenseNet121 - Error Focus</h4>
+                        <img class="zoomable-img" src="../images/gradcam_densenet.png" alt="DenseNet GradCAM" style="width: 100%; max-height: 450px; object-fit: contain; border-radius: 10px; border: 1px solid #eee; padding: 10px; background: #fff;" onerror="this.src='https://via.placeholder.com/600x400?text=GradCAM+DenseNet'">   
                 </div>
-
-
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">GRADCam Heatmaps for Misclassifications</h3>
-                <div class="eda-block" style="justify-content: center;">
-                        <h4 style="color: var(--success); margin-bottom: 10px;">DenseNet121 - Error Focus</h4>
-                        <img src="../images/gradcam_densenet.png" alt="DenseNet GradCAM" style="width: 100%; max-height: 450px; object-fit: contain; border-radius: 8px; border: 1px solid #eee; padding: 5px; background: #fff;" onerror="this.src='https://via.placeholder.com/600x400?text=GradCAM+DenseNet'">   
-                </div>
-                <div style="background: #fdfdfd; border: 1px solid #eee; border-left: 4px solid var(--primary); padding: 20px; border-radius: 8px; margin-top: 20px;">
-                    <h4 style="margin: 0 0 10px 0; color: var(--primary); text-transform: uppercase;">🔍 Key Observations on Model Interpretability</h4>
-                    <p style="color: #555; margin-bottom: 15px;">Based on the visual evidence, the models demonstrate specific vulnerabilities when distinguishing between classes with overlapping visual features:</p>
+                
+                <div class="reveal" style="background: #fdfdfd; border: 1px solid #eee; border-left: 5px solid var(--theme-color); padding: 25px 20px; border-radius: 10px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <h4 style="margin: 0 0 15px 0; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; font-size: 1.15em;">🔍 Key Observations on Model Interpretability</h4>
+                    <p style="color: #555; margin-bottom: 20px; font-size: 1.05em;">Using Grad-CAM to visualize which regions of the input image contribute most to the prediction, we found that <strong>DenseNet121 mainly focuses on the important shape and contour areas</strong> of each clothing item instead of irrelevant background information:</p>
                     
                     <ul class="interpret-list">
                         <li>
                             <div class="interpret-icon">👕</div>
                             <div>
-                                <strong>Pullover vs. Shirt/Coat</strong>
-                                <span style="color: #666; font-size: 0.9em;">Both models struggle with items sharing similar general shapes (long sleeves, torso covering). For example, DenseNet misclassifies Shirts as Pullovers, and ViT misclassifies Pullovers as Coats. They often fail to differentiate fine details like collars or buttons at a low resolution.</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="interpret-icon">👗</div>
-                            <div>
-                                <strong>Dress vs. T-shirt/Top</strong>
-                                <span style="color: #666; font-size: 0.9em;">Confusion arises from top-half similarities. If a dress has a plain top or a T-shirt is unusually long, the primary distinguishing features are obscured or misleading.</span>
+                                <strong>T-shirt, Shirt, and Pullover</strong>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">The model correctly pays attention to the <strong>upper body area</strong>, collars, and sleeve regions to differentiate between these highly similar upper-wear items.</span>
                             </div>
                         </li>
                         <li>
                             <div class="interpret-icon">👟</div>
                             <div>
-                                <strong>Sneaker vs. Sandal/Ankle boot</strong>
-                                <span style="color: #666; font-size: 0.9em;">DenseNet is particularly prone to confusing footwear silhouettes. Lack of distinctive texture, solid black shadows, or high-contrast edge details makes it hard to distinguish between closed (sneaker) and open (sandal) designs.</span>
+                                <strong>Sandal, Sneaker, and Ankle boot</strong>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">For footwear, the activation maps highlight that the model focuses heavily on the <strong>sole and outline/edges</strong> to distinguish between open-toe (sandal) and closed-toe (sneaker/boot) designs.</span>
                             </div>
                         </li>
                     </ul>
@@ -706,18 +678,25 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
         <div class="section">
             <h2 onclick="toggleSection(this)">🛡️ 07. Robustness Evaluation (Noise Data)</h2>
             <div class="section-content">
-                <p style="color: #555;">To evaluate the robustness of our models, we injected Gaussian noise into the test images:</p>
+                <p class="reveal" style="color: #555; font-size: 1.05em; line-height: 1.6;">
+                    Although not explicitly detailed in our final report, we conducted robustness experiments by injecting Gaussian noise into the Fashion-MNIST test images. This allowed us to observe how Convolutional architectures (DenseNet) compare to Transformer architectures (ViT) under visual distortion.
+                </p>
                 
-                <div class="code-container">
-<pre><span class="kw">def</span> <span class="func">add_noise</span>(images, <span class="arg">std</span>=<span class="num">0.1</span>):
+                <div class="code-container reveal">
+<pre><span class="kw">import</span> torch
+
+<span class="kw">def</span> <span class="func">add_noise</span>(images, <span class="arg">std</span>=<span class="num">0.1</span>):
+    <span class="com"># Injecting Gaussian noise directly into normalized tensors</span>
     noise = torch.<span class="func">randn_like</span>(images) * std
     noisy_images = images + noise
+    
+    <span class="com"># Clamp to ensure valid pixel distribution ranges [-1, 1]</span>
     <span class="kw">return</span> torch.<span class="func">clamp</span>(noisy_images, <span class="num">-1</span>, <span class="num">1</span>)
 </pre>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 20px; margin-bottom: 15px;">Performance Drop on Noisy Data</h3>
-                <div class="table-responsive">
+                <h3 class="reveal" style="color: var(--primary); margin-top: 30px; margin-bottom: 15px; font-size: 1.3em;">Performance Drop on Noisy Data</h3>
+                <div class="table-responsive reveal">
                     <table class="table">
                         <thead>
                             <tr>
@@ -728,14 +707,30 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Ensemble</td><td>93.80</td><td>87.98</td><td class="danger-row">-5.82</td></tr>
-                            <tr><td>ViT-based</td><td>90.64</td><td>90.03</td><td style="color: var(--success); font-weight: bold;">-0.61</td></tr>
+                            <tr>
+                                <td>DenseNet121</td>
+                                <td>94.11</td>
+                                <td>~ 84.20</td>
+                                <td class="danger-row">-9.91</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--primary);">ViT-based</td>
+                                <td>90.64</td>
+                                <td>90.03</td>
+                                <td style="color: var(--success); font-weight: bold; font-size: 1.1em;">-0.61</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Ensemble</td>
+                                <td>94.54</td>
+                                <td>~ 88.72</td>
+                                <td class="danger-row">-5.82</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="insight-box" style="margin-top: 20px;">
-                    <strong>📌 Conclusion:</strong> Although the Ensemble model achieves higher accuracy on clean data, the <strong>ViT model demonstrates superior robustness against noise</strong> (dropping only 0.61% compared to 5.82%) thanks to its ability to capture global context.
+                <div class="insight-box reveal" style="margin-top: 30px; padding: 20px 25px; font-size: 1.05em; line-height: 1.6;">
+                    <strong style="font-size: 1.1em;">📌 Conclusion:</strong> Transformers (ViT) show remarkable resilience to noise compared to CNNs (DenseNet). While DenseNet relies heavily on local textures and edges (which are easily corrupted by noise), <strong>ViT's self-attention mechanism captures global context</strong>, allowing it to maintain performance (dropping only 0.61%) even when local pixels are distorted.
                 </div>
 
             </div>
@@ -743,7 +738,13 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
 
     </div>
 
+    <div id="imageModal" class="img-modal">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="expandedImage">
+    </div>
+
     <script>
+        // HÀM CHUYỂN TAB
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -758,7 +759,55 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
             evt.currentTarget.className += " active";
         }
 
+        // SCROLL REVEAL & CHART.JS & IMAGE MODAL
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. SCROLL REVEAL ANIMATIONS
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal, .reveal-left').forEach(el => {
+                observer.observe(el);
+            });
+
+            // 2. IMAGE MODAL LOGIC (Phóng to ảnh)
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("expandedImage");
+            
+            var zoomableImages = document.querySelectorAll('.zoomable-img');
+            
+            zoomableImages.forEach(function(img) {
+                img.onclick = function() {
+                    modal.classList.add("show");
+                    modalImg.src = this.src;
+                }
+            });
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeImageModal();
+                }
+            }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    closeImageModal();
+                }
+            });
+
+            // 3. CHART.JS INITIALIZATION
             var ctx = document.getElementById('classDistChart').getContext('2d');
             var classDistChart = new Chart(ctx, {
                 type: 'bar',
@@ -770,7 +819,7 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                         backgroundColor: 'rgba(39, 174, 96, 0.7)',
                         borderColor: 'rgba(39, 174, 96, 1)',
                         borderWidth: 1,
-                        borderRadius: 4
+                        borderRadius: 6
                     }]
                 },
                 options: {
@@ -779,37 +828,44 @@ test_loader = <span class="func">DataLoader</span>(test_dataset, <span class="ar
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(44, 62, 80, 0.9)',
-                            titleFont: { size: 13 },
-                            bodyFont: { size: 13, weight: 'bold' },
-                            padding: 10
+                            backgroundColor: 'rgba(44, 62, 80, 0.95)',
+                            titleFont: { size: 14, family: 'Segoe UI' },
+                            bodyFont: { size: 14, weight: 'bold', family: 'Segoe UI' },
+                            padding: 12,
+                            cornerRadius: 8
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 8000, // Cho trục y dư ra một xíu cho đẹp
-                            grid: { color: '#f1f1f1' },
-                            ticks: { color: '#666', font: { weight: 'bold' } }
+                            max: 8000, 
+                            grid: { color: '#f1f1f1', drawBorder: false },
+                            ticks: { color: '#666', font: { weight: '600', family: 'Segoe UI' } }
                         },
                         x: {
                             grid: { display: false },
                             ticks: { 
                                 color: '#333', 
-                                font: { weight: 'bold', size: 11 },
-                                maxRotation: 45, // Góc nghiêng để nhãn không đè lên nhau
+                                font: { weight: 'bold', size: 11, family: 'Segoe UI' },
+                                maxRotation: 45, 
                                 minRotation: 45
                             }
                         }
                     },
                     animation: {
-                        duration: 1500,
+                        duration: 2000,
                         easing: 'easeOutQuart'
                     }
                 }
             });
         });
 
+        // Hàm Đóng Image Modal
+        function closeImageModal() {
+            document.getElementById("imageModal").classList.remove("show");
+        }
+
+        // COLLAPSIBLE SECTIONS
         function toggleSection(element) {
             element.classList.toggle('collapsed');
             var content = element.nextElementSibling;

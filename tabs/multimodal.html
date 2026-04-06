@@ -13,7 +13,7 @@
            ========================================= */
         :root {
             --primary: #2c3e50; 
-            --theme-color: #e74c3c; /* Màu chủ đạo: Đỏ/Cam */
+            --theme-color: #e74c3c; 
             --success: #27ae60;
             --bg: #f4f7f6;
             --text: #333;
@@ -40,14 +40,24 @@
             text-align: center; padding: 40px 20px 30px 20px; 
             background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             margin-bottom: 20px; position: relative;
-            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
+            from { transform: translateY(-30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .header h1 { margin: 0; color: var(--primary); font-size: 2.2em; }
+        .animated-gradient-text {
+            background: linear-gradient(to right, var(--primary) 20%, var(--theme-color) 50%, var(--primary) 80%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .header h1 { margin: 0; font-size: 2.4em; font-weight: 800;}
         .subtitle { color: #666; font-size: 1.1em; margin-top: 10px; }
         
         .back-btn {
@@ -58,142 +68,217 @@
         }
         .back-btn:hover { 
             background: #eee; color: var(--primary); 
-            transform: translateX(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transform: translateX(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .control-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; align-items: center; }
         .control-btn { 
             background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; 
             cursor: pointer; font-weight: bold; color: #555; 
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .control-btn:hover { background: #fdf3f4; color: var(--theme-color); border-color: #f5c6cb; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(231, 76, 60, 0.1); }
+        .control-btn:hover { background: #fdf3f4; color: var(--theme-color); border-color: #f5c6cb; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(231, 76, 60, 0.15); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 50px 20px; }
 
-        /* FADE UP ANIMATION */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
+        /* FADE UP ANIMATION FOR SECTIONS */
+        @keyframes fadeUpSection {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .section { 
-            background: white; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 25px; overflow: hidden; 
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; 
+            background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 30px; overflow: hidden; 
+            animation: fadeUpSection 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; 
+            transition: box-shadow 0.3s ease;
         }
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        
+        .section:nth-child(1) { animation-delay: 0.1s; } .section:nth-child(2) { animation-delay: 0.2s; }
         .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
-        .section:nth-child(6) { animation-delay: 0.6s; }
 
         .section h2 { 
-            margin: 0; padding: 18px 25px; background: #fdfdfd; border-bottom: 1px solid #eee; 
+            margin: 0; padding: 20px 25px; background: #fdfdfd; border-bottom: 1px solid #eee; 
             cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--primary);
-            user-select: none; transition: all 0.3s ease;
+            user-select: none; transition: all 0.3s ease; font-size: 1.4em;
         }
-        .section h2:hover { background: #fcfaf9; padding-left: 32px; }
+        .section h2:hover { background: #fffaf9; padding-left: 32px; color: var(--theme-color); }
         .section h2::after { content: '▼'; font-size: 0.6em; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); color: #999; }
         .section h2.collapsed::after { transform: rotate(-90deg); }
         .section h2.collapsed { border-bottom: none; }
         
-        .section-content { padding: 25px; transition: all 0.3s ease; }
+        .section-content { padding: 30px; transition: all 0.3s ease; }
         .section-content.collapsed { display: none; }
+
+        /* SCROLL REVEAL CLASSES */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* STATS GRID & CARDS */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.85) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         .stat-card { 
-            background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; padding: 20px; 
+            background: #fdfdfd; border: 1px solid #eee; border-radius: 10px; padding: 25px 20px; 
             text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0; animation: popIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(231, 76, 60, 0.1); border-color: #f5c6cb; }
-        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient-multi); }
-        .stat-value { font-size: 2.2em; font-weight: bold; color: var(--theme-color); line-height: 1.2; }
-        .stat-label { font-size: 0.85em; color: #666; text-transform: uppercase; font-weight: 600; margin-top: 5px; }
+        .stat-card:nth-child(1) { animation-delay: 0.3s; } .stat-card:nth-child(2) { animation-delay: 0.45s; }
+        .stat-card:nth-child(3) { animation-delay: 0.6s; } .stat-card:nth-child(4) { animation-delay: 0.75s; }
+        .stat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 30px rgba(231, 76, 60, 0.12); border-color: #f5c6cb; z-index: 2;}
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-multi); }
+        .stat-value { font-size: 2.4em; font-weight: 900; color: var(--theme-color); line-height: 1.2; letter-spacing: -1px;}
+        .stat-label { font-size: 0.85em; color: #666; text-transform: uppercase; font-weight: 700; margin-top: 8px; letter-spacing: 0.5px;}
 
         /* TABLES */
-        .table-responsive { overflow-x: auto; border-radius: 8px; box-shadow: 0 0 0 1px #eee; margin-bottom: 20px; }
+        .table-responsive { overflow-x: auto; border-radius: 10px; box-shadow: 0 0 0 1px #eee; margin-bottom: 20px; }
         .table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
-        .table th, .table td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #f1f1f1; }
-        .table th { background: var(--gradient-multi); color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+        .table th, .table td { padding: 14px 15px; text-align: center; border-bottom: 1px solid #f1f1f1; }
+        .table th { background: var(--gradient-multi); color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
         .table tbody tr { transition: all 0.2s ease; }
-        .table tbody tr:hover { background-color: #fef8f8 !important; box-shadow: inset 4px 0 0 var(--theme-color); }
+        .table tbody tr:hover { background-color: #fef8f8 !important; box-shadow: inset 4px 0 0 var(--theme-color); transform: scale(1.002); }
         .table tbody tr td:first-child { text-align: left; font-weight: bold; color: var(--primary); }
-        .highlight-row { background-color: #fdf3f4 !important; font-weight: bold; border-top: 2px solid var(--theme-color); }
+        .highlight-row { background-color: #fdf3f4 !important; font-weight: bold; border-top: 2px solid var(--theme-color); border-bottom: 2px solid var(--theme-color);}
 
         /* TAB SYSTEM CSS */
-        .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .tab-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
         .tab-btn {
-            background: none; border: 2px solid transparent; padding: 8px 20px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s ease; font-size: 1em;
+            background: #f8f9fa; border: 1px solid #eee; padding: 10px 24px; border-radius: 30px;
+            cursor: pointer; font-weight: bold; color: #666; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 1em;
         }
-        .tab-btn:hover { background: #fdf3f4; color: var(--theme-color); transform: translateY(-2px); }
-        .tab-btn.active { background: var(--theme-color); color: white; border-color: var(--theme-color); box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); transform: translateY(-2px); }
-        .tab-content { display: none; animation: fadeInTab 0.5s ease; }
-        @keyframes fadeInTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-btn:hover { background: #fdf3f4; color: var(--theme-color); transform: translateY(-3px); box-shadow: 0 4px 8px rgba(231, 76, 60, 0.1);}
+        .tab-btn.active { background: var(--theme-color); color: white; border-color: var(--theme-color); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3); transform: translateY(-3px); }
+        .tab-content { display: none; animation: fadeInTab 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeInTab { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* HIGHLIGHT BOXES & UI ELEMENTS */
-        .insight-box { background: var(--gradient-multi); color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; transition: transform 0.3s ease;}
-        .insight-box:hover { transform: scale(1.01); }
-        .info-box { background: #fdf3f4; border-left: 4px solid var(--theme-color); padding: 15px; border-radius: 8px; color: #333; margin-top: 15px;}
+        .insight-box { background: var(--gradient-multi); color: white; padding: 18px 25px; border-radius: 10px; margin-bottom: 25px; font-weight: 500; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);}
+        .insight-box:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3); }
+        .info-box { background: #fdf3f4; border-left: 5px solid var(--theme-color); padding: 18px 20px; border-radius: 8px; color: #333; margin-top: 15px; transition: transform 0.3s ease;}
+        .info-box:hover { transform: translateX(5px); }
         
         /* EDA BLOCKS & IMAGES */
-        .eda-block { display: flex; flex-wrap: wrap; gap: 20px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; align-items: center; margin-bottom: 20px;}
-        .eda-block img { width: 100%; height: auto; max-height: 350px; object-fit: contain; border-radius: 5px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .eda-block img:hover { transform: scale(1.03); z-index: 10; position: relative; }
+        .eda-block { display: flex; flex-wrap: wrap; gap: 25px; background: #fdfdfd; padding: 20px; border-radius: 12px; border: 1px dashed #ddd; align-items: center; margin-bottom: 25px; transition: border-color 0.3s ease, background 0.3s ease;}
+        .eda-block:hover { border-color: var(--theme-color); background: #fffcfc; }
+        .eda-block img { width: 100%; height: auto; max-height: 350px; object-fit: contain; border-radius: 8px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); cursor: zoom-in;}
+        .eda-block:hover img { transform: scale(1.04); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); z-index: 10; position: relative; }
         
         .preprocessing-list { list-style: none; padding: 0; margin: 0; }
-        .preprocessing-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: #444; transition: transform 0.2s ease;}
-        .preprocessing-list li:hover { transform: translateX(5px); }
-        .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--theme-color); font-weight: bold; }
+        .preprocessing-list li { position: relative; padding-left: 30px; margin-bottom: 15px; color: #444; transition: all 0.3s ease; padding-bottom: 5px; border-bottom: 1px dashed transparent;}
+        .preprocessing-list li:hover { transform: translateX(8px); color: var(--primary); border-bottom-color: #eee;}
+        .preprocessing-list li::before { content: '➔'; position: absolute; left: 0; color: var(--theme-color); font-weight: bold; transition: transform 0.3s ease;}
+        .preprocessing-list li:hover::before { transform: translateX(3px) scale(1.2); }
 
         /* HIGH-QUALITY CODE BLOCK STYLING */
-        .code-container { background-color: #282c34; border-radius: 8px; padding: 16px 20px; margin: 20px 0; overflow-x: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: box-shadow 0.3s ease; }
-        .code-container:hover { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-        .code-container pre { margin: 0; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.95em; line-height: 1.6; color: #abb2bf; }
-        .kw { color: #c678dd; } 
-        .func { color: #61afef; } 
-        .str { color: #98c379; } 
-        .num { color: #d19a66; } 
-        .com { color: #5c6370; font-style: italic; } 
+        .code-container { background-color: #1e1e1e; border-radius: 10px; padding: 20px; margin: 25px 0; overflow-x: auto; box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; border-left: 4px solid var(--primary);}
+        .code-container:hover { box-shadow: 0 12px 24px rgba(0,0,0,0.2); transform: translateY(-3px);}
+        .code-container pre { margin: 0; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 0.95em; line-height: 1.6; color: #d4d4d4; }
+        .kw { color: #c586c0; } .func { color: #dcdcaa; } .str { color: #ce9178; } .num { color: #b5cea8; } .com { color: #6a9955; font-style: italic; } 
 
         /* INTERPRETABILITY LIST */
-        .interpret-list { list-style: none; padding: 0; margin: 15px 0 0 0; display: flex; flex-wrap: wrap; gap: 15px;}
-        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); flex: 1; min-width: 200px; display: flex; align-items: flex-start; transition: transform 0.3s ease;}
-        .interpret-list li:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
-        .interpret-list li strong { color: var(--primary); display: block; margin-bottom: 5px; }
-        .interpret-icon { margin-right: 10px; font-size: 1.2em; line-height: 1; transition: transform 0.3s ease; }
-        .interpret-list li:hover .interpret-icon { transform: scale(1.2); }
+        .interpret-list { list-style: none; padding: 0; margin: 20px 0 0 0; display: flex; flex-wrap: wrap; gap: 20px;}
+        .interpret-list li { background: white; border: 1px solid #e0e0e0; padding: 18px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); flex: 1; min-width: 220px; display: flex; align-items: flex-start; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);}
+        .interpret-list li:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 24px rgba(231, 76, 60, 0.1); border-color: #f5c6cb;}
+        .interpret-list li strong { color: var(--primary); display: block; margin-bottom: 8px; font-size: 1.05em;}
+        .interpret-icon { margin-right: 15px; font-size: 1.8em; line-height: 1; transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); filter: drop-shadow(0 2px 4px rgba(231,76,60,0.2));}
+        .interpret-list li:hover .interpret-icon { transform: scale(1.3) rotate(10deg); }
 
         /* PIPELINE FLOW CHART CSS */
-        .pipeline-flow { display: flex; align-items: center; justify-content: space-between; background: #282c34; padding: 25px 20px; border-radius: 10px; color: white; margin: 20px 0; overflow-x: auto; gap: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
-        .flow-step { text-align: center; background: rgba(255,255,255,0.08); padding: 15px; border-radius: 8px; min-width: 120px; border: 1px solid rgba(255,255,255,0.15); position: relative; transition: all 0.3s ease; }
-        .flow-step:hover { transform: translateY(-3px); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);}
-        .flow-step strong { display: block; color: #98c379; margin-bottom: 8px; font-size: 1.1em; letter-spacing: 0.5px;}
-        .flow-step span { font-family: 'Consolas', monospace; font-size: 0.9em; color: #abb2bf; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; display: block;}
-        .flow-arrow { font-size: 1.8em; color: #e74c3c; font-weight: bold; animation: floatRight 2s infinite ease-in-out;}
-        @keyframes floatRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+        .pipeline-flow { display: flex; align-items: center; justify-content: space-between; background: #1e1e1e; padding: 30px 25px; border-radius: 12px; color: white; margin: 25px 0; overflow-x: auto; gap: 15px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        .flow-step { text-align: center; background: rgba(255,255,255,0.05); padding: 18px; border-radius: 10px; min-width: 130px; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(5px);}
+        .flow-step:hover { transform: translateY(-6px) scale(1.05); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.3);}
+        .flow-step strong { display: block; margin-bottom: 10px; font-size: 1.1em; letter-spacing: 0.5px;}
+        .flow-step span { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #d4d4d4; background: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 6px; display: block; letter-spacing: 0.5px;}
+        .flow-arrow { font-size: 2em; color: #e74c3c; font-weight: bold; animation: floatRight 1.5s infinite ease-in-out; text-shadow: 0 0 10px rgba(231,76,60,0.5);}
+        
+        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 18px 25px; border-radius: 0 10px 10px 0; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); transition: all 0.3s ease; }
+        .step-detail:hover { background: #fffcfc; transform: translateX(5px); border-left-color: var(--theme-color); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.08);}
+        .step-detail h4 { margin: 0 0 8px 0; color: var(--primary); font-size: 1.1em; transition: color 0.3s;}
+        .step-detail:hover h4 { color: var(--theme-color); }
+        .step-detail p { margin: 0; color: #555; font-size: 0.95em; line-height: 1.7;}
 
-        .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 15px 20px; border-radius: 0 8px 8px 0; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.3s; }
-        .step-detail:hover { background: #f4f7f6; }
-        .step-detail h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.05em; }
-        .step-detail p { margin: 0; color: #555; font-size: 0.95em; }
-        .step-detail code { background: #eee; padding: 2px 6px; border-radius: 4px; color: var(--theme-color); font-size: 0.9em; }
+        /* GRID NHIỀU CỘT CHO CONFUSION MATRIX */
+        .cm-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; align-items: stretch; padding: 15px 0; }
+        .cm-card { flex: 1 1 240px; max-width: 320px; text-align: center; display: flex; flex-direction: column; animation: fadeUpTab 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; opacity: 0; }
+        .cm-card:nth-child(1) { animation-delay: 0.1s; } .cm-card:nth-child(2) { animation-delay: 0.2s; }
+        .cm-card:nth-child(3) { animation-delay: 0.3s; } .cm-card:nth-child(4) { animation-delay: 0.4s; }
+        .cm-card:nth-child(5) { animation-delay: 0.5s; } .cm-card:nth-child(6) { animation-delay: 0.6s; }
+        .cm-card:nth-child(7) { animation-delay: 0.7s; } .cm-card:nth-child(8) { animation-delay: 0.8s; }
+        @keyframes fadeUpTab { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* GRID NHIỀU CỘT CHO CONFUSION MATRIX MỚI */
-        .cm-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: stretch; padding: 10px 0; }
-        .cm-card { flex: 1 1 220px; max-width: 320px; text-align: center; display: flex; flex-direction: column; }
-        .cm-img-container { flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px; transition: all 0.3s ease; }
-        .cm-img-container:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.08); border-color: #ddd; }
+        .cm-img-container { flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .cm-img-container:hover { box-shadow: 0 12px 25px rgba(0,0,0,0.1); border-color: #ddd; transform: translateY(-5px); }
+        .cm-img-container img { transition: transform 0.4s ease; border-radius: 6px; cursor: zoom-in;}
+        .cm-img-container:hover img { transform: scale(1.02); }
+
+        /* =========================================
+           IMAGE MODAL (LIGHTBOX) CSS
+           ========================================= */
+        .img-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            padding-top: 50px; 
+            left: 0; top: 0;
+            width: 100%; height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.85); 
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .img-modal.show {
+            display: block;
+            opacity: 1;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: zoomModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes zoomModal {
+            from {transform:scale(0.8); opacity:0;}
+            to {transform:scale(1); opacity:1;}
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .close-modal:hover, .close-modal:focus {
+            color: var(--theme-color);
+            transform: scale(1.2);
+        }
+        /* BREAKTHROUGH CODE BOX */
+        .breakthrough-code {
+            background: #1e1e1e; border-radius: 12px; padding: 0; margin: 30px 0; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden;
+            border: 1px solid #333; position: relative;
+        }
+        .breakthrough-header {
+            background: #252526; padding: 12px 20px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #333;
+        }
+        .breakthrough-title { color: #e74c3c; font-weight: 800; font-size: 0.95em; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 8px;}
+        .breakthrough-file { color: #858585; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        .breakthrough-code pre { padding: 20px; margin: 0; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 0.95em; line-height: 1.6; color: #d4d4d4; overflow-x: auto; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="../index.html" class="back-btn">⬅ Dashboard</a>
-        <h1>🧩 Multimodal Classification Report</h1>
+        <a href="../assignment1.html" class="back-btn">⬅ Dashboard</a>
+        <h1 class="animated-gradient-text">🧩 Multimodal Classification Report</h1>
         <div class="subtitle">MSCOCO Subset Analysis & CLIP Modeling</div>
     </div>
 
@@ -207,11 +292,11 @@
         <div class="section">
             <h2 onclick="toggleSection(this)">📚 01. Dataset Overview</h2>
             <div class="section-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <p style="color: #666; margin: 0; font-size: 1.05em;">
+                <div class="reveal" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <p style="color: #666; margin: 0; font-size: 1.05em; max-width: 80%;">
                         MSCOCO is a large-scale object detection, segmentation, and captioning dataset providing highly authentic Image-Text pairs describing complex everyday scenes.
                     </p>
-                    <a href="https://cocodataset.org/" target="_blank" style="background: #fdf3f4; color: var(--theme-color); padding: 6px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; border: 1px solid #f5c6cb; transition: all 0.2s;">🔗 Source</a>
+                    <a href="https://cocodataset.org/" target="_blank" style="background: #fdf3f4; color: var(--theme-color); padding: 8px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; border: 1px solid #f5c6cb; transition: all 0.3s; box-shadow: 0 2px 5px rgba(231,76,60,0.1);">🔗 Source</a>
                 </div>
                 
                 <div class="stats-grid">
@@ -228,28 +313,32 @@
                         <div class="stat-label">5 Selected Target Classes</div>
                     </div>
                     <div class="stat-card" style="background: #fffafa; border-color: #f5c6cb;">
-                        <div class="stat-value" style="font-size: 1.6em; color: #333;">1 <span style="font-size: 0.8em; color: var(--theme-color);">img</span> = 5 <span style="font-size: 0.8em; color: var(--theme-color);">caps</span></div>
+                        <div class="stat-value" style="font-size: 1.6em; color: #333; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            1 <span style="font-size: 0.6em; color: var(--theme-color); margin-top: 5px;">img</span> 
+                            <span style="font-size: 0.7em; color: #ccc;">=</span> 
+                            5 <span style="font-size: 0.6em; color: var(--theme-color); margin-top: 5px;">caps</span>
+                        </div>
                         <div class="stat-label">Data Mapping Structure</div>
                     </div>
                 </div>
 
-                <div style="background: #fff; border: 1px solid #f5c6cb; border-radius: 8px; padding: 20px; margin-top: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-                    <h4 style="color: var(--theme-color); margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <div class="reveal" style="background: #fff; border: 1px solid #f5c6cb; border-radius: 12px; padding: 25px; margin-top: 30px; box-shadow: 0 4px 15px rgba(231,76,60,0.05); transition: transform 0.3s; hover: transform: scale(1.01);">
+                    <h4 style="color: var(--theme-color); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; font-size: 1.1em; border-bottom: 2px dashed #fce8e8; padding-bottom: 12px;">
                         📸 Sample Data Point: 1 Image ➔ 5 Captions
                     </h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 25px; align-items: center;">
                         <div style="flex: 1; min-width: 250px; text-align: center;">
-                            <img src="../images/mscoco_sample.png" alt="MSCOCO Sample Image" style="width: 100%; max-width: 400px; border-radius: 8px; border: 1px solid #ddd; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x300?text=MSCOCO+Sample+Image'">
+                            <img class="zoomable-img" src="../images/mscoco_sample.png" alt="MSCOCO Sample Image" style="width: 100%; max-width: 400px; border-radius: 10px; border: 1px solid #eee; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.05); cursor: zoom-in;" onerror="this.src='https://via.placeholder.com/400x300?text=MSCOCO+Sample+Image'">
                         </div>
                         <div style="flex: 2; min-width: 300px;">
-                            <div style="background: #fdf3f4; border-radius: 6px; padding: 15px;">
-                                <div style="font-weight: bold; color: var(--primary); margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase;">Corresponding Captions:</div>
-                                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"A small dog carrying a large Frisbee down a sidewalk."</li>
-                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"there is a small white dog that is carrying a frisbee"</li>
-                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"a small dog carries a frisbe in its mouth "</li>
-                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"Small toy sized dog carrying a Frisbee down the street."</li>
-                                    <li style="background: #fff; padding: 10px 15px; border-left: 3px solid var(--theme-color); border-radius: 4px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">"A white fluffy dog carries around a red Frisbee. "</li>
+                            <div style="background: #fdf3f4; border-radius: 10px; padding: 20px; border-left: 4px solid var(--theme-color);">
+                                <div style="font-weight: 800; color: var(--primary); margin-bottom: 15px; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.5px;">Corresponding Captions:</div>
+                                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                                    <li style="background: #fff; padding: 12px 18px; border-radius: 6px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s; cursor: default;" onmouseover="this.style.transform='translateX(5px)';" onmouseout="this.style.transform='translateX(0)';">"A small dog carrying a large Frisbee down a sidewalk."</li>
+                                    <li style="background: #fff; padding: 12px 18px; border-radius: 6px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s; cursor: default;" onmouseover="this.style.transform='translateX(5px)';" onmouseout="this.style.transform='translateX(0)';">"there is a small white dog that is carrying a frisbee"</li>
+                                    <li style="background: #fff; padding: 12px 18px; border-radius: 6px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s; cursor: default;" onmouseover="this.style.transform='translateX(5px)';" onmouseout="this.style.transform='translateX(0)';">"a small dog carries a frisbe in its mouth "</li>
+                                    <li style="background: #fff; padding: 12px 18px; border-radius: 6px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s; cursor: default;" onmouseover="this.style.transform='translateX(5px)';" onmouseout="this.style.transform='translateX(0)';">"Small toy sized dog carrying a Frisbee down the street."</li>
+                                    <li style="background: #fff; padding: 12px 18px; border-radius: 6px; color: #555; font-style: italic; font-size: 0.95em; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s; cursor: default;" onmouseover="this.style.transform='translateX(5px)';" onmouseout="this.style.transform='translateX(0)';">"A white fluffy dog carries around a red Frisbee. "</li>
                                 </ul>
                             </div>
                         </div>
@@ -262,52 +351,52 @@
             <h2 onclick="toggleSection(this)">🔍 02. Exploratory Data Analysis (EDA)</h2>
             <div class="section-content">
                 
-                <h4 style="margin-top: 0; color: #555; margin-bottom: 15px;">Data Insights</h4>
+                <h4 class="reveal" style="margin-top: 0; color: #555; margin-bottom: 20px; font-size: 1.2em; border-left: 4px solid var(--primary); padding-left: 15px;">Data Insights</h4>
 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px; position: relative; height: 350px;">
                         <canvas id="animalDistChart"></canvas>
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Unique Images per Class</div>
-                        <div style="background: #fdf3f4; border-left: 4px solid var(--theme-color); padding: 10px 15px; border-radius: 5px; color: #721c24; margin-bottom: 10px;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Unique Images per Class</div>
+                        <div style="background: #fdf3f4; border-left: 4px solid var(--theme-color); padding: 15px; border-radius: 8px; color: #721c24; margin-bottom: 10px; line-height: 1.6;">
                             <strong>Long-tail Distribution:</strong> The number of images per class varies significantly. <em>Cat (3421)</em> and <em>Dog (2336)</em> dominate, while <em>Cow (1353)</em>, <em>Sheep (1161)</em>, and <em>Horse (933)</em> have fewer representations.
                         </div>
-                        <p style="font-size: 0.85em; color: #888; font-style: italic; margin-top: 15px;">* Hover over the bars to see exact image counts.</p>
+                        <p style="font-size: 0.9em; color: #888; font-style: italic; margin-top: 15px;">* Hover over the bars to see exact image counts.</p>
                     </div>
                 </div>
 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/multi_image_size.png" alt="Image Dimensions Distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Dimensions'">
+                        <img class="zoomable-img" src="../images/multi_image_size.png" alt="Image Dimensions Distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Image+Dimensions'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Image Size Variation</div>
-                        <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 15px; border-radius: 5px; color: #856404; margin-bottom: 10px;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Image Size Variation</div>
+                        <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; color: #856404; margin-bottom: 10px; line-height: 1.6;">
                             <strong>Diverse Resolutions:</strong> As observed in the scatter plot, the images in MSCOCO scatter widely in both height and width (from ~100 to 640 pixels). This variation necessitates strict image resizing during preprocessing before feeding into the models.
                         </div>
                     </div>
                 </div>
 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Caption+Length'">
+                        <img class="zoomable-img" src="../images/multi_caption_length.png" alt="Caption length distribution" onerror="this.src='https://via.placeholder.com/600x300?text=Caption+Length'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Caption Length</div>
-                        <div style="background: #e8f5e9; border-left: 4px solid var(--success); padding: 10px 15px; border-radius: 5px; color: #155724; margin-bottom: 10px;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Caption Length</div>
+                        <div style="background: #e8f5e9; border-left: 4px solid var(--success); padding: 15px; border-radius: 8px; color: #155724; margin-bottom: 10px; line-height: 1.6;">
                             <strong>Normal Distribution:</strong> The character length of the human-written captions generally follows a normal distribution pattern, peaking prominently at around <strong>40-50 characters</strong> per caption, ensuring they are descriptive and not overly simplistic.
                         </div>
                     </div>
                 </div>
 
-                <div class="eda-block">
+                <div class="eda-block reveal">
                     <div style="flex: 2; min-width: 300px;">
-                        <img src="../images/multi_top_words.png" alt="Top 20 common words" onerror="this.src='https://via.placeholder.com/600x300?text=Top+20+Words'">
+                        <img class="zoomable-img" src="../images/multi_top_words.png" alt="Top 20 common words" onerror="this.src='https://via.placeholder.com/600x300?text=Top+20+Words'">
                     </div>
                     <div style="flex: 1; min-width: 250px;">
-                        <div style="font-size: 1.1em; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">Top 20 Words</div>
-                        <div style="background: #e8f5e9; border-left: 4px solid var(--success); padding: 10px 15px; border-radius: 5px; color: #155724; margin-bottom: 10px;">
+                        <div style="font-size: 1.15em; color: var(--primary); margin-bottom: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Top 20 Words</div>
+                        <div style="background: #f4f6f9; border-left: 4px solid #3498db; padding: 15px; border-radius: 8px; color: #2c3e50; margin-bottom: 10px; line-height: 1.6;">
                             <strong>Vocabulary Focus:</strong> The most frequent words heavily reflect the rural and animal context of our selected classes. Common keywords include <em>'sheep', 'field', 'cows', 'cat', 'grass'</em>, and <em>'standing'</em>.
                         </div>
                     </div>
@@ -319,13 +408,13 @@
         <div class="section">
             <h2 onclick="toggleSection(this)">⚙️ 03. Setup & Preprocessing Pipeline</h2>
             <div class="section-content">
-                <ul class="preprocessing-list">
+                <ul class="preprocessing-list reveal">
                     <li><strong>Class Filtering:</strong> Extract only annotations related to the 5 target animals to maintain domain focus.</li>
                     <li><strong>Human & Redundancy Exclusion:</strong> Explicitly scan and drop any images that contain the <code>'person'</code> category to prevent the model from learning unintended correlations. We also remove redundancy (multiple labels on 1 image).</li>
-                    <li><strong>Evaluation Sampling:</strong> To prevent data explosion, we randomly selected exactly <strong>200 images per class (1,000 in total)</strong> to perform our zero-shot evaluation. For the few-shot evaluation, we used 10 samples per class to build the prototype, and tested on the remaining 190 samples.</li>
+                    <li><strong>Evaluation Sampling:</strong> To prevent data explosion, we randomly selected exactly <strong>200 images per class (1,000 in total)</strong> to perform our zero-shot evaluation. For the few-shot evaluation, we used 10 samples per class to build the prototype, and tested on the remaining 190 samples per class.</li>
                 </ul>
 
-                <div class="code-container">
+                <div class="code-container reveal">
 <pre><span class="com"># Extract annotations & exclude 'person' class</span>
 <span class="kw">for</span> annotation <span class="kw">in</span> coco_annotations[<span class="str">'annotations'</span>]:
     <span class="kw">if</span> annotation[<span class="str">'category_id'</span>] <span class="kw">in</span> target_category_ids:
@@ -339,7 +428,7 @@
 <span class="com"># Drop duplicates to prevent data explosion</span>
 df_animal = df_animal.<span class="func">drop_duplicates</span>(<span class="arg">subset</span>=[<span class="str">'image_id'</span>, <span class="str">'class'</span>, <span class="str">'caption'</span>])
 
-<span class="com"># We decided to take about 1000 images (200 each class) for further evaluation</span>
+<span class="com"># We decided to take 1000 images (200 each class) for further evaluation</span>
 sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class'</span>).<span class="func">apply</span>(<span class="kw">lambda</span> x: x.<span class="func">sample</span>(<span class="arg">n</span>=<span class="num">200</span>, <span class="arg">random_state</span>=<span class="num">42</span>)).<span class="func">reset_index</span>(<span class="arg">drop</span>=<span class="kw">True</span>)
 </pre>
                 </div>
@@ -350,59 +439,67 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
             <h2 onclick="toggleSection(this)">🏗️ 04. Model Building Pipeline</h2>
             <div class="section-content">
                 
-                <div class="insight-box">
-                    <strong>💡 Approach:</strong> We utilize Contrastive Language-Image Pre-training (CLIP) to perform classification without traditional retraining, applying an aggregated Text Prototype method for Few-shot capabilities.
+                <div class="insight-box reveal">
+                    <strong style="font-size: 1.1em; letter-spacing: 0.5px;">💡 Core Approach:</strong> We utilize Contrastive Language-Image Pre-training (CLIP) to perform classification without traditional retraining, applying an aggregated Text Prototype method for Few-shot capabilities.
                 </div>
 
-                <div style="border: 1px solid #eee; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';">
-                    <img src="../images/clip.png" alt="CLIP Architecture" style="width: 100%; max-height: 250px; object-fit: contain; margin-bottom: 15px; transition: transform 0.4s;" onmouseover="this.style.transform='scale(1.03)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/600x250?text=CLIP+Architecture'">
-                    <p style="font-size: 0.95em; color: #555; text-align: center; margin: 0;">
-                        CLIP uses dual encoders (a Vision Transformer for images and a Text Transformer for captions) to map both modalities into a shared high-dimensional embedding space.
+                <div class="reveal" style="border: 1px solid #eee; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 40px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 10px rgba(0,0,0,0.03); background: #fdfdfd;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.03)';">
+                    <img class="zoomable-img" src="../images/clip.png" alt="CLIP Architecture" style="width: 100%; max-height: 280px; object-fit: contain; margin-bottom: 20px; transition: transform 0.5s; cursor: zoom-in;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';" onerror="this.src='https://via.placeholder.com/600x250?text=CLIP+Architecture'">
+                    <p style="font-size: 1em; color: #555; text-align: center; margin: 0; line-height: 1.7; max-width: 900px; margin-left: auto; margin-right: auto;">
+                        CLIP uses dual encoders (a Vision Transformer for images and a Text Transformer for captions) to map both modalities into a shared, highly semantic multi-dimensional embedding space.
                     </p>
                 </div>
 
-                <h3 style="color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px;">🔄 End-to-End Forward Pass & Prototype Creation</h3>
-                <p style="color: #555; margin-bottom: 15px;">Below is the specialized data pipeline showing how multiple captions are averaged into a single text prototype for robust classification. <em>Note that tensor dimensions heavily depend on the specific CLIP backbone used (denoted as <code>Res</code> for input resolution and <code>D_feat</code> for feature dimension).</em></p>
+                <h3 class="reveal" style="color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 1.4em;">🔄 End-to-End Forward Pass & Prototype Creation</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">Below is the specialized data pipeline showing how raw data transforms through each stage. <em>Note that tensor dimensions heavily depend on the specific CLIP backbone used (denoted as <code style="background: #eee; padding: 2px 6px; border-radius: 4px; color: var(--theme-color);">Res</code> for input resolution and <code style="background: #eee; padding: 2px 6px; border-radius: 4px; color: var(--theme-color);">D_feat</code> for feature dimension).</em></p>
                 
-                <div class="pipeline-flow">
+                <div class="pipeline-flow reveal">
                     <div style="display: flex; flex-direction: column; gap: 15px;">
                         <div class="flow-step">
-                            <strong>Inputs</strong>
-                            <span>Image (1, 3, H, W)</span>
-                            <span style="margin-top: 5px;">Captions (N_caps, 77)</span>
+                            <strong style="color: #abb2bf;">Raw Data</strong>
+                            <span>Image (H, W, 3)</span>
+                            <span style="margin-top: 8px;">Text (Strings)</span>
                         </div>
                     </div>
                     <div class="flow-arrow">➔</div>
                     <div style="display: flex; flex-direction: column; gap: 15px;">
-                        <div class="flow-step" style="border-color: #c678dd; background: rgba(198, 120, 221, 0.1);">
-                            <strong style="color: #c678dd;">Encoders</strong>
-                            <span>Preprocessor + ViT/RN</span>
-                            <span style="margin-top: 5px;">Text Transformer</span>
+                        <div class="flow-step" style="border-color: rgba(52, 152, 219, 0.4); background: rgba(52, 152, 219, 0.15);">
+                            <strong style="color: #61afef;">Preprocessed</strong>
+                            <span>Img (1, 3, Res, Res)</span>
+                            <span style="margin-top: 8px;">Tokens (N_caps, 77)</span>
                         </div>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step" style="border-color: #e5c07b; background: rgba(229, 192, 123, 0.1);">
-                        <strong style="color: #e5c07b;">Mean Aggregation</strong>
-                        <span>Img Feat (1, D_feat)</span>
-                        <span style="margin-top: 5px;">Mean(Txt Feat) ➔ (5, D_feat)</span>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div class="flow-step" style="border-color: rgba(198, 120, 221, 0.4); background: rgba(198, 120, 221, 0.15);">
+                            <strong style="color: #c678dd;">Encoders</strong>
+                            <span>ViT / ResNet</span>
+                            <span style="margin-top: 8px;">Text Transformer</span>
+                        </div>
                     </div>
                     <div class="flow-arrow">➔</div>
-                    <div class="flow-step">
-                        <strong style="color: #e74c3c;">Cosine Similarity</strong>
-                        <span style="color: #e74c3c;">Logits (1, 5)</span>
+                    <div class="flow-step" style="border-color: rgba(229, 192, 123, 0.4); background: rgba(229, 192, 123, 0.15);">
+                        <strong style="color: #e5c07b;">Embeddings</strong>
+                        <span>Img Feat (1, D_feat)</span>
+                        <span style="margin-top: 8px;">Mean(Txt) ➔ (5, D_feat)</span>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-step" style="border-color: rgba(231, 76, 60, 0.4); background: rgba(231, 76, 60, 0.15);">
+                        <strong style="color: #e74c3c;">Similarity</strong>
+                        <span style="color: #ffb199;">Logits (1, 5)</span>
                     </div>
                 </div>
 
-                <div class="step-detail">
-                    <h4>1. Image Preprocessing & Encoding</h4>
-                    <p>Original images with highly variable sizes <code>(H, W)</code> are first resized and center-cropped to a fixed resolution <code>(Res, Res)</code> specific to the chosen backbone. The Image Encoder then extracts an L2-normalized feature vector of size <code>D_feat</code>.</p>
+                <div class="step-detail reveal">
+                    <h4>1. Preprocessing (Raw Data ➔ Tensors)</h4>
+                    <p>Original images with highly variable sizes <code>(H, W)</code> are first resized and center-cropped by the image preprocessor to a fixed resolution tensor <code>(1, 3, Res, Res)</code> specific to the chosen backbone. Concurrently, raw text captions are tokenized, padded, or truncated to a strictly fixed sequence length of <code>77</code> tokens.</p>
                 </div>
 
-                <div class="table-responsive" style="margin-bottom: 20px; margin-top: 15px;">
-                    <table class="table" style="font-size: 0.9em;">
+                <div class="table-responsive reveal" style="margin-bottom: 25px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <table class="table" style="font-size: 0.95em;">
                         <thead>
                             <tr>
-                                <th>Backbone Model</th>
+                                <th>Backbone Architecture</th>
                                 <th>Input Resolution <code>(Res)</code></th>
                                 <th>Feature Dimension <code>(D_feat)</code></th>
                             </tr>
@@ -418,10 +515,10 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td>224 x 224</td>
                                 <td>768</td>
                             </tr>
-                           <tr>
+                            <tr class="highlight-row">
                                 <td>ViT-L/14@336px</td>
                                 <td>336 x 336</td>
-                                <td>768</td>
+                                <td style="color: var(--theme-color); font-weight: bold;">768</td>
                             </tr>
                             <tr>
                                 <td>RN50</td>
@@ -442,12 +539,12 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     </table>
                 </div>
 
-                <div class="step-detail">
+                <div class="step-detail reveal">
                     <h4>2. Text Prototype Aggregation (The Few-Shot Core)</h4>
-                    <p>Instead of matching against a single zero-shot prompt (<code>"a photo of a {animal}"</code>), the few-shot model processes <em>all available captions</em> for a class. The text features are normalized, averaged together (Mean Aggregation), and normalized again to form a single, robust <strong>Class Prototype</strong> vector <code>(5, D_feat)</code>.</p>
+                    <p>After being processed by the encoders, instead of matching against a single zero-shot prompt (<code>"a photo of a {animal}"</code>), the few-shot model processes <em>all available captions</em> for a class. The resulting text features are L2-normalized, averaged together (Mean Aggregation), and normalized again to form a single, robust <strong>Class Prototype</strong> vector <code>(5, D_feat)</code>.</p>
                 </div>
 
-                <div class="code-container">
+                <div class="code-container reveal">
 <pre><span class="com"># Create an aggregated representative vector for a class</span>
 <span class="kw">for</span> c <span class="kw">in</span> classes:
     <span class="com"># Extract and normalize text features for all captions of class c</span>
@@ -463,20 +560,21 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
 </pre>
                 </div>
 
-                <div class="step-detail" style="border-left-color: #e74c3c;">
+                <div class="step-detail reveal" style="border-left-color: #e74c3c;">
                     <h4 style="color: #e74c3c;">3. Classification via Similarity</h4>
                     <p>When predicting a new image, its extracted feature vector <code>(1, D_feat)</code> is compared against the 5 pre-computed aggregated text prototypes using dot product (Cosine Similarity). The class with the highest similarity score is chosen.</p>
                 </div>
             </div>
         </div>
+
         <div class="section">
             <h2 onclick="toggleSection(this)">🏆 05. Evaluation & Results</h2>
             <div class="section-content">
                 
-                <h3 style="color: var(--primary); margin-top: 10px; margin-bottom: 15px;">CLIP Backbone Benchmarking (Zero-Shot)</h3>
-                <p style="color: #555; margin-bottom: 15px;">We evaluated multiple CLIP variations to find the optimal architecture balancing Accuracy, Model Size, and Inference Speed.</p>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 10px; margin-bottom: 15px; font-size: 1.3em;">CLIP Backbone Benchmarking (Zero-Shot)</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">We evaluated multiple CLIP variations to find the optimal architecture balancing Accuracy, Model Size, and Inference Speed.</p>
                 
-                <div class="table-responsive">
+                <div class="table-responsive reveal">
                     <table class="table">
                         <thead>
                             <tr>
@@ -488,8 +586,8 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                         </thead>
                         <tbody>
                             <tr class="highlight-row">
-                                <td>ViT-L/14@336px</td>
-                                <td style="color: var(--theme-color); font-weight: bold;">🏆 0.978</td>
+                                <td style="font-weight: 800;">ViT-L/14@336px</td>
+                                <td style="color: var(--theme-color); font-weight: 900; font-size: 1.1em;">🏆 0.978</td>
                                 <td>~427.9M</td>
                                 <td>31.30 s</td>
                             </tr>
@@ -521,7 +619,7 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td>ViT-B/32</td>
                                 <td>0.930</td>
                                 <td>~151.3M</td>
-                                <td>17.66 s</td>
+                                <td style="color: var(--success); font-weight: bold;">⚡ 17.66 s</td>
                             </tr>
                             <tr>
                                 <td>RN50</td>
@@ -533,14 +631,14 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     </table>
                 </div>
                 
-                <div class="info-box" style="margin-top: 15px; background: #fff3cd; border-left: 4px solid #ffc107; color: #856404;">
-                    <strong>💡 Benchmark Insights:</strong> <code>ViT-L/14@336px</code> emerges as the best performer, achieving the highest accuracy (~97.8%) with the most time consumption. <code>ViT-B/16</code> also has a really good performance with half the parameters of large models, less time consumption, and the accuracy is only about 2% away from them.
+                <div class="info-box reveal" style="background: #fff3cd; border-left-color: #ffc107; color: #856404; margin-bottom: 40px;">
+                    <strong style="font-size: 1.1em;">💡 Benchmark Insights:</strong> <code>ViT-L/14@336px</code> emerges as the best performer, achieving the highest accuracy (~97.8%) with the most time consumption. <code>ViT-B/16</code> also has a really good performance with half the parameters of large models, less time consumption, and the accuracy is only about 2% away from them.
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 40px; margin-bottom: 15px;">CLIP Backbone Benchmarking (Few-Shot & Ensemble)</h3>
-                <p style="color: #555; margin-bottom: 15px;">We also evaluated the models using the aggregated Text Prototype (Few-shot) approach, including an Ensemble method combining all backbone predictions via Majority Vote.</p>
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 15px; font-size: 1.3em;">CLIP Backbone Benchmarking (Few-Shot & Ensemble)</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">We also evaluated the models using the aggregated Text Prototype (Few-shot) approach, including an Ensemble method combining all backbone predictions via Majority Vote.</p>
                 
-                <div class="table-responsive">
+                <div class="table-responsive reveal">
                     <table class="table">
                         <thead>
                             <tr>
@@ -552,8 +650,8 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                         </thead>
                         <tbody>
                             <tr class="highlight-row">
-                                <td>ViT-L/14@336px</td>
-                                <td style="color: var(--theme-color); font-weight: bold;">🏆 0.982</td>
+                                <td style="font-weight: 800;">ViT-L/14@336px</td>
+                                <td style="color: var(--theme-color); font-weight: 900; font-size: 1.1em;">🏆 0.982</td>
                                 <td>~427.94M</td>
                                 <td>24.74 ms</td>
                             </tr>
@@ -569,9 +667,9 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td>~427.62M</td>
                                 <td>15.98 ms</td>
                             </tr>
-                            <tr style="background-color: #fdfaf0;">
-                                <td>🌟 Ensemble (Majority Vote)</td>
-                                <td style="color: #d35400; font-weight: bold;">0.969</td>
+                            <tr style="background-color: #fffaf0; border-top: 2px dashed #f1c40f; border-bottom: 2px dashed #f1c40f;">
+                                <td style="color: #d35400; font-weight: bold;">🌟 Ensemble (Majority Vote)</td>
+                                <td style="color: #d35400; font-weight: 900; font-size: 1.05em;">0.969</td>
                                 <td style="color: #999; font-style: italic;">~1727.75M</td>
                                 <td style="color: #999; font-style: italic;">~96.50 ms</td>
                             </tr>
@@ -603,13 +701,20 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     </table>
                 </div>
 
-                <div class="info-box" style="margin-top: 15px; background: #fff3cd; border-left: 4px solid #ffc107; color: #856404;">
-                    <strong>💡 Few-Shot Insights:</strong> Aggregating text prototypes consistently improves accuracy across all backbones compared to Zero-Shot. The <code>ViT-L/14@336px</code> remains the top single model (98.2%). Interestingly, the <code>Ensemble</code> model (96.9%) does not outperform the best individual ViT model, while requiring vastly more parameters (~1.7B) and inference time.
+                <div class="info-box reveal" style="background: #fff3cd; border-left-color: #ffc107; color: #856404; margin-bottom: 40px;">
+                    <strong style="font-size: 1.1em;">💡 Few-Shot Insights:</strong> Aggregating text prototypes consistently improves accuracy across all backbones compared to Zero-Shot. The <code>ViT-L/14@336px</code> remains the top single model (98.2%). Interestingly, the <code>Ensemble</code> model (96.9%) does not outperform the best individual ViT model, while requiring vastly more parameters (~1.7B) and inference time.
+                    <div class="reveal" style="background: #f4f7f6; border-left: 5px solid #d35400; padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                    <h4 style="margin: 0 0 10px 0; color: #d35400; font-size: 1.1em;">🤝 The Ensemble Strategy (Majority Vote)</h4>
+                    <p style="margin: 0; color: #555; font-size: 1em; line-height: 1.6;">
+                        To achieve the highly stable <strong>96.9% accuracy</strong> in the Few-Shot evaluation, we didn't just rely on a single architecture. We aggregated the predictions from all 7 distinct CLIP backbones. For each image, every model casts a "vote" for a specific class. We then apply a <strong>Majority Vote algorithm</strong> to select the final label. This effectively cancels out the individual biases and weaknesses of specific backbones.
+                    </p>
+                </div>
                 </div>
 
-                <h3 style="color: var(--primary); margin-top: 40px; margin-bottom: 15px;">Confusion Matrices</h3>
-                
-                <div class="tab-buttons">
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 20px; font-size: 1.3em;">Confusion Matrices</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 15px; font-size: 0.95em; font-style: italic;">* Click on any matrix to view in full screen.</p>
+
+                <div class="tab-buttons reveal">
                     <button class="tab-btn active" onclick="openTab(event, 'cm-zeroshot')">Zero-Shot Models</button>
                     <button class="tab-btn" onclick="openTab(event, 'cm-fewshot')">Few-Shot Models</button>
                 </div>
@@ -617,45 +722,45 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                 <div id="cm-zeroshot" class="tab-content" style="display: block;">
                     <div class="cm-grid">
                         <div class="cm-card">
-                            <h4 style="color: var(--theme-color); margin-bottom: 10px;">ViT-L/14@336px</h4>
+                            <h4 style="color: var(--theme-color); margin-bottom: 12px; font-size: 1.1em;">ViT-L/14@336px</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit14336_zero.jpg" alt="Zero-Shot ViT-L@336" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit14336_zero.jpg" alt="Zero-Shot ViT-L@336" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: var(--primary); margin-bottom: 10px;">ViT-L/14</h4>
+                            <h4 style="color: var(--primary); margin-bottom: 12px; font-size: 1.1em;">ViT-L/14</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit14_zero.png" alt="Zero-Shot ViT-L/14" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit14_zero.png" alt="Zero-Shot ViT-L/14" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50x16</h4>
+                            <h4 style="color: #3498db; margin-bottom: 12px; font-size: 1.1em;">RN50x16</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn5016_zero.png" alt="Zero-Shot RN50x16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn5016_zero.png" alt="Zero-Shot RN50x16" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #9b59b6; margin-bottom: 10px;">ViT-B/16</h4>
+                            <h4 style="color: #9b59b6; margin-bottom: 12px; font-size: 1.1em;">ViT-B/16</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit16_zero.png" alt="Zero-Shot ViT-B/16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit16_zero.png" alt="Zero-Shot ViT-B/16" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #e67e22; margin-bottom: 10px;">RN50x4</h4>
+                            <h4 style="color: #e67e22; margin-bottom: 12px; font-size: 1.1em;">RN50x4</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn504_zero.png" alt="Zero-Shot RN50x4" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn504_zero.png" alt="Zero-Shot RN50x4" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #1abc9c; margin-bottom: 10px;">ViT-B/32</h4>
+                            <h4 style="color: #1abc9c; margin-bottom: 12px; font-size: 1.1em;">ViT-B/32</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit32_zero.png" alt="Zero-Shot ViT-B/32" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit32_zero.png" alt="Zero-Shot ViT-B/32" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: var(--success); margin-bottom: 10px;">RN50</h4>
+                            <h4 style="color: var(--success); margin-bottom: 12px; font-size: 1.1em;">RN50</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn50_zero.png" alt="Zero-Shot RN50" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn50_zero.png" alt="Zero-Shot RN50" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
                             </div>
                         </div>
                     </div>
@@ -664,51 +769,51 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                 <div id="cm-fewshot" class="tab-content">
                     <div class="cm-grid">
                         <div class="cm-card">
-                            <h4 style="color: var(--theme-color); margin-bottom: 10px;">ViT-L/14@336px</h4>
+                            <h4 style="color: var(--theme-color); margin-bottom: 12px; font-size: 1.1em;">ViT-L/14@336px</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit14336_few.jpg" alt="Few-Shot ViT-L@336" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit14336_few.jpg" alt="Few-Shot ViT-L@336" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L@336'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: var(--primary); margin-bottom: 10px;">ViT-L/14</h4>
+                            <h4 style="color: var(--primary); margin-bottom: 12px; font-size: 1.1em;">ViT-L/14</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit14_few.jpg" alt="Few-Shot ViT-L/14" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit14_few.jpg" alt="Few-Shot ViT-L/14" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-L/14'">
                             </div>
                         </div>
-                        <div class="cm-card" style="border: 2px solid #f1c40f; border-radius: 10px; padding: 2px;">
-                            <h4 style="color: #d35400; margin-bottom: 10px;">🌟 Ensemble</h4>
-                            <div class="cm-img-container" style="background: #fffcf0;">
-                                <img src="../images/multimodal/cm_ensemble_few.jpg" alt="Few-Shot Ensemble" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=Ensemble'">
-                            </div>
-                        </div>
-                        <div class="cm-card">
-                            <h4 style="color: #3498db; margin-bottom: 10px;">RN50x16</h4>
-                            <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn5016_few.jpg" alt="Few-Shot RN50x16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
+                        <div class="cm-card" style="border: 2px solid #f1c40f; border-radius: 12px; padding: 4px; box-shadow: 0 10px 20px rgba(241, 196, 15, 0.15);">
+                            <h4 style="color: #d35400; margin-bottom: 12px; font-size: 1.1em; font-weight: 800;">🌟 Ensemble</h4>
+                            <div class="cm-img-container" style="background: #fffcf0; border: none;">
+                                <img class="zoomable-img" src="../images/multimodal/cm_ensemble_few.jpg" alt="Few-Shot Ensemble" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=Ensemble'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #9b59b6; margin-bottom: 10px;">ViT-B/16</h4>
+                            <h4 style="color: #3498db; margin-bottom: 12px; font-size: 1.1em;">RN50x16</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit16_gew.jpg" alt="Few-Shot ViT-B/16" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn5016_few.jpg" alt="Few-Shot RN50x16" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x16'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #e67e22; margin-bottom: 10px;">RN50x4</h4>
+                            <h4 style="color: #9b59b6; margin-bottom: 12px; font-size: 1.1em;">ViT-B/16</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn504_few.jpg" alt="Few-Shot RN50x4" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit16_gew.jpg" alt="Few-Shot ViT-B/16" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/16'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: #1abc9c; margin-bottom: 10px;">ViT-B/32</h4>
+                            <h4 style="color: #e67e22; margin-bottom: 12px; font-size: 1.1em;">RN50x4</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_vit32_few.jpg" alt="Few-Shot ViT-B/32" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn504_few.jpg" alt="Few-Shot RN50x4" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50x4'">
                             </div>
                         </div>
                         <div class="cm-card">
-                            <h4 style="color: var(--success); margin-bottom: 10px;">RN50</h4>
+                            <h4 style="color: #1abc9c; margin-bottom: 12px; font-size: 1.1em;">ViT-B/32</h4>
                             <div class="cm-img-container">
-                                <img src="../images/multimodal/cm_rn50_few.jpg" alt="Few-Shot RN50" style="width: 100%; max-height: 250px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
+                                <img class="zoomable-img" src="../images/multimodal/cm_vit32_few.jpg" alt="Few-Shot ViT-B/32" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=ViT-B/32'">
+                            </div>
+                        </div>
+                        <div class="cm-card">
+                            <h4 style="color: var(--success); margin-bottom: 12px; font-size: 1.1em;">RN50</h4>
+                            <div class="cm-img-container">
+                                <img class="zoomable-img" src="../images/multimodal/cm_rn50_few.jpg" alt="Few-Shot RN50" style="width: 100%; max-height: 260px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x250?text=RN50'">
                             </div>
                         </div>
                     </div>
@@ -720,89 +825,114 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
         <div class="section">
             <h2 onclick="toggleSection(this)">🔬 06. Error Analysis & Interpretability</h2>
             <div class="section-content">
-
-                <h3 style="color: var(--primary); margin-top: 10px; margin-bottom: 15px;">Common Wrong Predictions</h3>
-                <p style="color: #555; margin-bottom: 15px;">We reviewed images that were mispredicted by the models. Initially, <strong>ViT-B/32</strong> resulted in 70 mispredicted images. By switching to a more powerful backbone like <strong>RN50x16</strong>, we successfully reduced the errors to just 8 images.</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
+                    
+                <h3 class="reveal" style="color: var(--primary); margin-top: 10px; margin-bottom: 15px; font-size: 1.3em;">Common Wrong Predictions</h3>
+                <p class="reveal" style="color: #555; margin-bottom: 20px; font-size: 1.05em;">We reviewed images that were mispredicted by the models. Initially, <strong>ViT-B/32</strong> resulted in 70 mispredicted images. By switching to a more powerful backbone like <strong>RN50x16</strong>, we successfully reduced the errors to just 8 images.</p>
+                <div class="reveal" style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 35px; background: #fafafa; padding: 20px; border-radius: 10px; border: 1px dashed #ddd;">
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Cow ➔ Predict: Sheep / Horse</li>
-                        <li>True: Sheep ➔ Predict: Cow / Horse</li>
+                        <li><strong style="color: var(--primary);">True: Cow</strong> ➔ Predict: Sheep / Horse</li>
+                        <li><strong style="color: var(--primary);">True: Sheep</strong> ➔ Predict: Cow / Horse</li>
                     </ul>
                     <ul class="preprocessing-list" style="flex: 1; min-width: 250px;">
-                        <li>True: Dog ➔ Predict: Cat / Cow / Horse</li>
-                        <li>True: Horse ➔ Predict: Cow</li>
+                        <li><strong style="color: var(--primary);">True: Dog</strong> ➔ Predict: Cat / Cow / Horse</li>
+                        <li><strong style="color: var(--primary);">True: Horse</strong> ➔ Predict: Cow</li>
                     </ul>
                 </div>
 
-                <div style="background: #fdfdfd; border: 1px solid #eee; border-left: 4px solid var(--primary); padding: 20px; border-radius: 8px; margin-top: 20px; margin-bottom: 30px;">
-                    <h4 style="margin: 0 0 10px 0; color: var(--primary); text-transform: uppercase;">🔍 Error Observations</h4>
-                    <p style="color: #555; margin-bottom: 15px;">Looking at the mispredicted images, we identified several common factors causing confusion:</p>
+                <div class="reveal" style="background: #fdfdfd; border: 1px solid #eee; border-left: 5px solid var(--theme-color); padding: 25px 20px; border-radius: 10px; margin-top: 20px; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <h4 style="margin: 0 0 15px 0; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; font-size: 1.15em;">🔍 Error Observations</h4>
+                    <p style="color: #555; margin-bottom: 20px; font-size: 1.05em;">Looking at the mispredicted images, we identified several common factors causing confusion:</p>
                     <ul class="interpret-list">
                         <li>
                             <div class="interpret-icon">📐</div>
                             <div>
                                 <strong>Shape Similarity</strong>
-                                <span style="color: #666; font-size: 0.9em; display: block;">The physical shape of the animal strongly resembles another class.</span>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">The physical shape of the animal strongly resembles another class.</span>
                             </div>
                         </li>
                         <li>
                             <div class="interpret-icon">🔍</div>
                             <div>
                                 <strong>Size</strong>
-                                <span style="color: #666; font-size: 0.9em; display: block;">The animal is too small in the frame, lacking distinct features.</span>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">The animal is too small in the frame, lacking distinct features.</span>
                             </div>
                         </li>
                         <li>
                             <div class="interpret-icon">🍃</div>
                             <div>
                                 <strong>Camouflage</strong>
-                                <span style="color: #666; font-size: 0.9em; display: block;">The animal is blended into the background.</span>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">The animal is blended into the background.</span>
                             </div>
                         </li>
                         <li>
                             <div class="interpret-icon">⚠️</div>
                             <div>
                                 <strong>Dataset Noise</strong>
-                                <span style="color: #666; font-size: 0.9em; display: block;">The image was mislabeled by the original COCO dataset caption.</span>
+                                <span style="color: #666; font-size: 0.95em; display: block; line-height: 1.5;">The image was mislabeled by the original COCO dataset caption.</span>
                             </div>
                         </li>
                     </ul>
                 </div>
-
-                <h3 style="color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Interpretability with Grad-CAM</h3>
-                <div class="info-box" style="margin-top: 0; margin-bottom: 20px;">
+                    
+                <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 15px; font-size: 1.3em;">Interpretability with Grad-CAM</h3>
+                <div class="info-box reveal" style="margin-top: 0; margin-bottom: 25px; font-size: 1.05em;">
                     We used GRAD-cam to visualize what the <strong>RN50x16</strong> model focuses on when making predictions.
                 </div>
-                
-                <div class="eda-block" style="justify-content: center; align-items: stretch; background: transparent; border: none; padding: 0;">
+                <div class="breakthrough-code reveal">
+                    <div class="breakthrough-header">
+                        <div class="breakthrough-title">🔥 Core Logic: Grad-CAM Extraction</div>
+                        <div class="breakthrough-file">interpretability.py</div>
+                    </div>
+                    <pre><span class="com"># 1. Bắt (Hook) vào layer tích chập cuối cùng của ResNet50x16</span>
+target_layers = [model.visual.layer4[-1]] 
+
+<span class="com"># 2. Khởi tạo Grad-CAM với kiến trúc của CLIP</span>
+cam = GradCAM(model=model, target_layers=target_layers, use_cuda=True)
+
+<span class="com"># 3. Tạo target cho lớp dự đoán (ví dụ: 'sheep' = index 3)</span>
+<span class="com"># Tính đạo hàm ngược (gradients) từ logits về target layer để xem vùng nào ảnh hưởng nhất</span>
+targets = [ClassifierOutputTarget(predicted_class_idx)]
+
+<span class="com"># 4. Sinh ra bản đồ nhiệt (Heatmap)</span>
+grayscale_cam = cam(input_tensor=image_tensor, targets=targets)[0]
+
+<span class="com"># Phủ heatmap lên ảnh gốc để nội suy vùng tập trung</span>
+cam_image = show_cam_on_image(original_image, grayscale_cam, use_rgb=True)</pre>
+                </div>
+                <div class="eda-block reveal" style="justify-content: center; align-items: stretch; background: transparent; border: none; padding: 0;">
                     <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: var(--primary); margin-bottom: 5px; line-height: 1.3;">
+                        <h4 style="color: var(--primary); margin-bottom: 8px; line-height: 1.4; font-size: 1.1em;">
                             Original Image<br>
-                            <span style="font-size: 0.85em; color: #666; font-weight: normal;">True: cow | Pred: sheep</span>
+                            <span style="font-size: 0.85em; color: #888; font-weight: normal; background: #eee; padding: 2px 8px; border-radius: 12px;">True: cow | Pred: sheep</span>
                         </h4>
-                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                            <img src="../images/multimodal/original_cow.png" alt="Original Cow" style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/400x350?text=Original+Image'">
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            <img class="zoomable-img" src="../images/multimodal/original_cow.png" alt="Original Cow" style="width: 100%; max-height: 380px; object-fit: cover; border-radius: 6px;" onerror="this.src='https://via.placeholder.com/400x350?text=Original+Image'">
                         </div>
                     </div>
 
                     <div style="flex: 1; min-width: 300px; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="color: var(--theme-color); margin-bottom: 5px; line-height: 1.3;">
+                        <h4 style="color: var(--theme-color); margin-bottom: 8px; line-height: 1.4; font-size: 1.1em;">
                             Grad-CAM (RN50x16)<br>
-                            <span style="font-size: 0.85em; color: #d35400; font-weight: normal;">True: cow | Pred: sheep</span>
+                            <span style="font-size: 0.85em; color: #d35400; font-weight: normal; background: #fdf3f4; padding: 2px 8px; border-radius: 12px;">True: cow | Pred: sheep</span>
                         </h4>
-                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 10px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 12px rgba(231, 76, 60, 0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                            <img src="../images/multimodal/gradcam_cow.png" alt="Grad-CAM RN50x16 Cow" style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/400x350?text=Grad-CAM+Image'">
+                        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 12px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(231, 76, 60, 0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            <img class="zoomable-img" src="../images/multimodal/gradcam_cow.png" alt="Grad-CAM RN50x16 Cow" style="width: 100%; max-height: 380px; object-fit: cover; border-radius: 6px;" onerror="this.src='https://via.placeholder.com/400x350?text=Grad-CAM+Image'">
                         </div>
                     </div>
                 </div>
                 
-                <div class="insight-box" style="margin-top: 20px;">
-                    <strong>📌 Insight (Data Mismatch):</strong> In cases like confusing a Cow for a Sheep, the Grad-CAM shows that the most strong activation points are <strong>not focusing on the animal itself</strong>. Instead, the model relies on the grassy background context, highlighting a classic data mismatch problem in contrastive pre-training.
+                <div class="insight-box reveal" style="margin-top: 30px; padding: 20px 25px; font-size: 1.05em; line-height: 1.6;">
+                    <strong style="font-size: 1.1em;">📌 Insight (Data Mismatch):</strong> In cases like confusing a Cow for a Sheep, the Grad-CAM shows that the most strong activation points are <strong>not focusing on the animal itself</strong>. Instead, the model relies on the grassy background context, highlighting a classic data mismatch problem in contrastive pre-training.
                 </div>
 
             </div>
         </div>
 
+    </div>
+
+    <div id="imageModal" class="img-modal">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="expandedImage">
     </div>
 
     <script>
@@ -821,7 +951,58 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
             evt.currentTarget.className += " active";
         }
 
+        // SCROLL REVEAL & CHART.JS & IMAGE MODAL
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. SCROLL REVEAL ANIMATIONS
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // 2. IMAGE MODAL LOGIC (Phóng to ảnh)
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("expandedImage");
+            
+            // Lấy tất cả ảnh có class zoomable-img (Hình EDA, CM, Grad-cam...)
+            var zoomableImages = document.querySelectorAll('.zoomable-img');
+            
+            zoomableImages.forEach(function(img) {
+                img.onclick = function() {
+                    modal.classList.add("show");
+                    modalImg.src = this.src;
+                }
+            });
+
+            // Đóng Modal khi click ra ngoài vùng ảnh
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeImageModal();
+                }
+            }
+
+            // Đóng Modal bằng phím ESC
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    closeImageModal();
+                }
+            });
+
+            // 3. CHART.JS INITIALIZATION
             var ctx = document.getElementById('animalDistChart').getContext('2d');
             var animalDistChart = new Chart(ctx, {
                 type: 'bar',
@@ -845,7 +1026,7 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                             'rgba(231, 76, 60, 1)'
                         ],
                         borderWidth: 1,
-                        borderRadius: 6
+                        borderRadius: 8
                     }]
                 },
                 options: {
@@ -854,10 +1035,11 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(44, 62, 80, 0.9)',
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 14, weight: 'bold' },
-                            padding: 10,
+                            backgroundColor: 'rgba(44, 62, 80, 0.95)',
+                            titleFont: { size: 14, family: 'Segoe UI' },
+                            bodyFont: { size: 14, weight: 'bold', family: 'Segoe UI' },
+                            padding: 12,
+                            cornerRadius: 8,
                             callbacks: {
                                 label: function(context) {
                                     return ' ' + context.parsed.y + ' images';
@@ -868,22 +1050,28 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: '#f1f1f1' },
-                            ticks: { color: '#666', font: { weight: 'bold' } }
+                            grid: { color: '#f1f1f1', drawBorder: false },
+                            ticks: { color: '#666', font: { weight: '600', family: 'Segoe UI' } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#333', font: { weight: 'bold', size: 13 } }
+                            ticks: { color: '#333', font: { weight: 'bold', size: 13, family: 'Segoe UI' } }
                         }
                     },
                     animation: {
-                        duration: 1500,
+                        duration: 2000,
                         easing: 'easeOutQuart'
                     }
                 }
             });
         });
 
+        // Hàm Đóng Image Modal
+        function closeImageModal() {
+            document.getElementById("imageModal").classList.remove("show");
+        }
+
+        // COLLAPSIBLE SECTIONS
         function toggleSection(element) {
             element.classList.toggle('collapsed');
             var content = element.nextElementSibling;
