@@ -138,7 +138,13 @@
         .table tbody tr { transition: all 0.2s ease; }
         .table tbody tr:hover { background-color: #fef8f8 !important; box-shadow: inset 4px 0 0 var(--theme-color); transform: scale(1.002); }
         .table tbody tr td:first-child { text-align: left; font-weight: bold; color: var(--primary); }
+        
+        /* TABLE HIGHLIGHT RANKS */
         .highlight-row { background-color: #fdf3f4 !important; font-weight: bold; border-top: 2px solid var(--theme-color); border-bottom: 2px solid var(--theme-color);}
+        .highlight-row-2 { background-color: #f4f8fb !important; font-weight: 600; }
+        .highlight-row-2 td:nth-child(2) { color: #2980b9; font-weight: bold; }
+        .highlight-row-3 { background-color: #fbf8f1 !important; font-weight: 600; }
+        .highlight-row-3 td:nth-child(2) { color: #d35400; font-weight: bold; }
 
         /* TAB SYSTEM CSS */
         .tab-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
@@ -185,14 +191,15 @@
 
         /* PIPELINE FLOW CHART CSS */
         .pipeline-flow { display: flex; align-items: center; justify-content: space-between; background: #1e1e1e; padding: 30px 25px; border-radius: 12px; color: white; margin: 25px 0; overflow-x: auto; gap: 15px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
-        .flow-step { text-align: center; background: rgba(255,255,255,0.05); padding: 18px; border-radius: 10px; min-width: 130px; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(5px);}
+        .flow-step { text-align: center; background: rgba(255,255,255,0.05); padding: 18px; border-radius: 10px; min-width: 140px; border: 1px solid rgba(255,255,255,0.1); position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(5px);}
         .flow-step:hover { transform: translateY(-6px) scale(1.05); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.3);}
-        .flow-step strong { display: block; margin-bottom: 10px; font-size: 1.1em; letter-spacing: 0.5px;}
+        .flow-step strong { display: block; color: #98c379; margin-bottom: 10px; font-size: 1.1em; letter-spacing: 0.5px;}
         .flow-step span { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #d4d4d4; background: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 6px; display: block; letter-spacing: 0.5px;}
         .flow-arrow { font-size: 2em; color: #e74c3c; font-weight: bold; animation: floatRight 1.5s infinite ease-in-out; text-shadow: 0 0 10px rgba(231,76,60,0.5);}
-        
+        @keyframes floatRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+
         .step-detail { background: #fdfdfd; border-left: 4px solid var(--primary); padding: 18px 25px; border-radius: 0 10px 10px 0; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); transition: all 0.3s ease; }
-        .step-detail:hover { background: #fffcfc; transform: translateX(5px); border-left-color: var(--theme-color); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.08);}
+        .step-detail:hover { background: #f4f7f6; transform: translateX(5px); border-left-color: var(--theme-color); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.08);}
         .step-detail h4 { margin: 0 0 8px 0; color: var(--primary); font-size: 1.1em; transition: color 0.3s;}
         .step-detail:hover h4 { color: var(--theme-color); }
         .step-detail p { margin: 0; color: #555; font-size: 0.95em; line-height: 1.7;}
@@ -211,54 +218,14 @@
         .cm-img-container img { transition: transform 0.4s ease; border-radius: 6px; cursor: zoom-in;}
         .cm-img-container:hover img { transform: scale(1.02); }
 
-        /* =========================================
-           IMAGE MODAL (LIGHTBOX) CSS
-           ========================================= */
-        .img-modal {
-            display: none; 
-            position: fixed; 
-            z-index: 9999; 
-            padding-top: 50px; 
-            left: 0; top: 0;
-            width: 100%; height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.85); 
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .img-modal.show {
-            display: block;
-            opacity: 1;
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 85vh;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: zoomModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes zoomModal {
-            from {transform:scale(0.8); opacity:0;}
-            to {transform:scale(1); opacity:1;}
-        }
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: #f1f1f1;
-            font-size: 50px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .close-modal:hover, .close-modal:focus {
-            color: var(--theme-color);
-            transform: scale(1.2);
-        }
+        /* IMAGE MODAL (LIGHTBOX) CSS */
+        .img-modal { display: none; position: fixed; z-index: 9999; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s ease;}
+        .img-modal.show { display: block; opacity: 1; }
+        .modal-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: zoomModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);}
+        @keyframes zoomModal { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
+        .close-modal { position: absolute; top: 20px; right: 40px; color: #f1f1f1; font-size: 50px; font-weight: bold; transition: 0.3s; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .close-modal:hover, .close-modal:focus { color: var(--theme-color); transform: scale(1.2); }
+        
         /* BREAKTHROUGH CODE BOX */
         .breakthrough-code {
             background: #1e1e1e; border-radius: 12px; padding: 0; margin: 30px 0; 
@@ -515,10 +482,10 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td>224 x 224</td>
                                 <td>768</td>
                             </tr>
-                            <tr class="highlight-row">
+                            <tr >
                                 <td>ViT-L/14@336px</td>
                                 <td>336 x 336</td>
-                                <td style="color: var(--theme-color); font-weight: bold;">768</td>
+                                <td>768</td>
                             </tr>
                             <tr>
                                 <td>RN50</td>
@@ -542,6 +509,27 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                 <div class="step-detail reveal">
                     <h4>2. Text Prototype Aggregation (The Few-Shot Core)</h4>
                     <p>After being processed by the encoders, instead of matching against a single zero-shot prompt (<code>"a photo of a {animal}"</code>), the few-shot model processes <em>all available captions</em> for a class. The resulting text features are L2-normalized, averaged together (Mean Aggregation), and normalized again to form a single, robust <strong>Class Prototype</strong> vector <code>(5, D_feat)</code>.</p>
+                </div>
+
+                <div class="breakthrough-code reveal">
+                    <div class="breakthrough-header">
+                        <div class="breakthrough-title">🔥 Core Logic: Zero-Shot Similarity</div>
+                        <div class="breakthrough-file">clip_inference.py</div>
+                    </div>
+                    <pre><span class="com"># 1. Trích xuất đặc trưng (Features) từ Ảnh và Chữ</span>
+image_features = model.encode_image(image_input)  <span class="com"># Shape: (1, D_feat)</span>
+text_features = model.encode_text(text_inputs)    <span class="com"># Shape: (5, D_feat)</span>
+
+<span class="com"># 2. Chuẩn hóa L2 (L2 Normalization) để đưa về chung không gian độ dài</span>
+image_features /= image_features.norm(dim=-1, keepdim=True)
+text_features /= text_features.norm(dim=-1, keepdim=True)
+
+<span class="com"># 3. CORE BREAKTHROUGH: Tính Cosine Similarity (Nhân ma trận)</span>
+<span class="com"># similarity = (1, D_feat) @ (D_feat, 5) -> (1, 5) Logits</span>
+similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+
+<span class="com"># Lấy class có điểm số tương đồng cao nhất</span>
+predicted_class = similarity.argmax(dim=-1)</pre>
                 </div>
 
                 <div class="code-container reveal">
@@ -591,21 +579,21 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td>~427.9M</td>
                                 <td>31.30 s</td>
                             </tr>
-                            <tr>
-                                <td>ViT-L/14</td>
-                                <td>0.973</td>
+                            <tr class="highlight-row-2">
+                                <td style="font-weight: 700;">ViT-L/14</td>
+                                <td style="font-size: 1.05em;">🥈 0.973</td>
                                 <td>~427.6M</td>
                                 <td>26.01 s</td>
                             </tr>
-                            <tr>
-                                <td>RN50x16</td>
-                                <td>0.964</td>
+                            <tr class="highlight-row-3">
+                                <td style="font-weight: 700;">RN50x16</td>
+                                <td style="font-size: 1.05em;">🥉 0.964</td>
                                 <td>~291.0M</td>
                                 <td>29.71 s</td>
                             </tr>
                             <tr>
-                                <td>ViT-B/16</td>
-                                <td>0.954</td>
+                                <td style="font-weight: 800;">ViT-B/16</td>
+                                <td style="font-size: 1.05em;">0.954</td>
                                 <td>~149.6M</td>
                                 <td>17.00 s</td>
                             </tr>
@@ -653,49 +641,49 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                                 <td style="font-weight: 800;">ViT-L/14@336px</td>
                                 <td style="color: var(--theme-color); font-weight: 900; font-size: 1.1em;">🏆 0.982</td>
                                 <td>~427.94M</td>
-                                <td>24.74 ms</td>
+                                <td>24.74 s</td>
                             </tr>
-                            <tr>
-                                <td>RN50x16</td>
-                                <td>0.975</td>
+                            <tr class="highlight-row-2">
+                                <td style="font-weight: 700;">RN50x16</td>
+                                <td style="font-size: 1.05em;">🥈 0.975</td>
                                 <td>~290.98M</td>
-                                <td>18.57 ms</td>
+                                <td>18.57 s</td>
                             </tr>
-                            <tr>
-                                <td>ViT-L/14</td>
-                                <td>0.974</td>
+                            <tr class="highlight-row-3">
+                                <td style="font-weight: 700;">ViT-L/14</td>
+                                <td style="font-size: 1.05em;">🥉 0.974</td>
                                 <td>~427.62M</td>
-                                <td>15.98 ms</td>
+                                <td>15.98 s</td>
                             </tr>
                             <tr style="background-color: #fffaf0; border-top: 2px dashed #f1c40f; border-bottom: 2px dashed #f1c40f;">
                                 <td style="color: #d35400; font-weight: bold;">🌟 Ensemble (Majority Vote)</td>
                                 <td style="color: #d35400; font-weight: 900; font-size: 1.05em;">0.969</td>
                                 <td style="color: #999; font-style: italic;">~1727.75M</td>
-                                <td style="color: #999; font-style: italic;">~96.50 ms</td>
+                                <td style="color: #999; font-style: italic;">~96.50 s</td>
                             </tr>
                             <tr>
-                                <td>ViT-B/16</td>
-                                <td>0.956</td>
+                                <td style="font-weight: 800;">ViT-B/16</td>
+                                <td style="font-size: 1.05em;">0.956</td>
                                 <td>~149.62M</td>
-                                <td>8.44 ms</td>
+                                <td>8.44 s</td>
                             </tr>
                             <tr>
                                 <td>RN50x4</td>
                                 <td>0.944</td>
                                 <td>~178.30M</td>
-                                <td>11.96 ms</td>
+                                <td>11.96 s</td>
                             </tr>
                             <tr>
                                 <td>RN50</td>
                                 <td>0.919</td>
                                 <td style="color: var(--success); font-weight: bold;">⚡ 102.01M</td>
-                                <td style="color: var(--success); font-weight: bold;">⚡ 8.01 ms</td>
+                                <td style="color: var(--success); font-weight: bold;">⚡ 8.01 s</td>
                             </tr>
                             <tr>
                                 <td>ViT-B/32</td>
                                 <td>0.918</td>
                                 <td>~151.28M</td>
-                                <td>8.80 ms</td>
+                                <td>8.80 s</td>
                             </tr>
                         </tbody>
                     </table>
@@ -710,8 +698,28 @@ sample_df = df_animal.<span class="func">groupby</span>(<span class="str">'class
                     </p>
                 </div>
                 </div>
-
+                
                 <h3 class="reveal" style="color: var(--primary); margin-top: 40px; margin-bottom: 20px; font-size: 1.3em;">Confusion Matrices</h3>
+                <div class="breakthrough-code reveal">
+                    <div class="breakthrough-header">
+                        <div class="breakthrough-title">🔥 Core Logic: Visualizing Multiple Confusion Matrices</div>
+                        <div class="breakthrough-file">evaluation.py</div>
+                    </div>
+                    <pre><span class="com"># 1. Khởi tạo lưới biểu đồ (Grid) cho tất cả các model + Ensemble</span>
+fig, axes = plt.<span class="func">subplots</span>(rows, cols, <span class="arg">figsize</span>=(<span class="num">18</span>, <span class="num">5</span> * rows))
+
+<span class="com"># 2. Vẽ Confusion Matrix cho từng mô hình cá nhân (Tone màu Xanh)</span>
+<span class="kw">for</span> idx, (model_name, data) <span class="kw">in</span> <span class="func">enumerate</span>(results.<span class="func">items</span>()):
+    cm = <span class="func">confusion_matrix</span>(true_labels, data[<span class="str">"Predictions"</span>])
+    sns.<span class="func">heatmap</span>(cm, <span class="arg">annot</span>=<span class="kw">True</span>, <span class="arg">cmap</span>=<span class="str">'Blues'</span>, <span class="arg">ax</span>=axes[idx])
+
+<span class="com"># 3. Vẽ Confusion Matrix cho mô hình Ensemble (Tone màu Cam nổi bật)</span>
+cm_ensemble = <span class="func">confusion_matrix</span>(true_labels, ensemble_preds)
+sns.<span class="func">heatmap</span>(cm_ensemble, <span class="arg">annot</span>=<span class="kw">True</span>, <span class="arg">cmap</span>=<span class="str">'Oranges'</span>, <span class="arg">ax</span>=axes[<span class="func">len</span>(results)])
+
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">show</span>()</pre>
+                </div>
                 <p class="reveal" style="color: #555; margin-bottom: 15px; font-size: 0.95em; font-style: italic;">* Click on any matrix to view in full screen.</p>
 
                 <div class="tab-buttons reveal">
